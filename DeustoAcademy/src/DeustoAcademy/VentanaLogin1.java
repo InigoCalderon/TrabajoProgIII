@@ -21,7 +21,7 @@ public class VentanaLogin1 extends JFrame{
 		JPanel panelLogin1 = new JPanel();
 		JLabel etiquetaRol = new JLabel("Escoge tu rol:");
 		botonIngresar = new JButton("Ingresar");
-		
+		comboRol = new JComboBox<Rol>();
 		
 		botonIngresar.addActionListener(new ActionListener() {
 			
