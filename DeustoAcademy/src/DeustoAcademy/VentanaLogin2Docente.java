@@ -14,15 +14,19 @@ import javax.swing.JTextField;
 
 public class VentanaLogin2Docente extends JFrame{
 	
+	/**
+	 * 
+	 */
 	
+	private static final long serialVersionUID = 1L;
 	protected ArrayList<Docente> docentes;
 	protected JButton botonIngresar;
 	protected JButton botonCancelar;
 	protected JButton botonCrear;
 	protected JTextField textoUsuario;
 	protected JTextField textoContraseña;
-	public VentanaLogin2Docente(Rol seleccionado) {
-		// TODO Auto-generated constructor stub
+	public VentanaLogin2Docente() {
+		
 	
 			JPanel panelLogin = new JPanel();
 			JLabel etiquetaUsuario = new JLabel("Usuario:");
@@ -37,7 +41,7 @@ public class VentanaLogin2Docente extends JFrame{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
+					
 					for (Docente docente : docentes) {
 						if (textoUsuario.getText() == docente.getUsuario() && textoContraseña.getText() == docente.getContraseña()) {
 							// Crear nueva ventana para este usuario
@@ -51,7 +55,7 @@ public class VentanaLogin2Docente extends JFrame{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
-					// TODO Auto-generated method stub
+					
 					for (Docente docente : docentes) {								// Los campos como nombre, apellido y datos personales tendrán que ser creados en la ventana al Ingresar con su cuenta,
 						if (textoUsuario.getText() != docente.getUsuario()) {		//  tendrá que haber un apartado para modificar/añadir datos en esa ventana nueva
 							Docente nuevo = new Docente(null, null, null, null, null, textoUsuario.getText(), textoContraseña.getText());
@@ -68,7 +72,7 @@ public class VentanaLogin2Docente extends JFrame{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
+					
 					 dispose();
 				}
 			});

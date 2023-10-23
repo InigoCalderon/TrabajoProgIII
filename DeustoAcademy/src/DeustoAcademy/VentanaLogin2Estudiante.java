@@ -14,7 +14,11 @@ import javax.swing.JTextField;
 
 public class VentanaLogin2Estudiante extends JFrame{
 	
+	/**
+	 * 
+	 */
 	
+	private static final long serialVersionUID = 1L;
 	protected ArrayList<Estudiante> estudiantes;
 	protected JButton botonIngresar;
 	protected JButton botonCancelar;
@@ -22,10 +26,8 @@ public class VentanaLogin2Estudiante extends JFrame{
 	protected JTextField textoUsuario;
 	protected JTextField textoContraseña;
 	
-	public VentanaLogin2Estudiante(Rol seleccionado) {
-		// TODO Auto-generated constructor stub
-		
-		
+	public VentanaLogin2Estudiante() {
+				
 		JPanel panelLogin = new JPanel();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		textoUsuario = new JTextField(20);
@@ -39,7 +41,7 @@ public class VentanaLogin2Estudiante extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				for (Estudiante estudiante : estudiantes) {
 					if (textoUsuario.getText() == estudiante.getUsuario() && textoContraseña.getText() == estudiante.getContraseña()) {
 						// Crear nueva ventana para este usuario
@@ -53,7 +55,7 @@ public class VentanaLogin2Estudiante extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
-				// TODO Auto-generated method stub
+				
 				for (Estudiante estudiante : estudiantes) {							// Los campos como nombre, apellido y datos personales tendrán que ser creados en la ventana al Ingresar con su cuenta,
 					if (textoUsuario.getText() != estudiante.getUsuario()) {		//  tendrá que haber un apartado para modificar/añadir datos en esa ventana nueva
 						Estudiante nuevo = new Estudiante(getName(), getName(), ALLBITS, ABORT, getTitle(), getWarningString(), textoUsuario.getText(), textoContraseña.getText());
@@ -70,7 +72,7 @@ public class VentanaLogin2Estudiante extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				 dispose();
 			}
 		});

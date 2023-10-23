@@ -14,7 +14,11 @@ import javax.swing.JTextField;
 
 public class VentanaLogin2Administrador extends JFrame{
 	
-
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
 	protected ArrayList<Administrador> administrador;
 	protected JButton botonIngresar;
 	protected JButton botonCancelar;
@@ -24,8 +28,8 @@ public class VentanaLogin2Administrador extends JFrame{
 	
 	
 	
-	public VentanaLogin2Administrador(Rol seleccionado) {
-		// TODO Auto-generated constructor stub
+	public VentanaLogin2Administrador() {
+		
 		JPanel panelLogin = new JPanel();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		textoUsuario = new JTextField(20);
@@ -39,7 +43,7 @@ public class VentanaLogin2Administrador extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				for (Administrador admin : administrador) {
 					if (textoUsuario.getText() == admin.getUsuario() && textoContraseña.getText() == admin.getContraseña()) {
 						// Crear nueva ventana para este usuario
@@ -53,7 +57,7 @@ public class VentanaLogin2Administrador extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
-				// TODO Auto-generated method stub
+				
 				for (Administrador admin : administrador) {						// Los campos como nombre, apellido y datos personales tendrán que ser creados en la ventana al Ingresar con su cuenta,
 					if (textoUsuario.getText() != admin.getUsuario()) {			//  tendrá que haber un apartado para modificar/añadir datos en esa ventana nueva
 						Administrador nuevo = new Administrador(getName(), getTitle(), textoUsuario.getText(), textoContraseña.getText());
@@ -70,7 +74,7 @@ public class VentanaLogin2Administrador extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				 dispose();
 			}
 		});
