@@ -17,7 +17,6 @@ public class VentanaLogin1 extends JFrame{
 	
 	public VentanaLogin1() throws HeadlessException {
 		super();
-		
 		JPanel panelLogin1 = new JPanel();
 		JLabel etiquetaRol = new JLabel("Escoge tu rol:");
 		botonIngresar = new JButton("Ingresar");
@@ -26,7 +25,6 @@ public class VentanaLogin1 extends JFrame{
 		comboRol.addItem(Rols.DOCENTE);
 		comboRol.addItem(Rols.ADMINISTRADOR);
 		comboRol.setSelectedItem(null);
-		
 		
 		botonIngresar.addActionListener(new ActionListener() {
 			
@@ -56,11 +54,11 @@ public class VentanaLogin1 extends JFrame{
 		panelLogin1.add(comboRol);
 		panelLogin1.add(botonIngresar);
 		this.add(panelLogin1, BorderLayout.CENTER);
-		
+				
 		this.setTitle("Ventana Login");
-		this.setSize(600,800);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setExtendedState(this.MAXIMIZED_BOTH);;
 	}
 	
 	

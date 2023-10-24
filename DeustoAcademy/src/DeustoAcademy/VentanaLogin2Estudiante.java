@@ -92,7 +92,8 @@ public class VentanaLogin2Estudiante extends JFrame{
 		this.setSize(600, 800);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+		this.setExtendedState(this.MAXIMIZED_BOTH);;
+
 		
 		
 		

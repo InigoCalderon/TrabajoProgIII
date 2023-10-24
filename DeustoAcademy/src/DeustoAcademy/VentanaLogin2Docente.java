@@ -88,10 +88,13 @@ public class VentanaLogin2Docente extends JFrame{
 			
 			this.add(panelLogin, BorderLayout.CENTER);
 			
+			
 			this.setTitle("Ventana Login Administrador");
 			this.setSize(600, 800);
 			this.setVisible(true);
 			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			this.setExtendedState(this.MAXIMIZED_BOTH);;
+	
 	}
 
 }
