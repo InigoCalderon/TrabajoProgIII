@@ -1,10 +1,12 @@
 package DeustoAcademy;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -77,6 +79,12 @@ public class VentanaLogin2Estudiante extends JFrame{
 			}
 		});
 		
+		
+		JPanel panelPrincipal = new JPanel(new BorderLayout());
+	    panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+	    panelPrincipal.setBackground(new Color(88,187,240));
+		
+		
 		panelLogin.add(etiquetaUsuario);
 		panelLogin.add(textoUsuario);
 		panelLogin.add(etiquetaContraseña);
@@ -85,18 +93,17 @@ public class VentanaLogin2Estudiante extends JFrame{
 		panelLogin.add(botonIngresar);
 		panelLogin.add(botonCrear);
 		panelLogin.add(botonCancelar);
+		panelLogin.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+		panelLogin.setBackground(new Color(88,214,240));
 		
-		this.add(panelLogin, BorderLayout.CENTER);
 		
-		this.setTitle("Ventana Login Administrador");
-		this.setSize(600, 800);
+		panelPrincipal.add(panelLogin, BorderLayout.CENTER);
+	    this.add(panelPrincipal);
+		
+		this.setTitle("Login Estudiante");
+		this.pack();
 		this.setVisible(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setExtendedState(this.MAXIMIZED_BOTH);;
-
-		
-		
-		
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);		
 		
 	}
 }
