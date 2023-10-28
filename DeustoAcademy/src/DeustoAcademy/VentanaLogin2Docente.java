@@ -47,6 +47,7 @@ public class VentanaLogin2Docente extends JFrame{
 					for (Docente docente : docentes) {
 						if (textoUsuario.getText() == docente.getUsuario() && textoContraseña.getText() == docente.getContraseña()) {
 							// Crear nueva ventana para este usuario
+							VentanaDocente nueva = new VentanaDocente();
 						} else {
 							JOptionPane.showMessageDialog(null, "Usuario inexistente", "Error",  JOptionPane.ERROR_MESSAGE);
 						}

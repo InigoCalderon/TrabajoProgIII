@@ -70,6 +70,8 @@ public class VentanaLogin1 extends JFrame{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.pack();
+		
+		
 	}
 	
 	
