@@ -42,10 +42,8 @@ public class VentanaEstudiante extends JFrame{
 		textoNombre = new JTextField(estudiante.getNombre());
 		JLabel etiquetaApellido = new JLabel("Apellido");
 		textoApellido = new JTextField(estudiante.getApellido());
-		JLabel etiquetaEdad = new JLabel("Edad");
-		textoEdad = new JTextField(estudiante.getEdad());
 		JLabel etiquetaTelefono = new JLabel("Telefono");
-		textoTelefono = new JTextField(estudiante.getTeléfono());
+		textoTelefono = new JTextField(estudiante.getTelefono());
 		JLabel etiquetaCorreo = new JLabel("Correo");
 		textoCorreo = new JTextField(estudiante.getCorreo());
 		JLabel etiquetaDni = new JLabel("Dni");
@@ -73,7 +71,6 @@ public class VentanaEstudiante extends JFrame{
 				if ( textoNombre != null && textoApellido != null && textoEdad != null && textoTelefono != null && textoCorreo != null && textoDni != null) {
 					estudiante.setNombre(textoNombre.getText());
 					estudiante.setApellido(textoApellido.getText());
-					estudiante.setEdad(Integer.parseInt(textoEdad.getText()));
 					estudiante.setTeléfono(Integer.parseInt(textoTelefono.getText()));
 					estudiante.setCorreo(textoCorreo.getText());
 					estudiante.setDni(textoDni.getText());
@@ -136,8 +133,6 @@ public class VentanaEstudiante extends JFrame{
 		panelInformacion.add(textoNombre);
 		panelInformacion.add(etiquetaApellido);
 		panelInformacion.add(textoApellido);
-		panelInformacion.add(etiquetaEdad);
-		panelInformacion.add(textoEdad);
 		panelInformacion.add(etiquetaTelefono);
 		panelInformacion.add(textoTelefono);
 		panelInformacion.add(etiquetaCorreo);

@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class VentanaLogin1 extends JFrame{
+public class SelectRol extends JFrame{
 	
 	/**
 	 * 
@@ -16,9 +16,9 @@ public class VentanaLogin1 extends JFrame{
 	protected JButton botonIngresar;
 	
 	
-	public VentanaLogin1() throws HeadlessException {
+	public SelectRol(Academy academy) throws HeadlessException {
 		super();
-		
+		JFrame ventana = new JFrame("Login");
 		JPanel panelLogin1 = new JPanel();
 		JLabel etiquetaRol = new JLabel("Escoge tu rol:");
 		botonIngresar = new JButton("Ingresar");
@@ -33,19 +33,20 @@ public class VentanaLogin1 extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {					 
 			
-				// Al seleccionar un rol de la combo box y apretar el botonIngresar,se creará una ventana "VentanaLogin2" dónde se meterá el usuario & contraseña
-				// Dependiendo del "rol" seleccionado de la comboBox, la ventana será para Estudiantes / Docentes u profesores
-				
-				Rols seleccionado = (Rols) comboRol.getSelectedItem();
-				if (seleccionado == Rols.ESTUDIANTE) {
-					VentanaLogin2Estudiante nueva = new VentanaLogin2Estudiante();
-				}else if(seleccionado == Rols.DOCENTE){
-					VentanaLogin2Docente nueva = new VentanaLogin2Docente();
+				if (comboRol.getSelectedItem() == Rols.ADMINISTRADOR) {
 					
-				}else if( seleccionado == Rols.ADMINISTRADOR) {
-					VentanaLogin2Administrador nueva = new VentanaLogin2Administrador();
+					Login nueva = new Login(academy, (Rols) comboRol.getSelectedItem());
+					
+				} if (comboRol.getSelectedItem() == Rols.ESTUDIANTE) {
+					
+					Login nueva = new Login(academy, (Rols) comboRol.getSelectedItem());
+					
+					
+				} if (comboRol.getSelectedItem() == Rols.DOCENTE) {
+					
+					Login nueva = new Login(academy, (Rols) comboRol.getSelectedItem());
 				}
-				
+				ventana.dispose();
 			}
 		});
 		
@@ -63,17 +64,13 @@ public class VentanaLogin1 extends JFrame{
 	    
 		
 	    panelPrincipal.add(panelLogin1, BorderLayout.CENTER);
-	    this.add(panelPrincipal);
+	    ventana.add(panelPrincipal);
 		
 	    
-		this.setTitle("Login");
-		this.setVisible(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.pack();
-		
+		ventana.setVisible(true);
+		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		ventana.pack();
 		
 	}
-	
-	
 
 }

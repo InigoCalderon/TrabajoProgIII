@@ -5,7 +5,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.print.Doc;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,22 +16,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class VentanaLogin2Estudiante extends JFrame{
+public class Login extends JFrame{
+
 	
 	/**
 	 * 
 	 */
 	
 	private static final long serialVersionUID = 1L;
-	protected ArrayList<Estudiante> estudiantes;
+	protected ArrayList<Administrador> administrador;
 	protected JButton botonIngresar;
 	protected JButton botonCancelar;
 	protected JButton botonCrear;
 	protected JTextField textoUsuario;
-	protected JTextField textoContraseña;
+	protected JTextField textoContraseña;	
 	
-	public VentanaLogin2Estudiante() {
-				
+	public Login(Academy academy, Rols rol) {
+		
 		JPanel panelLogin = new JPanel();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		textoUsuario = new JTextField(20);
@@ -37,35 +40,55 @@ public class VentanaLogin2Estudiante extends JFrame{
 		textoContraseña = new JTextField(20);
 		botonIngresar = new JButton("Ingresar");
 		botonCancelar = new JButton("Cancelar");
-		botonCrear = new JButton("Crear usuario");
+		botonCrear = new JButton("Crear usuario");		
+				
 		
 		botonIngresar.addActionListener(new ActionListener() {   // Al dar al boton se podrá ingresar si los campos existen (la cuenta), en caso nulo no se podrá ingresar
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				for (Estudiante estudiante : estudiantes) {
-					if (textoUsuario.getText() == estudiante.getUsuario() && textoContraseña.getText() == estudiante.getContraseña()) {
-						// Crear nueva ventana para este usuario
+				if (textoUsuario.getText() == "" || textoUsuario.getText() == null) {
+					JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
+				} if (textoContraseña.getText() == "" || textoContraseña.getText() == null) {
+						JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
+				} if (academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
+				
+					if (academy.Claves(academy).get(textoUsuario.getText()) == textoContraseña.getText()) {
+						if (rol == Rols.ADMINISTRADOR) {
+							// ENTRAMOS EN EL MENU ADMIN
+						} if (rol == Rols.ESTUDIANTE) {
+							// ENTRAMOS EN EL MENU ESTUDIANTE
+						} if (rol == Rols.DOCENTE) {
+							// ENTRAMOS EN EL MENU DOCENTE
+						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Usuario inexistente", "Error",  JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "La Contraseña o el Usuario son incorrectos", "Error",  JOptionPane.ERROR_MESSAGE);
 					}
-				}
+						
+				} else {
+					JOptionPane.showMessageDialog(null, "El Usuario no existe", "Error",  JOptionPane.ERROR_MESSAGE);
+				}				
 			}
 		});
+		
+		
 		botonCrear.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
 				
-				for (Estudiante estudiante : estudiantes) {							// Los campos como nombre, apellido y datos personales tendrán que ser creados en la ventana al Ingresar con su cuenta,
-					if (textoUsuario.getText() != estudiante.getUsuario()) {		//  tendrá que haber un apartado para modificar/añadir datos en esa ventana nueva
-						Estudiante nuevo = new Estudiante(getName(), getName(), ALLBITS, ABORT, getTitle(), getWarningString(), textoUsuario.getText(), textoContraseña.getText());
-						estudiantes.add(nuevo);	
-					} else {
-						JOptionPane.showMessageDialog(null, "Usuario existe", "Error",  JOptionPane.ERROR_MESSAGE);
-					}
-				}
+				if (textoUsuario.getText() == "" || textoUsuario.getText() == null) {
+					JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
+				}if (textoContraseña.getText() == "" || textoContraseña.getText() == null) {
+					JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
+				} if (!academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
+					
+					new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
+						
+				} else {
+					JOptionPane.showMessageDialog(null, "El Usuario ya existe, 	inserta otro nombre de Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 		
@@ -76,6 +99,7 @@ public class VentanaLogin2Estudiante extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				 dispose();
+				 new SelectRol(academy);
 			}
 		});
 		
@@ -83,7 +107,7 @@ public class VentanaLogin2Estudiante extends JFrame{
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 	    panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 	    panelPrincipal.setBackground(new Color(88,187,240));
-		
+	    
 		
 		panelLogin.add(etiquetaUsuario);
 		panelLogin.add(textoUsuario);
@@ -93,17 +117,17 @@ public class VentanaLogin2Estudiante extends JFrame{
 		panelLogin.add(botonIngresar);
 		panelLogin.add(botonCrear);
 		panelLogin.add(botonCancelar);
-		panelLogin.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		panelLogin.setBackground(new Color(88,214,240));
-		
+		panelLogin.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		
 		panelPrincipal.add(panelLogin, BorderLayout.CENTER);
 	    this.add(panelPrincipal);
 		
-		this.setTitle("Login Estudiante");
+		this.setTitle("Login");
 		this.pack();
 		this.setVisible(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);		
-		
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 	}
+	
 }

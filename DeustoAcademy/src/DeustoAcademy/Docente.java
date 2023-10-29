@@ -1,29 +1,31 @@
 package DeustoAcademy;
 
 public class Docente {
+	
 	protected String nombre;
 	protected String apellido;
 	protected String dni;
 	protected String correo;
-	protected Idiomas idiomaImpartido;
-	
+	protected int telefono;
 	protected String usuario;
 	protected String contraseña;
-	
-	
 
-	public Docente(String nombre, String apellido, String dni, String correo, Idiomas idiomaImpartido, String usuario,
+	public Docente(String nombre, String apellido, String dni, String correo, int telefono, String usuario,
 			String contraseña) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
 		this.correo = correo;
-		this.idiomaImpartido = idiomaImpartido;
+		this.telefono = telefono;
 		this.usuario = usuario;
 		this.contraseña = contraseña;
 	}
 
+	public Docente() {
+		super();
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -56,14 +58,14 @@ public class Docente {
 		this.correo = correo;
 	}
 
-	public Idiomas getIdiomaImpartido() {
-		return idiomaImpartido;
+	public int getTelefono() {
+		return telefono;
 	}
 
-	public void setIdiomaImpartido(Idiomas idiomaImpartido) {
-		this.idiomaImpartido = idiomaImpartido;
+	public void setTelefono(int telefono) {
+		this.telefono = telefono;
 	}
-
+	
 	public String getUsuario() {
 		return usuario;
 	}
@@ -79,6 +81,13 @@ public class Docente {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Docente [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
+				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + ", getNombre()="
+				+ getNombre() + ", getApellido()=" + getApellido() + ", getDni()=" + getDni() + ", getCorreo()="
+				+ getCorreo() + ", getUsuario()=" + getUsuario() + ", getContraseña()=" + getContraseña() + "]";
+	}
 	
 }
