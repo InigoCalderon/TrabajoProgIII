@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 
 public class Login extends JFrame{
 
-	
 	/**
 	 * 
 	 */
@@ -40,7 +39,7 @@ public class Login extends JFrame{
 		textoContraseña = new JTextField(20);
 		botonIngresar = new JButton("Ingresar");
 		botonCancelar = new JButton("Cancelar");
-		botonCrear = new JButton("Crear usuario");		
+		botonCrear = new JButton("Registrar");	
 				
 		
 		botonIngresar.addActionListener(new ActionListener() {   // Al dar al boton se podrá ingresar si los campos existen (la cuenta), en caso nulo no se podrá ingresar
@@ -48,28 +47,34 @@ public class Login extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if (textoUsuario.getText() == "" || textoUsuario.getText() == null) {
-					JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
-				} if (textoContraseña.getText() == "" || textoContraseña.getText() == null) {
-						JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
-				} if (academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
-				
-					if (academy.Claves(academy).get(textoUsuario.getText()) == textoContraseña.getText()) {
-						if (rol == Rols.ADMINISTRADOR) {
-							// ENTRAMOS EN EL MENU ADMIN
-						} if (rol == Rols.ESTUDIANTE) {
-							// ENTRAMOS EN EL MENU ESTUDIANTE
-						} if (rol == Rols.DOCENTE) {
-							// ENTRAMOS EN EL MENU DOCENTE
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "La Contraseña o el Usuario son incorrectos", "Error",  JOptionPane.ERROR_MESSAGE);
-					}
+				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
+					
+					if (academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
 						
+						if (academy.Claves(academy).get(textoUsuario.getText()) == textoContraseña.getText()) {
+							if (rol == Rols.ADMINISTRADOR) {
+								// ENTRAMOS EN EL MENU ADMIN
+							} if (rol == Rols.ESTUDIANTE) {
+								// ENTRAMOS EN EL MENU ESTUDIANTE
+							} if (rol == Rols.DOCENTE) {
+								// ENTRAMOS EN EL MENU DOCENTE
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "La Contraseña o el Usuario son incorrectos", "Error",  JOptionPane.ERROR_MESSAGE);
+						}
+							
+					} else {
+						JOptionPane.showMessageDialog(null, "El Usuario no existe", "Error",  JOptionPane.ERROR_MESSAGE);
+					}
+					
 				} else {
-					JOptionPane.showMessageDialog(null, "El Usuario no existe", "Error",  JOptionPane.ERROR_MESSAGE);
-				}				
+					
+					JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
+					
+				}
+				
 			}
+			
 		});
 		
 		
@@ -78,18 +83,26 @@ public class Login extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
 				
-				if (textoUsuario.getText() == "" || textoUsuario.getText() == null) {
-					JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
-				}if (textoContraseña.getText() == "" || textoContraseña.getText() == null) {
-					JOptionPane.showMessageDialog(null, "Debe escribir en la casilla Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
-				} if (!academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
+				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
 					
-					new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
+					if (!academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
+
+						new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
+							
+					} else {
 						
+						JOptionPane.showMessageDialog(null, "El Usuario ya existe, 	inserta otro nombre de Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
+					
+					}
+				
 				} else {
-					JOptionPane.showMessageDialog(null, "El Usuario ya existe, 	inserta otro nombre de Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
-				}	
+					
+					JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
+					
+				}
+					
 			}
+			
 		});
 		
 		
@@ -100,6 +113,7 @@ public class Login extends JFrame{
 				
 				 dispose();
 				 new SelectRol(academy);
+				 
 			}
 		});
 		

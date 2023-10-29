@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.BorderFactory;
@@ -64,36 +65,86 @@ public class DatosPersonales {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					if (rol == Rols.ADMINISTRADOR) {
-						academy.administradores.add(new Administrador(
-									textoNombre.getText(),
-									textoApellido.getText(),
-									textoDni.getText(),
-									textoCorreo.getText(),
-								    Integer.parseInt(textoTelefono.getText()),
-									nuevo_user,
-									nueva_passw));
-					} if (rol == Rols.ESTUDIANTE) {
-						academy.administradores.addAll((Collection<? extends Administrador>) new Estudiante(
-									textoNombre.getText(),
-									textoApellido.getText(),
-									Integer.parseInt(textoTelefono.getText()),
-									textoDni.getText(),
-									textoCorreo.getText(),
-									nuevo_user,
-									nueva_passw));
-					} if (rol == Rols.DOCENTE) {
-						academy.administradores.addAll((Collection<? extends Administrador>) new Docente(
-									textoNombre.getText(),
-									textoApellido.getText(),
-									textoDni.getText(),
-									textoCorreo.getText(),
-								    Integer.parseInt(textoTelefono.getText()),
-									nuevo_user,
-									nueva_passw));
+					if (
+							!(textoNombre.getText().equalsIgnoreCase("")) || 
+							!(textoNombre.getText().equalsIgnoreCase("")) ||
+							!(textoApellido.getText().equalsIgnoreCase("")) ||
+							!(textoDni.getText().equalsIgnoreCase("")) ||
+							!(textoCorreo.getText().equalsIgnoreCase("")) ||
+							!(textoTelefono.getText().equalsIgnoreCase(""))
+						) 
+					{
+						try {
+							
+							if (rol == Rols.ADMINISTRADOR) {
+								
+								academy.administradores.add(
+									(Administrador) new Administrador(
+										textoNombre.getText(),
+										textoApellido.getText(),
+										textoDni.getText(),
+										textoCorreo.getText(),
+									    Integer.parseInt(textoTelefono.getText()),
+										nuevo_user,
+										nueva_passw
+									)
+								);
+								
+							} if (rol == Rols.ESTUDIANTE) {
+								
+								academy.estudiantes.add(
+									(Estudiante) new Estudiante(
+										textoNombre.getText(),
+										textoApellido.getText(),
+										Integer.parseInt(textoTelefono.getText()),
+										textoCorreo.getText(),
+										textoDni.getText(),
+										nuevo_user,
+										nueva_passw
+									)
+								);
+								
+							} if (rol == Rols.DOCENTE) {
+								
+								academy.docentes.add(
+									(Docente) new Docente(
+										textoNombre.getText(),
+										textoApellido.getText(),
+										textoDni.getText(),
+										textoCorreo.getText(),
+									    Integer.parseInt(textoTelefono.getText()),
+										nuevo_user,
+										nueva_passw
+									)
+								);
+								
+							}
+							
+							// AQUÍ HABRÁ QUE ACTUALIZAR LA BASE DE DATOS CON LOS NUEVOS DATOS INSERTADOS
+							ventana.dispose();
+							
+						} catch (Exception e2) {
+							
+							JOptionPane.showMessageDialog(null, "Debes rellenar todas las casillas y recordar que en la casilla de Teléfono debes escribir solo números.", "Error",  JOptionPane.ERROR_MESSAGE);
+							textoNombre.setText("");
+							textoApellido.setText("");
+							textoDni.setText("");
+							textoCorreo.setText("");
+						    textoTelefono.setText("");
+							
+						}
+							 	
+					} else {
+						
+						JOptionPane.showMessageDialog(null, "Debes rellenar todas las casillas y recordar que en la casilla de Teléfono debes escribir solo números.", "Error",  JOptionPane.ERROR_MESSAGE);
+						textoNombre.setText("");
+						textoApellido.setText("");
+						textoDni.setText("");
+						textoCorreo.setText("");
+					    textoTelefono.setText("");
+						
 					}
-					ventana.dispose();
+					
 				}
 			});
             

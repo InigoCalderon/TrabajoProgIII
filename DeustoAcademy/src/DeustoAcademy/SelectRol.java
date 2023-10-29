@@ -36,17 +36,19 @@ public class SelectRol extends JFrame{
 				if (comboRol.getSelectedItem() == Rols.ADMINISTRADOR) {
 					
 					Login nueva = new Login(academy, (Rols) comboRol.getSelectedItem());
+					ventana.dispose();
 					
 				} if (comboRol.getSelectedItem() == Rols.ESTUDIANTE) {
 					
 					Login nueva = new Login(academy, (Rols) comboRol.getSelectedItem());
+					ventana.dispose();
 					
 					
 				} if (comboRol.getSelectedItem() == Rols.DOCENTE) {
 					
 					Login nueva = new Login(academy, (Rols) comboRol.getSelectedItem());
+					ventana.dispose();
 				}
-				ventana.dispose();
 			}
 		});
 		

@@ -71,7 +71,7 @@ public class VentanaEstudiante extends JFrame{
 				if ( textoNombre != null && textoApellido != null && textoEdad != null && textoTelefono != null && textoCorreo != null && textoDni != null) {
 					estudiante.setNombre(textoNombre.getText());
 					estudiante.setApellido(textoApellido.getText());
-					estudiante.setTeléfono(Integer.parseInt(textoTelefono.getText()));
+					estudiante.setTelefono(Integer.parseInt(textoTelefono.getText()));
 					estudiante.setCorreo(textoCorreo.getText());
 					estudiante.setDni(textoDni.getText());
 				}else {

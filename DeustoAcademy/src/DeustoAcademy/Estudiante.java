@@ -46,7 +46,7 @@ public class Estudiante {
 		return telefono;
 	}
 	
-	public void setTeléfono(int telefono) {
+	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
 	
