@@ -18,7 +18,7 @@ public class SelectRol extends JFrame{
 	
 	public SelectRol(Academy academy) throws HeadlessException {
 		super();
-		JFrame ventana = new JFrame("Login");
+		JFrame ventana = new JFrame("Roles");
 		JPanel panelLogin1 = new JPanel();
 		JLabel etiquetaRol = new JLabel("Escoge tu rol:");
 		botonIngresar = new JButton("Ingresar");

@@ -122,6 +122,7 @@ public class DatosPersonales {
 							
 							// AQUÍ HABRÁ QUE ACTUALIZAR LA BASE DE DATOS CON LOS NUEVOS DATOS INSERTADOS
 							ventana.dispose();
+							new Login(academy, rol);
 							
 						} catch (Exception e2) {
 							
@@ -154,6 +155,7 @@ public class DatosPersonales {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ventana.dispose();
+					new Login(academy, rol);
 					
 				}
 			});

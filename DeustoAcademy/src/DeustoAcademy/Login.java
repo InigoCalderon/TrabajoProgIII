@@ -32,6 +32,8 @@ public class Login extends JFrame{
 	
 	public Login(Academy academy, Rols rol) {
 		
+		JFrame ventana = new JFrame("Login");
+		
 		JPanel panelLogin = new JPanel();
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		textoUsuario = new JTextField(20);
@@ -51,7 +53,9 @@ public class Login extends JFrame{
 					
 					if (academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
 						
-						if (academy.Claves(academy).get(textoUsuario.getText()) == textoContraseña.getText()) {
+						if (academy.Claves(academy).get(textoUsuario.getText()).equalsIgnoreCase(textoContraseña.getText())) {
+							
+							System.out.println("EXITO");
 							if (rol == Rols.ADMINISTRADOR) {
 								// ENTRAMOS EN EL MENU ADMIN
 							} if (rol == Rols.ESTUDIANTE) {
@@ -60,11 +64,12 @@ public class Login extends JFrame{
 								// ENTRAMOS EN EL MENU DOCENTE
 							}
 						} else {
+							
 							JOptionPane.showMessageDialog(null, "La Contraseña o el Usuario son incorrectos", "Error",  JOptionPane.ERROR_MESSAGE);
 						}
 							
 					} else {
-						JOptionPane.showMessageDialog(null, "El Usuario no existe", "Error",  JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "El Usuario no existe, así que registrese para poder ingresar en la aplicación.", "Error",  JOptionPane.ERROR_MESSAGE);
 					}
 					
 				} else {
@@ -88,7 +93,8 @@ public class Login extends JFrame{
 					if (!academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
 
 						new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
-							
+						ventana.dispose();	
+						
 					} else {
 						
 						JOptionPane.showMessageDialog(null, "El Usuario ya existe, 	inserta otro nombre de Usuario", "Error",  JOptionPane.ERROR_MESSAGE);
@@ -135,12 +141,11 @@ public class Login extends JFrame{
 		panelLogin.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		
 		panelPrincipal.add(panelLogin, BorderLayout.CENTER);
-	    this.add(panelPrincipal);
+	    ventana.add(panelPrincipal);
 		
-		this.setTitle("Login");
-		this.pack();
-		this.setVisible(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		ventana.pack();
+		ventana.setVisible(true);
+		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
 	
