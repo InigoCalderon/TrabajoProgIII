@@ -16,7 +16,7 @@ public class VentanaChat extends JFrame{
 	protected JButton botonModificarContacto;
 	protected JTextArea textAreaContenidoEmail;
 	protected JLabel direccionLabel = new JLabel("DIRECCIONES: ");
-	protected JComboBox<DatosFalsosParaProbarSiFuncionaAñadirLoQueNecesiteisPeroNoBorreisLoQueHalla> direccionesComboBox = new JComboBox<>();
+	//protected JComboBox<DatosFalsosParaProbarSiFuncionaAñadirLoQueNecesiteisPeroNoBorreisLoQueHalla> direccionesComboBox = new JComboBox<>();
 	//Habrá que sacar los datos de los Alumnos y los profesores dependiendo de quienes sean para sacar los datos que necesiten
 	
 	public VentanaChat (){
@@ -33,7 +33,7 @@ public class VentanaChat extends JFrame{
 		JPanel panelDeTop = new JPanel();
 		
 		panelDeTop.add(direccionLabel);
-		panelDeTop.add(direccionesComboBox);
+		//panelDeTop.add(direccionesComboBox);
 		panelDeTop.add(botonInsertarNuevoContacto);
 		panelDeTop.add(botonBorrarContacto);
 		panelDeTop.add(botonModificarContacto);

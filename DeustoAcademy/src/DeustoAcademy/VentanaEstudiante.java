@@ -147,4 +147,8 @@ public class VentanaEstudiante extends JFrame{
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
+	public static void main(String[] args) {
+		new VentanaEstudiante(new Estudiante());
+	}
+	
 }
