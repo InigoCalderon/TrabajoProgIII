@@ -12,16 +12,15 @@ public class Plantilla_Fondo_Ventanas {
             JFrame ventana = new JFrame("Ventana Plantilla");
           
             JPanel panelPrincipal = new JPanel(new BorderLayout());
+            JPanel panelInterno = new JPanel();
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
             panelPrincipal.setBackground(new Color(88,187,240));
-
-            JPanel panelInterno = new JPanel();
             panelInterno.setBackground(new Color(88,214,240));
-
             panelPrincipal.add(panelInterno, BorderLayout.CENTER);
-            ventana.add(panelPrincipal);
-
             
+            // AQUÍ SE METERÍAN LOS COMPONENTES DE LAS VENTANAS
+            
+            ventana.add(panelPrincipal);
             ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
             ventana.setVisible(true);
             ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
