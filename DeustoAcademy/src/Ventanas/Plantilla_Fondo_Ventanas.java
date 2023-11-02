@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package Ventanas;
 
 import javax.swing.*;
 import java.awt.*;

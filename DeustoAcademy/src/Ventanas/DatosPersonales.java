@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import DeustoAcademy.*;
+
 
 public class DatosPersonales {
 

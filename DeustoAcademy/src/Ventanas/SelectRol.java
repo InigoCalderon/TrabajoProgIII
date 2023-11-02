@@ -1,8 +1,10 @@
-package DeustoAcademy;
+package Ventanas;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import DeustoAcademy.*;
 
 public class SelectRol extends JFrame{
 	

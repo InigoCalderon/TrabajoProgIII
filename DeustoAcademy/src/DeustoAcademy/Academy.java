@@ -1,25 +1,25 @@
 package DeustoAcademy;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.logging.LogManager;
+/*/
+import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+/*/
+import Ventanas.*;
 
-import javax.print.Doc;
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 public class Academy {
 	
-	protected ArrayList<Administrador> administradores = new ArrayList<>();
-	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
-	protected ArrayList<Docente> docentes = new ArrayList<>();
+	public ArrayList<Administrador> administradores = new ArrayList<>();
+	public ArrayList<Estudiante> estudiantes = new ArrayList<>();
+	public ArrayList<Docente> docentes = new ArrayList<>();
 	
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes) {
@@ -180,12 +180,22 @@ public class Academy {
 		
 	}
 	
+	//private static final Logger logger = LoggerFactory.getLogger(Academy.class.getName());
+	//private static final Logger logger = Logger.getLogger(Academy.class.getName());
 	
 	public static void main(String[] args) {
+		
 		
 		Academy A1 = new Academy();
 		SelectRol v = new SelectRol(A1);
 		
+		/*/
+		try (FileInputStream fis = new FileInputStream("logger.properties")) {
+			LogManager.getLogManager().readConfiguration(fis);
+		} catch (IOException e) {
+			logger.log(Level.ALL, "No se pudo leer el fichero de configuración del logger");
+		}
+		/*/
 		//guardar_datos("AdminsLOG.dat", A1.administradores, Rols.ADMINISTRADOR);
 		
 		//VentanaChat v2 = new VentanaChat();
