@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import DeustoAcademy.*;
 
@@ -19,6 +21,7 @@ public class VentanaEstudiante extends JFrame{
 	protected JButton botonNotas;
 	protected JButton botonChat;
 	protected JButton botonSalir;
+	protected JButton botonCalendario;
 	
 	public VentanaEstudiante(Estudiante estudiante) {
 		
@@ -47,11 +50,23 @@ public class VentanaEstudiante extends JFrame{
         botonChat = new JButton(new ImageIcon(image1));
         botonNotas = new JButton(new ImageIcon(image3));
         botonSalir = new JButton(new ImageIcon(image2));
+        botonCalendario = new JButton("Calendario");
         
         botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
+        
+        
+        
+        botonCalendario.addActionListener(new ActionListener() {		// Al apretar el botón se abrirá una nueva ventana con el calendario
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
         JPanel panelPrincipal = new JPanel(new BorderLayout());
         JPanel panelInterno = new JPanel();
@@ -73,6 +88,7 @@ public class VentanaEstudiante extends JFrame{
 		panelIzquierda.add(botonNotas);
 		panelIzquierda.add(botonChat);
 		panelIzquierda.add(botonSalir);
+		panelIzquierda.add(botonCalendario);
 		
 		panelInterno.add(panelIzquierda,BorderLayout.WEST);
 		panelInterno.add(panelTareas, BorderLayout.EAST);
