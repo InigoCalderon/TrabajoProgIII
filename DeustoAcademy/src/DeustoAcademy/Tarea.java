@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Tarea extends Idioma {
+public class Tarea extends Grupo {
 
 	protected String fecha_creacion = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(ZonedDateTime.now());
 	protected String fecha_entrega = null;
@@ -98,10 +98,8 @@ public class Tarea extends Idioma {
 	public String toString() {
 		return "Tarea [fecha_creacion=" + fecha_creacion + ", fecha_entrega=" + fecha_entrega + ", titulo=" + titulo
 				+ ", comentario=" + comentario + ", n_docs_adjuntos=" + n_docs_adjuntos + ", nombre_docs_adjuntos="
-				+ nombre_docs_adjuntos + ", getFecha_creacion()=" + getFecha_creacion() + ", getFecha_entrega()="
-				+ getFecha_entrega() + ", getTitulo()=" + getTitulo() + ", getComentario()=" + getComentario()
-				+ ", getN_docs_adjuntos()=" + getN_docs_adjuntos() + ", getNombre_docs_adjuntos()="
-				+ getNombre_docs_adjuntos() + "]";
+				+ nombre_docs_adjuntos + ", nombre=" + nombre + ", docente=" + docente + ", estudiantes=" + estudiantes
+				+ ", idioma=" + idioma + "]";
 	}
 	
 }

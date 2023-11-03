@@ -87,12 +87,11 @@ public class Academy {
 			this.docentes.add(docente);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Main [administradores=" + administradores + ", estudiantes=" + estudiantes + ", docentes=" + docentes
-				+ ", getAdministradores()=" + getAdministradores() + ", getEstudiantes()=" + getEstudiantes()
-				+ ", getDocentes()=" + getDocentes() + "]";
+		return "Academy [administradores=" + administradores + ", estudiantes=" + estudiantes + ", docentes=" + docentes
+				+ "]";
 	}
 
 	public static HashMap<String, String> Claves(Academy a){

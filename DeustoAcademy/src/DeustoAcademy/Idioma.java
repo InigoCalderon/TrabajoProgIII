@@ -1,6 +1,7 @@
 package DeustoAcademy;
 
 public class Idioma {
+	
 	protected String idioma;
 
 	public Idioma(String idioma) {
@@ -14,6 +15,10 @@ public class Idioma {
 		this.idioma = "Sin asignar";
 	}
 
+	public Idioma(Idioma i) {
+		super();
+		this.idioma = i.idioma;
+	}
 
 	public String getIdioma() {
 		return idioma;
@@ -22,6 +27,12 @@ public class Idioma {
 
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Idioma [idioma=" + idioma + ", getIdioma()=" + getIdioma() + "]";
 	}
 	
 }

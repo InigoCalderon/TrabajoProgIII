@@ -85,10 +85,7 @@ public class Administrador {
 	@Override
 	public String toString() {
 		return "Administrador [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
-				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + ", getNombre()="
-				+ getNombre() + ", getApellido()=" + getApellido() + ", getDni()=" + getDni() + ", getCorreo()="
-				+ getCorreo() + ", getTelefono()=" + getTelefono() + ", getUsuario()=" + getUsuario()
-				+ ", getContraseña()=" + getContraseña() + "]";
+				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
 	}
 	
 }

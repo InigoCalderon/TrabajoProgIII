@@ -85,10 +85,7 @@ public class Estudiante {
 	@Override
 	public String toString() {
 		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correo="
-				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + ", getNombre()="
-				+ getNombre() + ", getApellido()=" + getApellido() + ", getTelefono()=" + getTelefono()
-				+ ", getCorreo()=" + getCorreo() + ", getDni()=" + getDni() + ", getUsuario()=" + getUsuario()
-				+ ", getContraseña()=" + getContraseña() + "]";
+				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
 	}
 	
 }
