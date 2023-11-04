@@ -63,12 +63,21 @@ public class VentanaAdministradorAccesoDocente {
 	
 	public void actualizarLista() {					// de esta manera se actualiza la lista al llamarse la función
 		((Collection<Docente>) listaDocente).clear();
-		try {
-			datos.getDocentes().sort(null);
-		} catch (ClassCastException e) {}  // Ignora error de ordenación
-		for (Docente docente : datos.getDocentes()) {
-			listaDocente.addElement(docente);	
-		}
+		rellenarCombos();
+	}
+	public void rellenarCombos() {
+		// Rellenamos las combos con los docentes que ejercen cada idioma
+					for (Grupo grupo: grupos) {
+						if (grupo.getIdioma().equals("Castellano")) {
+							comboCastellano.add(grupo.getDocente());
+						} else if( grupo.getIdioma().equals("Ingles")) {
+							comboIngles.add(grupo.getDocente());
+						}else if (grupo.getIdioma().equals("Euskera")) {
+							comboEuskera.add(grupo.getDocente());
+						}else if(grupo.getIdioma().equals("Frances")) {
+							comboFrances.add(grupo.getDocente());
+						}
+					} 
 	}
 	
 	public VentanaAdministradorAccesoDocente(Administrador administrdor) {
@@ -82,6 +91,7 @@ public class VentanaAdministradorAccesoDocente {
 		comboEuskera  =new JComboBox<Docente>();
 		JLabel etiquetaFrances = new JLabel("Frances");
 		comboFrances = new JComboBox<Docente>();		
+		
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
 		textoNombre = new TextField(20);
@@ -92,19 +102,7 @@ public class VentanaAdministradorAccesoDocente {
 		textoUsuario = new TextField(20);
 		textoContraseña = new TextField(20);
 		
-		// Rellenamos las combos con los docentes que ejercen cada idioma
-		/*for (Grupo grupo: grupos) {
-			if (grupo.getIdioma().equals("Castellano")) {
-				
-				comboCastellano.add(grupo.getDocente());
-			} else if( grupo.getIdioma().equals("Ingles")) {
-				comboIngles.add(grupo.getDocente());
-			}else if (grupo.getIdioma().equals("Euskera")) {
-				comboEuskera.add(grupo.getDocente());
-			}else if(grupo.getIdioma().equals("Frances")) {
-				comboFrances.add(grupo.getDocente());
-			}
-		} */
+		
 		
 		
 		
@@ -179,6 +177,13 @@ public class VentanaAdministradorAccesoDocente {
 				Docente docente = listaDocente.getSelectedValue();
 				if (docente != null) { 
 					actualizarLista();
+					docente.setNombre(textoNombre.getText());
+					docente.setApellido(textoApellido.getText());
+					docente.setDni(textoDni.getText());
+					docente.setCorreo(textoCorreo.getText());
+					docente.setTelefono(Integer.parseInt(textoTelefono.getText()));
+					docente.setUsuario(textoUsuario.getText());
+					docente.setContraseña(textoContraseña.getText());
 					listaDocente.clearSelection();
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error", JOptionPane.ERROR_MESSAGE);
@@ -192,6 +197,7 @@ public class VentanaAdministradorAccesoDocente {
 				if (docente != null) { 
 					datos.getDocentes().remove(docente);
 					actualizarLista();
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error", JOptionPane.ERROR_MESSAGE);
 				}
