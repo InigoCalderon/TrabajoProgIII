@@ -1,12 +1,18 @@
 package DeustoAcademy;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.LogManager;
+
+import javax.swing.JOptionPane;
+
 /*/
 import java.util.logging.Logger;
 import org.slf4j.Logger;
@@ -17,9 +23,9 @@ import Ventanas.*;
 
 public class Academy {
 	
-	public ArrayList<Administrador> administradores = new ArrayList<>();
-	public ArrayList<Estudiante> estudiantes = new ArrayList<>();
-	public ArrayList<Docente> docentes = new ArrayList<>();
+	protected ArrayList<Administrador> administradores = new ArrayList<>();
+	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
+	protected ArrayList<Docente> docentes = new ArrayList<>();
 	
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes) {
@@ -37,9 +43,9 @@ public class Academy {
 	
 	public Academy() {
 		super();
-		this.administradores = new ArrayList<Administrador>();
-		this.estudiantes = new ArrayList<Estudiante>();
-		this.docentes = new ArrayList<Docente>();
+		this.administradores.clear();
+		this.estudiantes.clear();
+		this.docentes.clear();
 	}
 	
 	public Academy(Academy a) {
@@ -113,74 +119,62 @@ public class Academy {
 	}
 	
 	
-	public static void cargar_datos(String fichero) {
+	public void cargar_datos(String fichero) {
 		
 		// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS
 		
+		try {
+			
+			FileInputStream fis = new FileInputStream(fichero);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			
+			this.administradores = (ArrayList<Administrador>) ois.readObject();
+			this.docentes = (ArrayList<Docente>) ois.readObject();
+			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
+			
+			ois.close(); 
+			fis.close();
+			
+		} catch (IOException | ClassNotFoundException e) {
+			
+			System.err.println("Error leyendo pedidos en " + fichero);
+			
+		}
+		
 	}
 	
-	public static void guardar_datos(String fichero, ArrayList<?> datos, Rols rol) {
+	/*/
+	 * String filename = JOptionPane.showInputDialog("Introduce el nombre del fichero para guardar los datos", "DATOS.dat");
+	 */
+	
+	public void actualizar_datos(String fichero) {
 		
 		// AQUÍ SE SUBIRÁN A LA BD, pero mientras tanto usamos ficheros
-		
-		/*/
-		
-		FileWriter fw = null;
-        PrintWriter pw = null;
-        String linea = null;
-        
-        try {
-        	
-            fw = new FileWriter(fichero);
-            pw = new PrintWriter(fw);
-
-            for (Object o : datos) {
-            	linea = "";
-            	if (rol == Rols.ADMINISTRADOR) {
-            		linea += ((Administrador) o).getNombre() + ";" + 
-               			 	 ((Administrador) o).getApellido() + ";" +
-               			 	 ((Administrador) o).getTelefono() + ";" +
-               			 	 ((Administrador) o).getCorreo() + ";" +
-               			 	 ((Administrador) o).getDni() + ";" +
-               			     ((Administrador) o).getUsuario() + ";" +
-               			     ((Administrador) o).getContraseña();
-            	} if (rol == Rols.DOCENTE) {
-            		linea += ((Docente) o).getNombre() + ";" + 
-              			 	 ((Docente) o).getApellido() + ";" +
-            			 	 ((Docente) o).getTelefono() + ";" +
-            			     ((Docente) o).getCorreo() + ";" +
-            			     ((Docente) o).getDni() + ";" + 
-              			 	 ((Docente) o).getUsuario() + ";" +
-              			     ((Docente) o).getContraseña();
-            	} if (rol == Rols.ESTUDIANTE) {
-            		linea += ((Estudiante) o).getNombre() + ";" + 
-            				 ((Estudiante) o).getApellido() + ";" +
-         			         ((Estudiante) o).getTelefono() + ";" +
-         			         ((Estudiante) o).getCorreo() + ";" +
-         			         ((Estudiante) o).getDni() + ";" + 
-         			         ((Estudiante) o).getUsuario() + ";" +
-         			         ((Estudiante) o).getContraseña();	
-            	} else {System.out.println("Error al guardar datos");}
-            }
-            	pw.println(linea);
-            	
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-           try {
-	           if (null != fichero) {fw.close();}
-	           } catch (Exception e2) {
-	        	   e2.printStackTrace();
-	        }
-
-        }
-        
-        /*/
+	
+		try {
+			
+			FileOutputStream fos = new FileOutputStream(fichero);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(this.administradores);
+			oos.writeObject(this.estudiantes);
+			oos.writeObject(this.docentes);
+			
+			oos.close();
+			fos.close();
+			
+		} catch (IOException e) {
+			
+			System.err.println("Error guardando pedidos en " + fichero);
+			
+			e.printStackTrace();
+		}
 		
 	}
 	
 	//private static final Logger logger = LoggerFactory.getLogger(Academy.class.getName());
 	//private static final Logger logger = Logger.getLogger(Academy.class.getName());
+	// NO DEJA IMPORTAR LAS LIBRERRÍAS NECESARIAS
 	
 	public static void main(String[] args) {
 		

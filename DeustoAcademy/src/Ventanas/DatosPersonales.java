@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -81,7 +79,7 @@ public class DatosPersonales {
 							
 							if (rol == Rols.ADMINISTRADOR) {
 								
-								academy.administradores.add(
+								academy.getAdministradores().add(
 									(Administrador) new Administrador(
 										textoNombre.getText(),
 										textoApellido.getText(),
@@ -95,7 +93,7 @@ public class DatosPersonales {
 								
 							} if (rol == Rols.ESTUDIANTE) {
 								
-								academy.estudiantes.add(
+								academy.getEstudiantes().add(
 									(Estudiante) new Estudiante(
 										textoNombre.getText(),
 										textoApellido.getText(),
@@ -109,7 +107,7 @@ public class DatosPersonales {
 								
 							} if (rol == Rols.DOCENTE) {
 								
-								academy.docentes.add(
+								academy.getDocentes().add(
 									(Docente) new Docente(
 										textoNombre.getText(),
 										textoApellido.getText(),

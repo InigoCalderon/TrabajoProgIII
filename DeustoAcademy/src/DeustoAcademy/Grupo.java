@@ -20,14 +20,13 @@ public class Grupo extends Idioma{
 	
 	public Grupo() {
 		super();
-		this.estudiantes = new ArrayList<>();
+		this.estudiantes.clear();
 	}
 	
 	public Grupo(Grupo g) {
 		super(g.idioma);
 		this.nombre = g.nombre;
 		this.docente = g.docente;
-		this.estudiantes = new ArrayList<>();
 		for (Estudiante estudiante : g.estudiantes) {
 			this.estudiantes.add(estudiante);
 		}
@@ -54,7 +53,7 @@ public class Grupo extends Idioma{
 	}
 
 	public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
-		this.estudiantes = new ArrayList<>();
+		this.estudiantes.clear();
 		for (Estudiante estudiante : estudiantes) {
 			this.estudiantes.add(estudiante);
 		}
