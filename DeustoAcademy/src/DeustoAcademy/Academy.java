@@ -1,6 +1,7 @@
 package DeustoAcademy;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.LogManager;
 
-import javax.swing.JOptionPane;
 
 /*/
 import java.util.logging.Logger;
@@ -98,30 +98,13 @@ public class Academy {
 	public String toString() {
 		return "Academy [administradores=" + administradores + ", estudiantes=" + estudiantes + ", docentes=" + docentes
 				+ "]";
-	}
-
-	public static HashMap<String, String> Claves(Academy a){
-		
-		HashMap<String, String> claves = new HashMap<>();
-
-		for (Administrador admin : a.administradores) {
-			claves.put(admin.getUsuario(), admin.getContraseña());					
-			}
-		for (Estudiante estudiante : a.estudiantes) {
-			claves.put(estudiante.getUsuario(), estudiante.getContraseña());					
-			}
-		for (Docente docente : a.docentes) {
-			claves.put(docente.getUsuario(), docente.getContraseña());					
-			}
-		
-		return claves;
-		
-	}
+	}	
 	
-	
-	public void cargar_datos(String fichero) {
+	public void cargar_datos() {
 		
 		// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS
+		
+		String fichero = "Datos.dat";
 		
 		try {
 			
@@ -135,10 +118,12 @@ public class Academy {
 			ois.close(); 
 			fis.close();
 			
-		} catch (IOException | ClassNotFoundException e) {
-			
-			System.err.println("Error leyendo pedidos en " + fichero);
-			
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
 		}
 		
 	}
@@ -147,10 +132,12 @@ public class Academy {
 	 * String filename = JOptionPane.showInputDialog("Introduce el nombre del fichero para guardar los datos", "DATOS.dat");
 	 */
 	
-	public void actualizar_datos(String fichero) {
+	public void actualizar_datos() {
 		
 		// AQUÍ SE SUBIRÁN A LA BD, pero mientras tanto usamos ficheros
-	
+		
+		String fichero = "Datos.dat";
+		
 		try {
 			
 			FileOutputStream fos = new FileOutputStream(fichero);
@@ -180,6 +167,7 @@ public class Academy {
 		
 		
 		Academy A1 = new Academy();
+		A1.cargar_datos();
 		SelectRol v = new SelectRol(A1);
 		
 		/*/

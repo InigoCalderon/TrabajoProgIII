@@ -6,15 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.print.Doc;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import DeustoAcademy.*;
 
@@ -50,12 +42,17 @@ public class Login extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				/*/ 
+				
+				// ERROR LOQUÍSIMO 
 				
 				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
 					
-					if (academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
+					
+					
+					if (claves(academy).keySet().contains(textoUsuario.getText())) {
 						
-						if (academy.Claves(academy).get(textoUsuario.getText()).equalsIgnoreCase(textoContraseña.getText())) {
+						if (claves(academy).get(textoUsuario.getText()).equalsIgnoreCase(textoContraseña.getText())) {
 							
 							System.out.println("EXITO");
 							if (rol == Rols.ADMINISTRADOR) {
@@ -79,6 +76,9 @@ public class Login extends JFrame{
 					JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
 					
 				}
+				/*/
+				
+				claves(academy);
 				
 			}
 			
@@ -89,10 +89,10 @@ public class Login extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
-				
+				/*/
 				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
 					
-					if (!academy.Claves(academy).keySet().contains(textoUsuario.getText())) {
+					if (!claves(academy).keySet().contains(textoUsuario.getText())) {
 
 						new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
 						ventana.dispose();	
@@ -108,7 +108,7 @@ public class Login extends JFrame{
 					JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
 					
 				}
-					
+				/*/
 			}
 			
 		});
@@ -150,5 +150,36 @@ public class Login extends JFrame{
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
+
+	protected boolean claves(Academy a) {
+		
+		HashMap<String, String> todasLasClaves = new HashMap<>();
+
+		for (Estudiante estudiante : a.getEstudiantes()) {
+			todasLasClaves.put(estudiante.getUsuario(), estudiante.getContraseña());					
+			}
+		
+		for (Administrador admin : a.getAdministradores()) {
+			todasLasClaves.put(admin.getUsuario(), admin.getContraseña());					
+			}
+		
+		for (Docente docente : a.getDocentes()) {
+			todasLasClaves.put(docente.getUsuario(), docente.getContraseña());					
+			}
+		
+		if (todasLasClaves.keySet().contains(textoUsuario.getText())) {
+			return true;
+		} else {
+			return false;
+		}
+		
+		//return todasLasClaves;
+		
+		//NO DEJA HACER EL FOR EN ESTUDIANTES SI EJECUTO EL MÉTODO, EN OTROS FORS SÍ
+	}
+	
+	/*/
+	 * SOLO PUEDE HABER UN ÚNICO NOMBRE DE USUARIO EN TODA LA BASE DE DATOS INDEPENDIENTEMENTE DEL ROL
+	 */
 	
 }

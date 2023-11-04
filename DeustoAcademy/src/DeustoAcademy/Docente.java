@@ -1,7 +1,14 @@
 package DeustoAcademy;
 
-public class Docente {
+import java.io.Serializable;
+
+public class Docente implements Serializable{
 	
+	/**
+	 * 
+	 */
+	
+	private static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected String apellido;
 	protected String dni;

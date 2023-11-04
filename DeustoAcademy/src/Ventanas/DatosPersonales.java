@@ -122,6 +122,7 @@ public class DatosPersonales {
 							}
 							
 							// AQUÍ HABRÁ QUE ACTUALIZAR LA BASE DE DATOS CON LOS NUEVOS DATOS INSERTADOS
+							academy.actualizar_datos();
 							ventana.dispose();
 							new Login(academy, rol);
 							
