@@ -79,24 +79,21 @@ public class VentanaDocente extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Este botón creará nueva ventana para ver las clases del estudiante
-				// TODO Auto-generated method stub
-				
+				VentanaClases ventanaClases = new VentanaClases(); 
 			}
 		});
 		botonCalificaciones.addActionListener(new ActionListener() {		// Este botón creará nueva ventana para ver las calificaciones de sus alumnos
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones();
 			}
 		});
 		botonInfoD.addActionListener(new ActionListener() {	// Este botón creará nueva ventana para ver la informacion del profesor
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				VentanaInfoDocente ventanaInfoDocente = new VentanaInfoDocente();
 			}
 		});
 		
@@ -124,6 +121,8 @@ public class VentanaDocente extends JFrame{
 		this.setSize(600, 800);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+
 	}
 	
 }
