@@ -225,23 +225,6 @@ public class Academy {
 			
 			e.printStackTrace();
 		}
-
-		try {
-			
-			FileOutputStream fos = new FileOutputStream("claves.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			
-			oos.writeObject(getClaves());
-			
-			oos.close();
-			fos.close();
-			
-		} catch (IOException e) {
-			
-			System.err.println("Error guardando pedidos en " + "claves.dat");
-			
-			e.printStackTrace();
-		}
 		
 	}
 	
