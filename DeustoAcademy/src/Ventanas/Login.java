@@ -22,7 +22,12 @@ public class Login extends JFrame{
 	protected JButton botonCancelar;
 	protected JButton botonCrear;
 	protected JTextField textoUsuario;
-	protected JTextField textoContraseña;	
+	protected JTextField textoContraseña;
+	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
+	protected HashMap<String, String> claves_primarias = new HashMap<>();
+	protected VentanaAdministrador adminVentana;
+	protected VentanaEstudiante estudianteVentana;
+	protected VentanaDocente docenteVentana;
 	
 	public Login(Academy academy, Rols rol) {
 		
@@ -36,49 +41,66 @@ public class Login extends JFrame{
 		botonIngresar = new JButton("Ingresar");
 		botonCancelar = new JButton("Cancelar");
 		botonCrear = new JButton("Registrar");	
-				
+
+		/*/
+		 * SOLO PUEDE HABER UN ÚNICO NOMBRE DE USUARIO POR ROL, PUEDE HABER EL MISMO NOMBRE DE USUSARIO EN OTROS ROLES
+		 */
 		
-		botonIngresar.addActionListener(new ActionListener() {   // Al dar al boton se podrá ingresar si los campos existen (la cuenta), en caso nulo no se podrá ingresar
+		for (Estudiante estudiante : academy.getEstudiantes()) {
+			
+			claves_primarias.put(estudiante.getUsuario(), estudiante.getContraseña());	
+			
+			}
+		
+		claves.put(Rols.ESTUDIANTE, claves_primarias);
+		claves_primarias.clear();
+		
+		for (Administrador admin : academy.getAdministradores()) {
+			
+			claves_primarias.put(admin.getUsuario(), admin.getContraseña());		
+			
+			}
+		
+		claves.put(Rols.ADMINISTRADOR, claves_primarias);
+		claves_primarias.clear();
+		
+		for (Docente docente : academy.getDocentes()) {
+			
+			claves_primarias.put(docente.getUsuario(), docente.getContraseña());	
+			
+			}
+		
+		claves.put(Rols.DOCENTE, claves_primarias);
+		claves_primarias.clear();
+		
+		
+		botonIngresar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*/ 
 				
-				// ERROR LOQUÍSIMO 
-				
-				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
+				if (rol == Rols.ADMINISTRADOR) {
 					
+					// ENTRAMOS EN EL MENU ADMIN
 					
+					autentificador(rol, claves);
+					new VentanaAdministrador(new Administrador());
 					
-					if (claves(academy).keySet().contains(textoUsuario.getText())) {
-						
-						if (claves(academy).get(textoUsuario.getText()).equalsIgnoreCase(textoContraseña.getText())) {
-							
-							System.out.println("EXITO");
-							if (rol == Rols.ADMINISTRADOR) {
-								// ENTRAMOS EN EL MENU ADMIN
-							} if (rol == Rols.ESTUDIANTE) {
-								// ENTRAMOS EN EL MENU ESTUDIANTE
-							} if (rol == Rols.DOCENTE) {
-								// ENTRAMOS EN EL MENU DOCENTE
-							}
-						} else {
-							
-							JOptionPane.showMessageDialog(null, "La Contraseña o el Usuario son incorrectos", "Error",  JOptionPane.ERROR_MESSAGE);
-						}
-							
-					} else {
-						JOptionPane.showMessageDialog(null, "El Usuario no existe, así que registrese para poder ingresar en la aplicación.", "Error",  JOptionPane.ERROR_MESSAGE);
-					}
+				} if (rol == Rols.ESTUDIANTE) {
 					
-				} else {
+					// ENTRAMOS EN EL MENU ESTUDIANTE
 					
-					JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
+					autentificador(rol, claves);
+					new VentanaEstudiante(new Estudiante());
+					
+				} if (rol == Rols.DOCENTE) {
+					
+					// ENTRAMOS EN EL MENU DOCENTE
+					
+					autentificador(rol, claves);
+					new VentanaDocente(new Docente());
 					
 				}
-				/*/
-				
-				claves(academy);
 				
 			}
 			
@@ -88,11 +110,11 @@ public class Login extends JFrame{
 		botonCrear.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {		// Al darle al botonCrear se creará un administrador con el usuario y contraseña ingresado en los campos, siempre que no haya uno ya existente con esos datos
-				/*/
+			public void actionPerformed(ActionEvent e) {
+				
 				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
 					
-					if (!claves(academy).keySet().contains(textoUsuario.getText())) {
+					if (!claves.get(rol).keySet().contains(textoUsuario.getText())) {
 
 						new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
 						ventana.dispose();	
@@ -108,7 +130,7 @@ public class Login extends JFrame{
 					JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
 					
 				}
-				/*/
+				
 			}
 			
 		});
@@ -150,36 +172,37 @@ public class Login extends JFrame{
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
-
-	protected boolean claves(Academy a) {
+	
+	
+	boolean autentificador(Rols rol, HashMap<Rols, HashMap<String, String>> mapa) {
 		
-		HashMap<String, String> todasLasClaves = new HashMap<>();
-
-		for (Estudiante estudiante : a.getEstudiantes()) {
-			todasLasClaves.put(estudiante.getUsuario(), estudiante.getContraseña());					
+		if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
+			
+			if (mapa.get(rol).keySet().contains(textoUsuario.getText())) {
+				
+				if (mapa.get(rol).get(textoUsuario.getText()).equalsIgnoreCase(textoContraseña.getText())) {
+					
+					return true;
+					
+				} else {
+					
+					JOptionPane.showMessageDialog(null, "La Contraseña o el Usuario son incorrectos", "Error",  JOptionPane.ERROR_MESSAGE);
+				}
+					
+			} else {
+				
+				JOptionPane.showMessageDialog(null, "El Usuario no existe, así que registrese para poder ingresar en la aplicación.", "Error",  JOptionPane.ERROR_MESSAGE);
+			
 			}
-		
-		for (Administrador admin : a.getAdministradores()) {
-			todasLasClaves.put(admin.getUsuario(), admin.getContraseña());					
-			}
-		
-		for (Docente docente : a.getDocentes()) {
-			todasLasClaves.put(docente.getUsuario(), docente.getContraseña());					
-			}
-		
-		if (todasLasClaves.keySet().contains(textoUsuario.getText())) {
-			return true;
+			
 		} else {
-			return false;
+			
+			JOptionPane.showMessageDialog(null, "Debe rellenar las casillas Usuario y Contraseña", "Error",  JOptionPane.ERROR_MESSAGE);
+			
 		}
 		
-		//return todasLasClaves;
+		return false;
 		
-		//NO DEJA HACER EL FOR EN ESTUDIANTES SI EJECUTO EL MÉTODO, EN OTROS FORS SÍ
 	}
-	
-	/*/
-	 * SOLO PUEDE HABER UN ÚNICO NOMBRE DE USUARIO EN TODA LA BASE DE DATOS INDEPENDIENTEMENTE DEL ROL
-	 */
 	
 }
