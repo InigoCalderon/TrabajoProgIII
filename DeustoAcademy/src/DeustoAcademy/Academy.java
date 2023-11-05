@@ -27,6 +27,9 @@ public class Academy {
 	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
 	protected ArrayList<Docente> docentes = new ArrayList<>();
 	
+	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
+	
+	
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes) {
 		super();
@@ -98,22 +101,58 @@ public class Academy {
 	public String toString() {
 		return "Academy [administradores=" + administradores + ", estudiantes=" + estudiantes + ", docentes=" + docentes
 				+ "]";
-	}	
+	}
+	
+	public HashMap<Rols, HashMap<String, String>> getClaves() {
+		return claves;
+	}
 	
 	public void cargar_datos() {
 		
 		// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS
 		
-		String fichero = "Datos.dat";
+		try {
+			
+			FileInputStream fis = new FileInputStream("estudiantes.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			
+			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
+			
+			ois.close(); 
+			fis.close();
+			
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
 		
 		try {
 			
-			FileInputStream fis = new FileInputStream(fichero);
+			FileInputStream fis = new FileInputStream("admins.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
 			this.administradores = (ArrayList<Administrador>) ois.readObject();
+			
+			ois.close(); 
+			fis.close();
+			
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
+
+		try {
+			
+			FileInputStream fis = new FileInputStream("docentes.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			
 			this.docentes = (ArrayList<Docente>) ois.readObject();
-			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
 			
 			ois.close(); 
 			fis.close();
@@ -136,15 +175,28 @@ public class Academy {
 		
 		// AQUÍ SE SUBIRÁN A LA BD, pero mientras tanto usamos ficheros
 		
-		String fichero = "Datos.dat";
-		
 		try {
 			
-			FileOutputStream fos = new FileOutputStream(fichero);
+			FileOutputStream fos = new FileOutputStream("admins.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
 			oos.writeObject(this.administradores);
-			oos.writeObject(this.estudiantes);
+			
+			oos.close();
+			fos.close();
+			
+		} catch (IOException e) {
+			
+			System.err.println("Error guardando pedidos en " + "admins.dat");
+			
+			e.printStackTrace();
+		}
+		
+		try {
+			
+			FileOutputStream fos = new FileOutputStream("docentes.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
 			oos.writeObject(this.docentes);
 			
 			oos.close();
@@ -152,10 +204,79 @@ public class Academy {
 			
 		} catch (IOException e) {
 			
-			System.err.println("Error guardando pedidos en " + fichero);
+			System.err.println("Error guardando pedidos en " + "docentes.dat");
 			
 			e.printStackTrace();
 		}
+
+		try {
+			
+			FileOutputStream fos = new FileOutputStream("estudiantes.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(this.estudiantes);
+			
+			oos.close();
+			fos.close();
+			
+		} catch (IOException e) {
+			
+			System.err.println("Error guardando pedidos en " + "estudiantes.dat");
+			
+			e.printStackTrace();
+		}
+
+		try {
+			
+			FileOutputStream fos = new FileOutputStream("claves.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(getClaves());
+			
+			oos.close();
+			fos.close();
+			
+		} catch (IOException e) {
+			
+			System.err.println("Error guardando pedidos en " + "claves.dat");
+			
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void actualizar_claves(){
+		
+		HashMap<String, String> claves_primarias = new HashMap<>();
+		
+		for (Estudiante estudiante : this.getEstudiantes()) {
+			
+			claves_primarias.put(estudiante.getUsuario(), estudiante.getContraseña());	
+			
+		}
+		
+		getClaves().put(Rols.ESTUDIANTE, claves_primarias);
+		claves_primarias = new HashMap<>();
+
+		for (Administrador admin : this.getAdministradores()) {
+			
+			claves_primarias.put(admin.getUsuario(), admin.getContraseña());		
+			
+		}
+		
+		getClaves().put(Rols.ADMINISTRADOR, claves_primarias);
+		claves_primarias = new HashMap<>();
+		
+		for (Docente docente : this.getDocentes()) {
+			
+			claves_primarias.put(docente.getUsuario(), docente.getContraseña());	
+			
+		}
+		
+		getClaves().put(Rols.DOCENTE, claves_primarias);
+		claves_primarias = new HashMap<>();
+		
+		System.out.println("CLAVES ACTUALIZADAS");
 		
 	}
 	
@@ -165,10 +286,17 @@ public class Academy {
 	
 	public static void main(String[] args) {
 		
-		
 		Academy A1 = new Academy();
+		
 		A1.cargar_datos();
-		SelectRol v = new SelectRol(A1);
+		
+		A1.actualizar_claves();
+		
+		/*/
+		 * SOLO PUEDE HABER UN ÚNICO NOMBRE DE USUARIO POR ROL.
+		 */
+		
+		new SelectRol(A1);
 		
 		/*/
 		try (FileInputStream fis = new FileInputStream("logger.properties")) {
