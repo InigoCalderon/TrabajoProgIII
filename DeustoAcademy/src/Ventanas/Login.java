@@ -2,6 +2,7 @@ package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Login extends JFrame{
 		JFrame ventana = new JFrame("Login");
 		
 		JPanel panelLogin = new JPanel();
+		
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		textoUsuario = new JTextField(20);
 		JLabel etiquetaContraseña = new JLabel("Contraseña:");
@@ -126,15 +128,35 @@ public class Login extends JFrame{
 	    panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 	    panelPrincipal.setBackground(new Color(88,187,240));
 	    
+	    JPanel panelLabels = new JPanel();
+	    panelLabels.setBackground(new Color(88,214,240));
+	    
+	    JPanel panelFondo1 = new JPanel();
+	    panelFondo1.setBackground(new Color(88,214,240));
+	    
+	    JPanel panelFondo2 = new JPanel();
+	    panelFondo2.setBackground(new Color(88,214,240));
+	    
+	    JPanel panelBotones = new JPanel();
+	    panelBotones.setBackground(new Color(88,214,240));
 		
-		panelLogin.add(etiquetaUsuario);
-		panelLogin.add(textoUsuario);
-		panelLogin.add(etiquetaContraseña);
-		panelLogin.add(textoContraseña);
+		panelLabels.add(etiquetaUsuario);
+		panelLabels.add(textoUsuario);
+		panelLabels.add(panelFondo1);
+		panelLabels.add(panelFondo2);
+		panelLabels.add(etiquetaContraseña);
+		panelLabels.add(textoContraseña);
+		panelLabels.setLayout(new GridLayout(3,2));
 		
-		panelLogin.add(botonIngresar);
-		panelLogin.add(botonCrear);
-		panelLogin.add(botonCancelar);
+		panelBotones.add(botonIngresar);
+		panelBotones.add(botonCrear);
+		panelBotones.add(botonCancelar);
+		panelBotones.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
+		
+		panelLogin.add(panelLabels, BorderLayout.NORTH);
+		panelLogin.add(panelBotones, BorderLayout.SOUTH);
+		panelLogin.setLayout(new GridLayout(2,1));
+
 		panelLogin.setBackground(new Color(88,214,240));
 		panelLogin.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		

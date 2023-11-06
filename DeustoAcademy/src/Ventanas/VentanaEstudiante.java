@@ -33,7 +33,7 @@ public class VentanaEstudiante extends JFrame{
 		
 		Icon chatIcon = new ImageIcon("src/res/chat.png");
 		Icon exitIcon = new ImageIcon("src/res/exit.png");
-		Icon marksIcon = new ImageIcon("src/res/marks.png");
+		Icon marksIcon = new ImageIcon("src/res/notas_academy.png");
 		Icon settingsIcon = new ImageIcon("src/res/settings.png");
 		Icon calendarIcon = new ImageIcon("src/res/calendar.png");
         
@@ -48,8 +48,9 @@ public class VentanaEstudiante extends JFrame{
         botonModificar = new JButton(new ImageIcon(image4));
         botonChat = new JButton(new ImageIcon(image1));
         botonNotas = new JButton(new ImageIcon(image3));
-        botonSalir = new JButton(new ImageIcon(image2));
         botonCalendario = new JButton(new ImageIcon(image5));
+        botonSalir = new JButton(new ImageIcon(image2));
+        
         
         botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
@@ -57,8 +58,14 @@ public class VentanaEstudiante extends JFrame{
         botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         
+        botonCalendario.setBackground(new Color(0,247,255));
+        botonChat.setBackground(new Color(0,247,255));
+        botonSalir.setBackground(new Color(0,247,255));
+        botonNotas.setBackground(new Color(0,247,255));
+        botonModificar.setBackground(new Color(0,247,255));
         
-        botonCalendario.addActionListener(new ActionListener() {		// Al apretar el botón se abrirá una nueva ventana con el calendario
+        
+        botonCalendario.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -84,10 +91,11 @@ public class VentanaEstudiante extends JFrame{
 		/*/
 
 		panelIzquierda.add(botonModificar);
-		panelIzquierda.add(botonNotas);
-		panelIzquierda.add(botonChat);
-		panelIzquierda.add(botonSalir);
 		panelIzquierda.add(botonCalendario);
+		panelIzquierda.add(botonChat);
+		panelIzquierda.add(botonNotas);
+		panelIzquierda.add(botonSalir);
+
 		panelIzquierda.setLayout(new GridLayout(5,1));
 		
 		//panelTareas.
