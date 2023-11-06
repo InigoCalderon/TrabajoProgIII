@@ -117,43 +117,8 @@ public class Academy {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
 			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
-			
-			ois.close(); 
-			fis.close();
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("Error al encontrar el archivo.");
-		} catch (IOException e) {
-			System.err.println("Error al cargar los datos.");
-		} catch (ClassNotFoundException e) {
-			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
-		}
-		
-		try {
-			
-			FileInputStream fis = new FileInputStream("admins.dat");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			
 			this.administradores = (ArrayList<Administrador>) ois.readObject();
 			this.docentes = (ArrayList<Docente>) ois.readObject();
-			
-			ois.close(); 
-			fis.close();
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("Error al encontrar el archivo.");
-		} catch (IOException e) {
-			System.err.println("Error al cargar los datos.");
-		} catch (ClassNotFoundException e) {
-			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
-		}
-
-		try {
-			
-			FileInputStream fis = new FileInputStream("docentes.dat");
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			
-			
 			
 			ois.close(); 
 			fis.close();
@@ -182,39 +147,7 @@ public class Academy {
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
 			oos.writeObject(this.administradores);
-			
-			oos.close();
-			fos.close();
-			
-		} catch (IOException e) {
-			
-			System.err.println("Error guardando pedidos en " + "admins.dat");
-			
-			e.printStackTrace();
-		}
-		
-		try {
-			
-			FileOutputStream fos = new FileOutputStream("docentes.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			
 			oos.writeObject(this.docentes);
-			
-			oos.close();
-			fos.close();
-			
-		} catch (IOException e) {
-			
-			System.err.println("Error guardando pedidos en " + "docentes.dat");
-			
-			e.printStackTrace();
-		}
-
-		try {
-			
-			FileOutputStream fos = new FileOutputStream("estudiantes.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			
 			oos.writeObject(this.estudiantes);
 			
 			oos.close();
@@ -222,7 +155,7 @@ public class Academy {
 			
 		} catch (IOException e) {
 			
-			System.err.println("Error guardando pedidos en " + "estudiantes.dat");
+			System.err.println("Error guardando pedidos en " + "admins.dat");
 			
 			e.printStackTrace();
 		}
