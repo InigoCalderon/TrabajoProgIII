@@ -28,21 +28,20 @@ public class VentanaEstudiante extends JFrame{
 		//JFrame ventana = new JFrame(String.format("MENU ESTUDIANTE %s %p", estudiante.getNombre(), estudiante.getApellido()));  // DA ERROR Y NO SÉ PORQUÉ
 		JFrame ventana = new JFrame("MENU ESTUDIANTE");
 		
-		Icon chatIcon = new ImageIcon("res/chat.png");
-		Icon exitIcon = new ImageIcon("res/exit.png");
-		Icon marksIcon = new ImageIcon("res/marks.png");
-		Icon settingsIcon = new ImageIcon("res/settings.png");
-		//botonModificar.setIcon(settingsIcon);
-		//botonChat.setIcon(chatIcon);
-		//botonNotas.setIcon(marksIcon);
-		//botonSalir.setIcon(exitIcon);
-        
 		int anchoDeseado = 100;
-        int altoDeseado = 100;
+        int altoDeseado = 82;
+		
+		Icon chatIcon = new ImageIcon("src/res/chat.png");
+		Icon exitIcon = new ImageIcon("src/res/exit.png");
+		Icon marksIcon = new ImageIcon("src/res/marks.png");
+		Icon settingsIcon = new ImageIcon("src/res/settings.png");
+		Icon calendarIcon = new ImageIcon("src/res/calendar.png");
+        
         Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
         Image image2 = ((ImageIcon) exitIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
         Image image3 = ((ImageIcon) marksIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
         Image image4 = ((ImageIcon) settingsIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
+        Image image5 = ((ImageIcon) calendarIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
 
 
         // Crea un nuevo icono con la imagen escalada
@@ -50,13 +49,13 @@ public class VentanaEstudiante extends JFrame{
         botonChat = new JButton(new ImageIcon(image1));
         botonNotas = new JButton(new ImageIcon(image3));
         botonSalir = new JButton(new ImageIcon(image2));
-        botonCalendario = new JButton("Calendario");
+        botonCalendario = new JButton(new ImageIcon(image5));
         
         botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-        
+        botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
         
         
         botonCalendario.addActionListener(new ActionListener() {		// Al apretar el botón se abrirá una nueva ventana con el calendario
@@ -89,6 +88,9 @@ public class VentanaEstudiante extends JFrame{
 		panelIzquierda.add(botonChat);
 		panelIzquierda.add(botonSalir);
 		panelIzquierda.add(botonCalendario);
+		panelIzquierda.setLayout(new GridLayout(5,1));
+		
+		//panelTareas.
 		
 		panelInterno.add(panelIzquierda,BorderLayout.WEST);
 		panelInterno.add(panelTareas, BorderLayout.EAST);
