@@ -135,6 +135,7 @@ public class Academy {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
 			this.administradores = (ArrayList<Administrador>) ois.readObject();
+			this.docentes = (ArrayList<Docente>) ois.readObject();
 			
 			ois.close(); 
 			fis.close();
@@ -152,7 +153,7 @@ public class Academy {
 			FileInputStream fis = new FileInputStream("docentes.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
-			this.docentes = (ArrayList<Docente>) ois.readObject();
+			
 			
 			ois.close(); 
 			fis.close();
@@ -263,7 +264,7 @@ public class Academy {
 		
 	}
 	
-	//private static final Logger logger = LoggerFactory.getLogger(Academy.class.getName());
+	 //private static final Logger logger = LoggerFactory.getLogger(Academy.class.getName());
 	//private static final Logger logger = Logger.getLogger(Academy.class.getName());
 	// NO DEJA IMPORTAR LAS LIBRERRÍAS NECESARIAS
 	
