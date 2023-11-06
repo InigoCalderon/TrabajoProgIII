@@ -2,6 +2,7 @@ package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,19 +43,25 @@ public class DatosPersonales {
 		SwingUtilities.invokeLater(() -> {
       
             JFrame ventana = new JFrame("Ventana Plantilla");
-          
+
             JPanel panelPrincipal = new JPanel(new BorderLayout());
             panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
             panelPrincipal.setBackground(new Color(88,187,240));
 
             JPanel panelInterno = new JPanel();
             panelInterno.setBackground(new Color(88,214,240));
-            
+            panelInterno.setLayout(new GridLayout(2,1));
+
             JPanel panelJLabels = new JPanel();
             panelJLabels.setBackground(new Color(88,214,240));
-            
+            panelJLabels.setLayout(new GridLayout(7,2));
+            panelJLabels.setBorder(BorderFactory.createEmptyBorder(30, 30, 0, 30));
+
             JPanel panelBotones = new JPanel();
             panelBotones.setBackground(new Color(88,214,240));
+            panelBotones.setLayout(new GridLayout(1,2));
+            panelBotones.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+            panelBotones.setPreferredSize(new Dimension(100, 50));
             
             textoUsuario.setText(nuevo_user);
             textoContrasena.setText(nueva_passw);
@@ -77,9 +84,7 @@ public class DatosPersonales {
             panelBotones.add(botonCancelar);
             panelInterno.add(panelJLabels);
             panelInterno.add(panelBotones);
-            panelInterno.setLayout(new GridLayout(8,2));
-            
-            
+
             botonGuardar.addActionListener(new ActionListener() {
 				
 				@Override
@@ -106,8 +111,8 @@ public class DatosPersonales {
 										textoDni.getText(),
 										textoCorreo.getText(),
 									    Integer.parseInt(textoTelefono.getText()),
-										nuevo_user,
-										nueva_passw
+										textoUsuario.getText(),
+										textoContrasena.getText()
 									)
 								);
 								
@@ -120,8 +125,8 @@ public class DatosPersonales {
 										Integer.parseInt(textoTelefono.getText()),
 										textoCorreo.getText(),
 										textoDni.getText(),
-										nuevo_user,
-										nueva_passw
+										textoUsuario.getText(),
+										textoContrasena.getText()
 									)
 								);
 								
@@ -134,8 +139,8 @@ public class DatosPersonales {
 										textoDni.getText(),
 										textoCorreo.getText(),
 									    Integer.parseInt(textoTelefono.getText()),
-										nuevo_user,
-										nueva_passw
+									    textoUsuario.getText(),
+										textoContrasena.getText()
 									)
 								);
 								
@@ -193,7 +198,7 @@ public class DatosPersonales {
             ventana.add(panelPrincipal);
 
             
-            ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
+            ventana.pack();		//ventana.setSize(720, 480); // tamaño grande, 960*560 y tamaño pequeño 720*480
             ventana.setVisible(true);
             ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
