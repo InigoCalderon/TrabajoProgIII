@@ -57,7 +57,7 @@ public class Login extends JFrame{
 					
 					// ENTRAMOS EN EL MENU ESTUDIANTE
 					
-					new VentanaEstudiante(new Estudiante());
+					new VentanaEstudiante(academy, rol);
 					ventana.dispose();	
 					
 				} if (rol == Rols.DOCENTE && autentificador(academy, rol)) {

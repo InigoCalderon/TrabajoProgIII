@@ -23,7 +23,7 @@ public class VentanaEstudiante extends JFrame{
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
 	
-	public VentanaEstudiante(Estudiante estudiante) {
+	public VentanaEstudiante(Academy academy, Rols rol) {
 		
 		//JFrame ventana = new JFrame(String.format("MENU ESTUDIANTE %s %p", estudiante.getNombre(), estudiante.getApellido()));  // DA ERROR Y NO SÉ PORQUÉ
 		JFrame ventana = new JFrame("MENU ESTUDIANTE");
@@ -103,16 +103,67 @@ public class VentanaEstudiante extends JFrame{
 		panelInterno.add(panelIzquierda,BorderLayout.WEST);
 		panelInterno.add(panelTareas, BorderLayout.EAST);
 		
+		
+		botonCalendario.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
+		
+		
+		botonChat.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
+		
+		
+		botonNotas.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
+		
+		
+		botonModificar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
+		
+		
+		botonSalir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				new Login(academy, rol);
+				ventana.dispose();
+				
+			}
+		});
+		
+		
 		ventana.add(panelPrincipal);
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
         ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-	}
-	
-	public static void main(String[] args) {
-		
-		new VentanaEstudiante(new Estudiante());
 		
 	}
 	

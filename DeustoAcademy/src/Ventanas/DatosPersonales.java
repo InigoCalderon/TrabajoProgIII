@@ -27,6 +27,10 @@ public class DatosPersonales {
 	protected JTextField textoTelefono = new JTextField();
 	protected JTextField textoCorreo = new JTextField();
 	protected JTextField textoDni = new JTextField();
+	protected JTextField textoUsuario = new JTextField();
+	protected JTextField textoContrasena = new JTextField();
+	protected JLabel usuario = new JLabel("Usuario: ");
+	protected JLabel contrasena = new JLabel("Contraseña: ");
 	protected JLabel nombre = new JLabel("Nombre: ");
 	protected JLabel apellido = new JLabel("Apellido: ");
 	protected JLabel telefono = new JLabel("Teléfono: ");
@@ -45,21 +49,35 @@ public class DatosPersonales {
 
             JPanel panelInterno = new JPanel();
             panelInterno.setBackground(new Color(88,214,240));
-
             
-            panelInterno.add(nombre);
-            panelInterno.add(textoNombre);
-            panelInterno.add(apellido);
-            panelInterno.add(textoApellido);
-            panelInterno.add(telefono);
-            panelInterno.add(textoTelefono);
-            panelInterno.add(dni);
-            panelInterno.add(textoDni);
-            panelInterno.add(correo);
-            panelInterno.add(textoCorreo);
-            panelInterno.add(botonGuardar);
-            panelInterno.add(botonCancelar);
-            panelInterno.setLayout(new GridLayout(6,1));            
+            JPanel panelJLabels = new JPanel();
+            panelJLabels.setBackground(new Color(88,214,240));
+            
+            JPanel panelBotones = new JPanel();
+            panelBotones.setBackground(new Color(88,214,240));
+            
+            textoUsuario.setText(nuevo_user);
+            textoContrasena.setText(nueva_passw);
+
+            panelJLabels.add(usuario);
+            panelJLabels.add(textoUsuario);
+            panelJLabels.add(contrasena);
+            panelJLabels.add(textoContrasena);
+            panelJLabels.add(nombre);
+            panelJLabels.add(textoNombre);
+            panelJLabels.add(apellido);
+            panelJLabels.add(textoApellido);
+            panelJLabels.add(telefono);
+            panelJLabels.add(textoTelefono);
+            panelJLabels.add(dni);
+            panelJLabels.add(textoDni);
+            panelJLabels.add(correo);
+            panelJLabels.add(textoCorreo);
+            panelBotones.add(botonGuardar);
+            panelBotones.add(botonCancelar);
+            panelInterno.add(panelJLabels);
+            panelInterno.add(panelBotones);
+            panelInterno.setLayout(new GridLayout(8,2));
             
             
             botonGuardar.addActionListener(new ActionListener() {
@@ -67,6 +85,8 @@ public class DatosPersonales {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (
+							!(textoUsuario.getText().equalsIgnoreCase("")) ||
+							!(textoContrasena.getText().equalsIgnoreCase("")) ||
 							!(textoNombre.getText().equalsIgnoreCase("")) || 
 							!(textoNombre.getText().equalsIgnoreCase("")) ||
 							!(textoApellido.getText().equalsIgnoreCase("")) ||
@@ -131,6 +151,8 @@ public class DatosPersonales {
 						} catch (Exception e2) {
 							
 							JOptionPane.showMessageDialog(null, "Debes rellenar todas las casillas y recordar que en la casilla de Teléfono debes escribir solo números.", "Error",  JOptionPane.ERROR_MESSAGE);
+							textoUsuario.setText(nuevo_user);
+							textoContrasena.setText(nueva_passw);
 							textoNombre.setText("");
 							textoApellido.setText("");
 							textoDni.setText("");
@@ -142,6 +164,8 @@ public class DatosPersonales {
 					} else {
 						
 						JOptionPane.showMessageDialog(null, "Debes rellenar todas las casillas y recordar que en la casilla de Teléfono debes escribir solo números.", "Error",  JOptionPane.ERROR_MESSAGE);
+						textoUsuario.setText(nuevo_user);
+						textoContrasena.setText(nueva_passw);
 						textoNombre.setText("");
 						textoApellido.setText("");
 						textoDni.setText("");
