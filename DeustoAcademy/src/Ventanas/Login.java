@@ -64,7 +64,7 @@ public class Login extends JFrame{
 					
 					// ENTRAMOS EN EL MENU DOCENTE
 					
-					new VentanaDocente(new Docente());
+					new VentanaDocente(academy, rol, new Docente());
 					ventana.dispose();	
 					
 				}
@@ -170,6 +170,11 @@ public class Login extends JFrame{
 	}
 	
 	
+	public Login(Docente docente, Rols rol, Academy academy) {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	boolean autentificador(Academy academy, Rols rol) {
 		
 		if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {

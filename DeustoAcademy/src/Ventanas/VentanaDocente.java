@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
@@ -19,6 +20,7 @@ public class VentanaDocente extends JFrame{
 	protected JButton botonClases;
 	protected JButton botonCalificaciones;
 	protected JButton botonInfoD;
+	protected JButton botonSalir;
 		
 	protected JButton botonGuardarInformacion;
 	
@@ -29,7 +31,7 @@ public class VentanaDocente extends JFrame{
 	protected JTextField textoCorreo;
 	protected JTextField textoDni;
 	
-	public VentanaDocente(Docente docente) {
+	public VentanaDocente(Academy academy, Rols Rol, Docente docente) {
 		
 		// TODO Auto-generated constructor stub
 		JPanel panelBotones = new JPanel();
@@ -54,9 +56,16 @@ public class VentanaDocente extends JFrame{
 		botonClases = new JButton("Clases");
 		botonCalificaciones = new JButton("Calificaciones");
 		botonInfoD = new JButton("Información del profesor");
-		
+		botonSalir = new JButton("Volver atras");
 		botonGuardarInformacion = new JButton("Guardar");
-		
+
+	
+		/*
+	    botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
+	    botonCalificaciones.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
+	    botonClases.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
+	    botonInfoD.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
+		*/		
 		
 		
 		botonGuardarInformacion.addActionListener(new ActionListener() {  // Con este botón los profesores pueden actualizar la información personal
@@ -80,6 +89,7 @@ public class VentanaDocente extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {		// Este botón creará nueva ventana para ver las clases del estudiante
 				VentanaClases ventanaClases = new VentanaClases(); 
+				dispose();
 			}
 		});
 		botonCalificaciones.addActionListener(new ActionListener() {		// Este botón creará nueva ventana para ver las calificaciones de sus alumnos
@@ -87,6 +97,7 @@ public class VentanaDocente extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones();
+				dispose();
 			}
 		});
 		botonInfoD.addActionListener(new ActionListener() {	// Este botón creará nueva ventana para ver la informacion del profesor
@@ -94,6 +105,17 @@ public class VentanaDocente extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaInfoDocente ventanaInfoDocente = new VentanaInfoDocente();
+				dispose();
+			}
+		});
+		botonSalir.addActionListener(new ActionListener() {
+				
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					
+				new Login(docente, Rol, academy);
+				dispose();
+					
 			}
 		});
 		
@@ -103,6 +125,9 @@ public class VentanaDocente extends JFrame{
 		panelBotones.add(botonClases);
 		panelBotones.add(botonCalificaciones);
 		panelBotones.add(botonInfoD);
+		panelBotones.add(botonGuardarInformacion);
+		panelBotones.add(botonSalir);
+		
 		this.add(panelBotones, BorderLayout.CENTER);
 		
 		panelInformacion.add(etiquetaNombre);
@@ -121,6 +146,7 @@ public class VentanaDocente extends JFrame{
 		this.setSize(600, 800);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
 		
 
 	}
