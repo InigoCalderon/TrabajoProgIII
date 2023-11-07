@@ -51,19 +51,17 @@ public class DatosPersonales {
             JPanel panelInterno = new JPanel();
             panelInterno.setBackground(new Color(88,214,240));
             panelInterno.setLayout(new GridLayout(2,1));
+            panelInterno.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
 
             JPanel panelJLabels = new JPanel();
             panelJLabels.setBackground(new Color(88,214,240));
             panelJLabels.setLayout(new GridLayout(7,2));
-            panelJLabels.setBorder(BorderFactory.createEmptyBorder(30, 30, 0, 30));
-
-            JPanel panelFondo = new JPanel();
-            panelFondo.setBackground(new Color(88,214,240));
+            panelJLabels.setBorder(BorderFactory.createEmptyBorder(10, 210, 0, 210));
             
             JPanel panelBotones = new JPanel();
             panelBotones.setBackground(new Color(88,214,240));
-            panelBotones.setLayout(new GridLayout(1,3));
-            panelBotones.setBorder(BorderFactory.createEmptyBorder(30, 30, 100, 30));
+            panelBotones.setLayout(new GridLayout(1,2));
+            panelBotones.setBorder(BorderFactory.createEmptyBorder(40, 210, 60, 210));
             
             textoUsuario.setText(nuevo_user);
             textoContrasena.setText(nueva_passw);
@@ -83,7 +81,6 @@ public class DatosPersonales {
             panelJLabels.add(correo);
             panelJLabels.add(textoCorreo);
             panelBotones.add(botonGuardar);
-            panelBotones.add(panelFondo);
             panelBotones.add(botonCancelar);
             panelInterno.add(panelJLabels);
             panelInterno.add(panelBotones);
