@@ -69,13 +69,13 @@ public class VentanaAdministradorAccesoDocente {
 		// Rellenamos las combos con los docentes que ejercen cada idioma
 					for (Grupo grupo: grupos) {
 						if (grupo.getIdioma().equals("Castellano")) {
-							comboCastellano.add(grupo.getDocente());
+							comboCastellano.addItem(grupo.getDocente());
 						} else if( grupo.getIdioma().equals("Ingles")) {
-							comboIngles.add(grupo.getDocente());
+							comboIngles.addItem(grupo.getDocente());
 						}else if (grupo.getIdioma().equals("Euskera")) {
-							comboEuskera.add(grupo.getDocente());
+							comboEuskera.addItem(grupo.getDocente());
 						}else if(grupo.getIdioma().equals("Frances")) {
-							comboFrances.add(grupo.getDocente());
+							comboFrances.addItem(grupo.getDocente());
 						}
 					} 
 	}

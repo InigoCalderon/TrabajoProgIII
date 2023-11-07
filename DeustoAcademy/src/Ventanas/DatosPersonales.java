@@ -57,11 +57,13 @@ public class DatosPersonales {
             panelJLabels.setLayout(new GridLayout(7,2));
             panelJLabels.setBorder(BorderFactory.createEmptyBorder(30, 30, 0, 30));
 
+            JPanel panelFondo = new JPanel();
+            panelFondo.setBackground(new Color(88,214,240));
+            
             JPanel panelBotones = new JPanel();
             panelBotones.setBackground(new Color(88,214,240));
-            panelBotones.setLayout(new GridLayout(1,2));
-            panelBotones.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
-            panelBotones.setPreferredSize(new Dimension(100, 50));
+            panelBotones.setLayout(new GridLayout(1,3));
+            panelBotones.setBorder(BorderFactory.createEmptyBorder(30, 30, 100, 30));
             
             textoUsuario.setText(nuevo_user);
             textoContrasena.setText(nueva_passw);
@@ -81,6 +83,7 @@ public class DatosPersonales {
             panelJLabels.add(correo);
             panelJLabels.add(textoCorreo);
             panelBotones.add(botonGuardar);
+            panelBotones.add(panelFondo);
             panelBotones.add(botonCancelar);
             panelInterno.add(panelJLabels);
             panelInterno.add(panelBotones);
@@ -197,8 +200,7 @@ public class DatosPersonales {
             panelPrincipal.add(panelInterno, BorderLayout.CENTER);
             ventana.add(panelPrincipal);
 
-            
-            ventana.pack();		//ventana.setSize(720, 480); // tamaño grande, 960*560 y tamaño pequeño 720*480
+            ventana.setSize(720, 480); // tamaño grande, 960*560 y tamaño pequeño 720*480
             ventana.setVisible(true);
             ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
