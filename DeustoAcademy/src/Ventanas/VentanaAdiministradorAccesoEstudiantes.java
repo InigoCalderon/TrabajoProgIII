@@ -17,6 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
@@ -57,7 +58,9 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame{
 			((Collection<Estudiante>) listaEstudiante).clear();
 			rellenarMenus();
 		}
+		
 		public void rellenarMenus() {
+			
 			menuCastellano.addMenuListener(new MenuListener() {
 				
 				@Override
@@ -66,7 +69,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame{
 					for (Estudiante estudiante : estudiantes) {
 						for (Grupo grupo:grupos) {
 							if( grupo.getIdioma().equals("Castellano") && grupo.getEstudiantes().contains(estudiante)) {
-								listaEstudiante.add(estudiante);
+								modeloLista.addElement(estudiante);
 							}
 						}
 					}
@@ -94,7 +97,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame{
 					for (Estudiante estudiante : estudiantes) {
 						for (Grupo grupo:grupos) {
 							if( grupo.getIdioma().equals("Ingles") && grupo.getEstudiantes().contains(estudiante)) {
-								listaEstudiante.add(estudiante);
+								modeloLista.addElement(estudiante);
 							}
 						}
 					}
@@ -120,7 +123,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame{
 					for (Estudiante estudiante : estudiantes) {
 						for (Grupo grupo:grupos) {
 							if( grupo.getIdioma().equals("Euskera") && grupo.getEstudiantes().contains(estudiante)) {
-								listaEstudiante.add(estudiante);
+								modeloLista.addElement(estudiante);
 							}
 						}
 					}
@@ -146,7 +149,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame{
 					for (Estudiante estudiante : estudiantes) {
 						for (Grupo grupo:grupos) {
 							if( grupo.getIdioma().equals("Frances") && grupo.getEstudiantes().contains(estudiante)) {
-								listaEstudiante.add(estudiante);
+								modeloLista.addElement(estudiante);
 							}
 						}
 					}
@@ -167,6 +170,9 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame{
 		}
 		
 		public VentanaAdiministradorAccesoEstudiantes(Administrador administrdor) {
+			
+			
+			
 			barraMenu = new JMenuBar();
 			menuCastellano = new JMenu("Castellano");
 			menuIngles = new JMenu("Ingles");

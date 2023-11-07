@@ -37,7 +37,7 @@ public class Login extends JFrame{
 		JLabel etiquetaContraseña = new JLabel("Contraseña:");
 		textoContraseña = new JTextField(20);
 		botonIngresar = new JButton("Iniciar");
-		botonCancelar = new JButton("Cancelar");
+		botonCancelar = new JButton("Atrás");
 		botonCrear = new JButton("Registrar");	
 		
 		

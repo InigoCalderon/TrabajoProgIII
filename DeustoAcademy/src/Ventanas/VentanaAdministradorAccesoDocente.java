@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
@@ -103,8 +104,8 @@ public class VentanaAdministradorAccesoDocente {
 		textoContraseña = new TextField(20);
 		
 		
-		
-		
+		listaDocente = new JList<Docente>(modeloLista);
+		listaDocente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		
 		comboCastellano.addMouseListener(new MouseAdapter() {
@@ -112,10 +113,10 @@ public class VentanaAdministradorAccesoDocente {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {					// Al seleccionar un docente de una de la comboCastellano, se añade a la lista
-				// TODO Auto-generated method stub
+				
 				Docente seleccionado = (Docente) comboCastellano.getSelectedItem();
 				
-				listaDocente.add(seleccionado);
+				modeloLista.addElement(seleccionado);
 			}
 		});
 		comboIngles.addMouseListener(new MouseAdapter() {
@@ -123,10 +124,10 @@ public class VentanaAdministradorAccesoDocente {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {					// Al seleccionar un docente de una de la comboIngles, se añade a la lista
-				// TODO Auto-generated method stub
+				
 				Docente seleccionado = (Docente) comboIngles.getSelectedItem();
 				
-				listaDocente.add(seleccionado);
+				modeloLista.addElement(seleccionado);
 			}
 		});
 		comboEuskera.addMouseListener(new MouseAdapter() {
@@ -134,10 +135,10 @@ public class VentanaAdministradorAccesoDocente {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {					// Al seleccionar un docente de una de la comboEuskera, se añade a la lista
-				// TODO Auto-generated method stub
+				
 				Docente seleccionado = (Docente) comboEuskera.getSelectedItem();
 				
-				listaDocente.add(seleccionado);
+				modeloLista.addElement(seleccionado);
 			}
 		});
 		comboFrances.addMouseListener(new MouseAdapter() {
@@ -145,10 +146,10 @@ public class VentanaAdministradorAccesoDocente {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {					// Al seleccionar un docente de una de la comboFrances, se añade a la lista
-				// TODO Auto-generated method stub
+				
 				Docente seleccionado = (Docente) comboFrances.getSelectedItem();
 				
-				listaDocente.add(seleccionado);
+				modeloLista.addElement(seleccionado);
 			}
 		});
 		
