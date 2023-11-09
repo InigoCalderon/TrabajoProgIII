@@ -23,7 +23,7 @@ public class Login extends JFrame{
 	protected JButton botonCancelar;
 	protected JButton botonCrear;
 	protected JTextField textoUsuario;
-	protected JTextField textoContraseña;
+	protected JPasswordField textoContraseña;
 	
 	
 	public Login(Academy academy, Rols rol) {
@@ -35,7 +35,7 @@ public class Login extends JFrame{
 		JLabel etiquetaUsuario = new JLabel("Usuario:");
 		textoUsuario = new JTextField(20);
 		JLabel etiquetaContraseña = new JLabel("Contraseña:");
-		textoContraseña = new JTextField(20);
+		textoContraseña = new JPasswordField(20);
 		botonIngresar = new JButton("Iniciar");
 		botonCancelar = new JButton("Cancelar");
 		botonCrear = new JButton("Registrar");	

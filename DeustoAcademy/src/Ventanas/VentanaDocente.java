@@ -38,6 +38,7 @@ public class VentanaDocente extends JFrame{
 		JPanel panelInformacion = new JPanel();
 		JLabel etiquetaBienvenido = new JLabel("Bienvenido"+ docente.getUsuario());
 		
+		/*
 		JLabel etiquetaNombre = new JLabel("Nombre");
 		textoNombre = new JTextField(docente.getNombre());
 		JLabel etiquetaApellido = new JLabel("Apellido");
@@ -48,6 +49,7 @@ public class VentanaDocente extends JFrame{
 		textoCorreo = new JTextField(docente.getCorreo());
 		JLabel etiquetaDni = new JLabel("Dni");
 		textoDni = new JTextField(docente.getDni());
+		*/
 		
 		ZonedDateTime now = ZonedDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -112,15 +114,16 @@ public class VentanaDocente extends JFrame{
 				
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					
-				new Login(docente, Rol, academy);
+				
 				dispose();
+				new Login(docente, Rol, academy);
+				
 					
 			}
 		});
 		
 		this.add(etiquetaBienvenido,BorderLayout.NORTH);
-		this.add(etiquetaFechaHora, BorderLayout.NORTH);
+		// this.add(etiquetaFechaHora, BorderLayout.NORTH);
 		
 		panelBotones.add(botonClases);
 		panelBotones.add(botonCalificaciones);
@@ -130,6 +133,7 @@ public class VentanaDocente extends JFrame{
 		
 		this.add(panelBotones, BorderLayout.CENTER);
 		
+		/*
 		panelInformacion.add(etiquetaNombre);
 		panelInformacion.add(textoNombre);
 		panelInformacion.add(etiquetaApellido);
@@ -141,6 +145,7 @@ public class VentanaDocente extends JFrame{
 		panelInformacion.add(etiquetaDni);
 		panelInformacion.add(textoDni);
 		this.add(panelInformacion,BorderLayout.SOUTH);
+		*/
 		
 		this.setTitle("Ventana Docente");
 		this.setSize(600, 800);
