@@ -6,18 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
-
-
-/*/
 import java.util.logging.Logger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-/*/
 import Ventanas.*;
 
 
@@ -113,7 +106,7 @@ public class Academy {
 		
 		try {
 			
-			FileInputStream fis = new FileInputStream("estudiantes.dat");
+			FileInputStream fis = new FileInputStream("res/estudiantes.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
 			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
@@ -131,7 +124,7 @@ public class Academy {
 		
 		try {
 			
-			FileInputStream fis = new FileInputStream("admins.dat");
+			FileInputStream fis = new FileInputStream("res/admins.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
 			this.administradores = (ArrayList<Administrador>) ois.readObject();
@@ -150,7 +143,7 @@ public class Academy {
 
 		try {
 			
-			FileInputStream fis = new FileInputStream("docentes.dat");
+			FileInputStream fis = new FileInputStream("res/docentes.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			
 			this.docentes = (ArrayList<Docente>) ois.readObject();
@@ -178,7 +171,7 @@ public class Academy {
 		
 		try {
 			
-			FileOutputStream fos = new FileOutputStream("admins.dat");
+			FileOutputStream fos = new FileOutputStream("res/admins.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
 			oos.writeObject(this.administradores);
@@ -188,14 +181,14 @@ public class Academy {
 			
 		} catch (IOException e) {
 			
-			System.err.println("Error guardando pedidos en " + "admins.dat");
+			System.err.println("Error guardando pedidos en " + "res/admins.dat");
 			
 			e.printStackTrace();
 		}
 		
 		try {
 			
-			FileOutputStream fos = new FileOutputStream("docentes.dat");
+			FileOutputStream fos = new FileOutputStream("res/docentes.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
 			oos.writeObject(this.docentes);
@@ -205,14 +198,14 @@ public class Academy {
 			
 		} catch (IOException e) {
 			
-			System.err.println("Error guardando pedidos en " + "docentes.dat");
+			System.err.println("Error guardando pedidos en " + "res/docentes.dat");
 			
 			e.printStackTrace();
 		}
 
 		try {
 			
-			FileOutputStream fos = new FileOutputStream("estudiantes.dat");
+			FileOutputStream fos = new FileOutputStream("res/estudiantes.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			
 			oos.writeObject(this.estudiantes);
@@ -222,7 +215,7 @@ public class Academy {
 			
 		} catch (IOException e) {
 			
-			System.err.println("Error guardando pedidos en " + "estudiantes.dat");
+			System.err.println("Error guardando pedidos en " + "res/estudiantes.dat");
 			
 			e.printStackTrace();
 		}
@@ -262,13 +255,19 @@ public class Academy {
 		
 		System.out.println("CLAVES ACTUALIZADAS");
 		
+		/*/
+		 * SOLO PUEDE HABER UN ÚNICO NOMBRE DE USUARIO POR ROL.
+		 */
+		
 	}
 	
-	 //private static final Logger logger = LoggerFactory.getLogger(Academy.class.getName());
-	//private static final Logger logger = Logger.getLogger(Academy.class.getName());
-	// NO DEJA IMPORTAR LAS LIBRERRÍAS NECESARIAS
+	 
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
+	
 	
 	public static void main(String[] args) {
+		
+		logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
 		
 		Academy A1 = new Academy();
 		
@@ -276,22 +275,7 @@ public class Academy {
 		
 		A1.actualizar_claves();
 		
-		/*/
-		 * SOLO PUEDE HABER UN ÚNICO NOMBRE DE USUARIO POR ROL.
-		 */
-		
 		new SelectRol(A1);
-		
-		/*/
-		try (FileInputStream fis = new FileInputStream("logger.properties")) {
-			LogManager.getLogManager().readConfiguration(fis);
-		} catch (IOException e) {
-			logger.log(Level.ALL, "No se pudo leer el fichero de configuración del logger");
-		}
-		/*/
-		//guardar_datos("AdminsLOG.dat", A1.administradores, Rols.ADMINISTRADOR);
-		
-		//VentanaChat v2 = new VentanaChat();
 		
 	}
 

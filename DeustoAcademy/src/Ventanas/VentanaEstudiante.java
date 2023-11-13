@@ -31,11 +31,11 @@ public class VentanaEstudiante extends JFrame{
 		int anchoDeseado = 100;
         int altoDeseado = 82;
 		
-		Icon chatIcon = new ImageIcon("src/res/chat.png");
-		Icon exitIcon = new ImageIcon("src/res/exit.png");
-		Icon marksIcon = new ImageIcon("src/res/notas_academy.png");
-		Icon settingsIcon = new ImageIcon("src/res/settings.png");
-		Icon calendarIcon = new ImageIcon("src/res/calendar.png");
+		Icon chatIcon = new ImageIcon("res/chat.png");
+		Icon exitIcon = new ImageIcon("res/exit.png");
+		Icon marksIcon = new ImageIcon("res/notas_academy.png");
+		Icon settingsIcon = new ImageIcon("res/settings.png");
+		Icon calendarIcon = new ImageIcon("res/calendar.png");
         
         Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
         Image image2 = ((ImageIcon) exitIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado, Image.SCALE_SMOOTH);
