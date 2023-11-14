@@ -21,7 +21,7 @@ public class VentanaAdministrador extends JFrame{
 	protected JRadioButton radioDocente;
 	protected JRadioButton radioCuentas;
 	protected JButton botonIngresar;
-	public VentanaAdministrador(Administrador administrdor) {
+	public VentanaAdministrador(Administrador administrdor) { // UNAI CAMBIA EL Administrador por DEUSTOACADEMY PARA LLEVAR LA INFO QUE HAY EN LA CLASE
 		
 		JLabel etiquetaApartados = new JLabel("Apartados de datos");
 		botonIngresar = new JButton("Ingresar");
@@ -44,8 +44,10 @@ public class VentanaAdministrador extends JFrame{
 				// TODO Auto-generated method stub
 				if (radioEstudiante.isSelected()) {
 					System.out.println("estudiante");
+					new VentanaAdiministradorAccesoEstudiantes(administrdor);
 				}else if(radioDocente.isSelected()) {
 					System.out.println("Docente");
+					new VentanaAdministradorAccesoDocente(administrdor);
 				}else if(radioCuentas.isSelected()) {
 					System.out.println("cuentas");
 				}else {
