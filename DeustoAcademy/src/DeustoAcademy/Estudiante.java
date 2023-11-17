@@ -2,12 +2,12 @@ package DeustoAcademy;
 
 import java.io.Serializable;
 
-public class Estudiante implements Serializable{
-	
+public class Estudiante implements Serializable {
+
 	/**
 	 * 
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected String apellido;
@@ -16,7 +16,7 @@ public class Estudiante implements Serializable{
 	protected String dni;
 	protected String usuario;
 	protected String contraseña;
-	
+
 	public Estudiante(String nombre, String apellido, int telefono, String correo, String dni, String usuario,
 			String contraseña) {
 		super();
@@ -28,63 +28,63 @@ public class Estudiante implements Serializable{
 		this.usuario = usuario;
 		this.contraseña = contraseña;
 	}
-	
+
 	public Estudiante() {
 		super();
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public String getApellido() {
 		return apellido;
 	}
-	
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	
+
 	public int getTelefono() {
 		return telefono;
 	}
-	
+
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
-	
+
 	public String getCorreo() {
 		return correo;
 	}
-	
+
 	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
-	
+
 	public String getDni() {
 		return dni;
 	}
-	
+
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	
+
 	public String getUsuario() {
 		return usuario;
 	}
-	
+
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	public String getContraseña() {
 		return contraseña;
 	}
-	
+
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
@@ -94,5 +94,5 @@ public class Estudiante implements Serializable{
 		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correo="
 				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
 	}
-	
+
 }

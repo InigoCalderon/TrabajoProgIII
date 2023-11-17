@@ -2,12 +2,12 @@ package DeustoAcademy;
 
 import java.io.Serializable;
 
-public class Docente implements Serializable{
-	
+public class Docente implements Serializable {
+
 	/**
 	 * 
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected String apellido;
@@ -32,7 +32,7 @@ public class Docente implements Serializable{
 	public Docente() {
 		super();
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -72,7 +72,7 @@ public class Docente implements Serializable{
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
-	
+
 	public String getUsuario() {
 		return usuario;
 	}
@@ -94,5 +94,5 @@ public class Docente implements Serializable{
 		return "Docente [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
 				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
 	}
-	
+
 }

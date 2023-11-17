@@ -12,7 +12,7 @@ public class Tarea extends Grupo {
 	protected String comentario;
 	protected int n_docs_adjuntos;
 	protected ArrayList<String> nombre_docs_adjuntos;
-	
+
 	public Tarea(String fecha_creacion, String fecha_entrega, String titulo, String comentario, int n_docs_adjuntos,
 			ArrayList<String> nombre_docs_adjuntos) {
 		super();
@@ -26,13 +26,13 @@ public class Tarea extends Grupo {
 			this.nombre_docs_adjuntos.add(doc_nombre);
 		}
 	}
-	
+
 	public Tarea() {
 		super();
 		this.n_docs_adjuntos = 0;
 		this.nombre_docs_adjuntos = new ArrayList<>();
 	}
-	
+
 	public Tarea(Tarea t) {
 		super();
 		this.fecha_creacion = t.fecha_creacion;
@@ -101,5 +101,5 @@ public class Tarea extends Grupo {
 				+ nombre_docs_adjuntos + ", nombre=" + nombre + ", docente=" + docente + ", estudiantes=" + estudiantes
 				+ ", idioma=" + idioma + "]";
 	}
-	
+
 }

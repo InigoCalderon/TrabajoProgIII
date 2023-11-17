@@ -19,16 +19,15 @@ import DeustoAcademy.Academy;
 import DeustoAcademy.Administrador;
 import DeustoAcademy.Rols;
 
-
-public class VentanaAdministrador extends JFrame{
+public class VentanaAdministrador extends JFrame {
 	protected JRadioButton radioEstudiante;
 	protected JRadioButton radioDocente;
 	protected JRadioButton radioCuentas;
 	protected JButton botonIngresar;
 	protected Academy datos;
-	
-	public VentanaAdministrador(Academy academy, Rols rol) { 
-		
+
+	public VentanaAdministrador(Academy academy, Rols rol) {
+
 		JLabel etiquetaApartados = new JLabel("Apartados de datos");
 		botonIngresar = new JButton("Ingresar");
 		radioEstudiante = new JRadioButton("Estudiantes");
@@ -41,60 +40,47 @@ public class VentanaAdministrador extends JFrame{
 		JPanel panelRadio = new JPanel();
 		JPanel panelIngresar = new JPanel();
 		JPanel panelTexto = new JPanel();
-		
-		
-		
-		
+
 		botonIngresar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (radioEstudiante.isSelected()) {
 					System.out.println("estudiante");
 					new VentanaAdiministradorAccesoEstudiantes(academy);
-				}else if(radioDocente.isSelected()) {
+				} else if (radioDocente.isSelected()) {
 					System.out.println("Docente");
 					new VentanaAdministradorAccesoDocente(academy);
-				}else if(radioCuentas.isSelected()) {
+				} else if (radioCuentas.isSelected()) {
 					System.out.println("cuentas");
-				}else {
-					JOptionPane.showMessageDialog(null, "Has de seleccionar algún apartado ", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Has de seleccionar algún apartado ", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
-		
-		
-		
-		
-		
-		
-		
+
 		panelRadio.add(radioEstudiante);
 		panelRadio.add(radioDocente);
 		panelRadio.add(radioCuentas);
 		panelIngresar.add(botonIngresar);
 		panelTexto.add(etiquetaApartados);
-		
-		
+
 		JFrame ventana = new JFrame("Ventana Administrador");
-		
-		
-		
-		
-		
+
 		ventana.add(panelRadio, BorderLayout.CENTER);
 		ventana.add(panelIngresar, BorderLayout.SOUTH);
 		ventana.add(panelTexto, BorderLayout.NORTH);
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
-        ventana.setVisible(true);
+		ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 	}
-	
-public static void main(String[] args) {
-		
-		new VentanaAdministrador(new Academy(),  Rols.ADMINISTRADOR);
-		
+
+	public static void main(String[] args) {
+
+		new VentanaAdministrador(new Academy(), Rols.ADMINISTRADOR);
+
 	}
 }

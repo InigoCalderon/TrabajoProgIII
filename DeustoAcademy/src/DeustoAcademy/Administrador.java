@@ -2,12 +2,12 @@ package DeustoAcademy;
 
 import java.io.Serializable;
 
-public class Administrador implements Serializable{
-	
+public class Administrador implements Serializable {
+
 	/**
 	 * 
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected String apellido;
@@ -16,7 +16,7 @@ public class Administrador implements Serializable{
 	protected int telefono;
 	protected String usuario;
 	protected String contraseña;
-	
+
 	public Administrador(String nombre, String apellido, String dni, String correo, int telefono, String usuario,
 			String contraseña) {
 		super();
@@ -28,7 +28,7 @@ public class Administrador implements Serializable{
 		this.usuario = usuario;
 		this.contraseña = contraseña;
 	}
-	
+
 	public Administrador() {
 		super();
 	}
@@ -94,5 +94,5 @@ public class Administrador implements Serializable{
 		return "Administrador [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
 				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
 	}
-	
+
 }

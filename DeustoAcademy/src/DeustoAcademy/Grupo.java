@@ -2,12 +2,12 @@ package DeustoAcademy;
 
 import java.util.ArrayList;
 
-public class Grupo extends Idioma{
+public class Grupo extends Idioma {
 
 	protected String nombre;
 	protected Docente docente;
 	protected ArrayList<Estudiante> estudiantes;
-	
+
 	public Grupo(String idioma, String nombre, Docente docente, ArrayList<Estudiante> estudiantes) {
 		super(idioma);
 		this.nombre = nombre;
@@ -17,12 +17,12 @@ public class Grupo extends Idioma{
 			this.estudiantes.add(estudiante);
 		}
 	}
-	
+
 	public Grupo() {
 		super();
 		this.estudiantes.clear();
 	}
-	
+
 	public Grupo(Grupo g) {
 		super(g.idioma);
 		this.nombre = g.nombre;
@@ -63,6 +63,6 @@ public class Grupo extends Idioma{
 	public String toString() {
 		return "Grupo [nombre=" + nombre + ", docente=" + docente + ", estudiantes=" + estudiantes + ", idioma="
 				+ idioma + "]";
-	}	
-	
+	}
+
 }

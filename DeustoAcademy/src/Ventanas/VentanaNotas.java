@@ -2,7 +2,7 @@ package Ventanas;
 
 import javax.swing.JFrame;
 
-public class VentanaNotas extends JFrame{
+public class VentanaNotas extends JFrame {
 
 	/**
 	 * 
