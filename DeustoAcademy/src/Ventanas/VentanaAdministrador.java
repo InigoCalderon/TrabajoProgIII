@@ -1,25 +1,22 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextPane;
-
-import DeustoAcademy.Academy;
-import DeustoAcademy.Administrador;
-import DeustoAcademy.Rols;
+import DeustoAcademy.*;
 
 public class VentanaAdministrador extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected JRadioButton radioEstudiante;
 	protected JRadioButton radioDocente;
 	protected JRadioButton radioCuentas;
@@ -77,10 +74,5 @@ public class VentanaAdministrador extends JFrame {
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
-
-	public static void main(String[] args) {
-
-		new VentanaAdministrador(new Academy(), Rols.ADMINISTRADOR);
-
-	}
+	
 }

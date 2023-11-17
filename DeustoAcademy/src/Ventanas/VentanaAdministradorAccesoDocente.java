@@ -7,18 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,14 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
-
-import DeustoAcademy.Academy;
-import DeustoAcademy.Administrador;
-import DeustoAcademy.Docente;
-import DeustoAcademy.Estudiante;
-import DeustoAcademy.Grupo;
+import DeustoAcademy.*;
 
 public class VentanaAdministradorAccesoDocente {
 

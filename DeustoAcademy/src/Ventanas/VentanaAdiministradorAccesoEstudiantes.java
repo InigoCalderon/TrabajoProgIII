@@ -6,8 +6,6 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,17 +16,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import DeustoAcademy.*;
 
-import DeustoAcademy.Academy;
-import DeustoAcademy.Administrador;
-import DeustoAcademy.Docente;
-import DeustoAcademy.Estudiante;
-import DeustoAcademy.Grupo;
 
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	/**
@@ -296,7 +289,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		estudiante.setUsuario(textoUsuario.getText());
 		estudiante.setContraseña(textoContraseña.getText());
 	}
-
+/*/
 	public static void main(String[] args) { // DATOS DE PRUEBA
 		ArrayList<Docente> a = new ArrayList<Docente>();
 		for (int i = 0; i < 5; i++) {
@@ -313,5 +306,5 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		new VentanaAdiministradorAccesoEstudiantes(new Academy(c, b, a));
 
 	}
-
+/*/
 }
