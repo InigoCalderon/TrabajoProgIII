@@ -50,7 +50,7 @@ public class Login extends JFrame{
 					
 					// ENTRAMOS EN EL MENU ADMIN
 					
-					new VentanaAdministrador(new Administrador());
+					new VentanaAdministrador(academy, rol);
 					ventana.dispose();	
 					
 				} if (rol == Rols.ESTUDIANTE && autentificador(academy, rol)) {

@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,8 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextPane;
 
+import DeustoAcademy.Academy;
 import DeustoAcademy.Administrador;
+import DeustoAcademy.Rols;
 
 
 public class VentanaAdministrador extends JFrame{
@@ -21,7 +25,9 @@ public class VentanaAdministrador extends JFrame{
 	protected JRadioButton radioDocente;
 	protected JRadioButton radioCuentas;
 	protected JButton botonIngresar;
-	public VentanaAdministrador(Administrador administrdor) { // UNAI CAMBIA EL Administrador por DEUSTOACADEMY PARA LLEVAR LA INFO QUE HAY EN LA CLASE
+	protected Academy datos;
+	
+	public VentanaAdministrador(Academy academy, Rols rol) { 
 		
 		JLabel etiquetaApartados = new JLabel("Apartados de datos");
 		botonIngresar = new JButton("Ingresar");
@@ -37,6 +43,8 @@ public class VentanaAdministrador extends JFrame{
 		JPanel panelTexto = new JPanel();
 		
 		
+		
+		
 		botonIngresar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -44,10 +52,10 @@ public class VentanaAdministrador extends JFrame{
 				// TODO Auto-generated method stub
 				if (radioEstudiante.isSelected()) {
 					System.out.println("estudiante");
-					new VentanaAdiministradorAccesoEstudiantes(administrdor);
+					new VentanaAdiministradorAccesoEstudiantes(academy);
 				}else if(radioDocente.isSelected()) {
 					System.out.println("Docente");
-					new VentanaAdministradorAccesoDocente(administrdor);
+					new VentanaAdministradorAccesoDocente(academy);
 				}else if(radioCuentas.isSelected()) {
 					System.out.println("cuentas");
 				}else {
@@ -70,6 +78,11 @@ public class VentanaAdministrador extends JFrame{
 		
 		
 		JFrame ventana = new JFrame("Ventana Administrador");
+		
+		
+		
+		
+		
 		ventana.add(panelRadio, BorderLayout.CENTER);
 		ventana.add(panelIngresar, BorderLayout.SOUTH);
 		ventana.add(panelTexto, BorderLayout.NORTH);
@@ -81,7 +94,7 @@ public class VentanaAdministrador extends JFrame{
 	
 public static void main(String[] args) {
 		
-		new VentanaAdministrador(new Administrador());
+		new VentanaAdministrador(new Academy(),  Rols.ADMINISTRADOR);
 		
 	}
 }
