@@ -6,6 +6,8 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -51,7 +53,9 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	protected JButton botonEliminar;
 
 	protected Academy datos;
-
+	
+	
+	
 	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
 
 		barraMenu = new JMenuBar();
@@ -81,14 +85,16 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-
-				for (Estudiante estudiante : estudiantes) {
-					for (Grupo grupo : grupos) {
-						if (grupo.getIdioma().equals("Castellano") && grupo.getEstudiantes().contains(estudiante)) {
+				
+				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
+					if( idioma.equals("Castellano")) {
+						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Castellano")) {
 							modeloLista.addElement(estudiante);
 						}
+						
 					}
 				}
+				
 			}
 
 			@Override
@@ -109,11 +115,13 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-				for (Estudiante estudiante : estudiantes) {
-					for (Grupo grupo : grupos) {
-						if (grupo.getIdioma().equals("Ingles") && grupo.getEstudiantes().contains(estudiante)) {
+				datos.actualizarMapaEstudiante();
+				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
+					if( idioma.equals("Ingles")) {
+						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Ingles")) {
 							modeloLista.addElement(estudiante);
 						}
+						
 					}
 				}
 			}
@@ -135,11 +143,13 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-				for (Estudiante estudiante : estudiantes) {
-					for (Grupo grupo : grupos) {
-						if (grupo.getIdioma().equals("Euskera") && grupo.getEstudiantes().contains(estudiante)) {
+				datos.actualizarMapaEstudiante();
+				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
+					if( idioma.equals("Euskera")) {
+						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Euskera")) {
 							modeloLista.addElement(estudiante);
 						}
+						
 					}
 				}
 			}
@@ -161,11 +171,13 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				// TODO Auto-generated method stub
-				for (Estudiante estudiante : estudiantes) {
-					for (Grupo grupo : grupos) {
-						if (grupo.getIdioma().equals("Frances") && grupo.getEstudiantes().contains(estudiante)) {
+				datos.actualizarMapaEstudiante();
+				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
+					if( idioma.equals("Frances")) {
+						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Frances")) {
 							modeloLista.addElement(estudiante);
 						}
+						
 					}
 				}
 			}
@@ -289,7 +301,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		estudiante.setUsuario(textoUsuario.getText());
 		estudiante.setContraseña(textoContraseña.getText());
 	}
-/*/
+
 	public static void main(String[] args) { // DATOS DE PRUEBA
 		ArrayList<Docente> a = new ArrayList<Docente>();
 		for (int i = 0; i < 5; i++) {
@@ -306,5 +318,5 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		new VentanaAdiministradorAccesoEstudiantes(new Academy(c, b, a));
 
 	}
-/*/
+
 }
