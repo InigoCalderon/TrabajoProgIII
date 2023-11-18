@@ -210,7 +210,7 @@ public class VentanaAdministradorAccesoDocente {
 
 		ventana.add(panelIzquierda, BorderLayout.WEST);
 
-		ventana.add(panelCombos, BorderLayout.CENTER);
+		ventana.add(panelCombos, BorderLayout.NORTH);
 		ventana.add(scrollPlantilla, BorderLayout.SOUTH);
 		ventana.add(panelBotones, BorderLayout.SOUTH);
 
