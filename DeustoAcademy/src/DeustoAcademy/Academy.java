@@ -11,17 +11,22 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+
+import javax.swing.DefaultListModel;
+
 import Ventanas.*;
 
 public class Academy {
 
+	// VARIABLES DE LA CALSE CONSTRUCTOR
 	protected ArrayList<Administrador> administradores = new ArrayList<>();
 	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
 	protected ArrayList<Docente> docentes = new ArrayList<>();
 
+	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
+	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();	
 	
-	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes) {
 		super();
@@ -260,6 +265,61 @@ public class Academy {
 		 */
 
 	}
+	
+	public HashMap<String, ArrayList<Estudiante>> actualizarMapaEstudiante() {
+		
+		HashMap<String, ArrayList<Estudiante>> mapaEstudiante = new HashMap<>();
+		
+		for (Estudiante estudiante : estudiantes) {
+			
+			for (Grupo grupo: grupos) {
+				
+				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Castellano" && !mapaEstudiante.containsKey("Castellano")) {
+					
+					mapaEstudiante.put("Castellano", new ArrayList<Estudiante>());
+					mapaEstudiante.get("Castellano").add(estudiante);
+					
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Castellano" && mapaEstudiante.containsKey("Castellano")) {
+					
+					mapaEstudiante.get("Castellano").add(estudiante);
+					
+				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Ingles" && !mapaEstudiante.containsKey("Ingles")) {
+					
+					mapaEstudiante.put("Ingles", new ArrayList<Estudiante>());
+					mapaEstudiante.get("Ingles").add(estudiante);
+					
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Ingles" && mapaEstudiante.containsKey("Ingles")) {
+					
+					mapaEstudiante.get("Ingles").add(estudiante);
+					
+				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Euskera" && !mapaEstudiante.containsKey("Euskera")) {
+					
+					mapaEstudiante.put("Euskera", new ArrayList<Estudiante>());
+					mapaEstudiante.get("Euskera").add(estudiante);
+					
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Euskera" && mapaEstudiante.containsKey("Euskera")) {
+					
+					mapaEstudiante.get("Euskera").add(estudiante);
+					
+				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Frances" && !mapaEstudiante.containsKey("Frances")) {
+					
+					mapaEstudiante.put("Frances", new ArrayList<Estudiante>());
+					mapaEstudiante.get("Frances").add(estudiante);
+					
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Frances" && mapaEstudiante.containsKey("Frances")) {
+					
+					mapaEstudiante.get("Frances").add(estudiante);
+					
+				}
+				
+			}
+			
+		}
+		
+		return mapaEstudiante;
+		
+	}
+	
 
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
 
@@ -276,36 +336,5 @@ public class Academy {
 		new SelectRol(A1);
 
 	}
-	public HashMap<String, ArrayList<Estudiante>> actualizarMapaEstudiante() {
-		HashMap<String, ArrayList<Estudiante>> mapaEstudiante = new HashMap<>();
-		for (Estudiante estudiante : estudiantes) {
-			for (Grupo grupo: grupos) {
-				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Castellano" && !mapaEstudiante.containsKey("Castellano")) {
-					mapaEstudiante.put("Castellano", new ArrayList<Estudiante>());
-					mapaEstudiante.get("Castellano").add(estudiante);
-				}else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Castellano" && mapaEstudiante.containsKey("Castellano")) {
-					mapaEstudiante.get("Castellano").add(estudiante);
-				}
-				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Ingles" && !mapaEstudiante.containsKey("Ingles")) {
-					mapaEstudiante.put("Ingles", new ArrayList<Estudiante>());
-					mapaEstudiante.get("Ingles").add(estudiante);
-				}else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Ingles" && mapaEstudiante.containsKey("Ingles")) {
-					mapaEstudiante.get("Ingles").add(estudiante);
-				}
-				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Euskera" && !mapaEstudiante.containsKey("Euskera")) {
-					mapaEstudiante.put("Euskera", new ArrayList<Estudiante>());
-					mapaEstudiante.get("Euskera").add(estudiante);
-				}else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Euskera" && mapaEstudiante.containsKey("Euskera")) {
-					mapaEstudiante.get("Euskera").add(estudiante);
-				}
-				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Frances" && !mapaEstudiante.containsKey("Frances")) {
-					mapaEstudiante.put("Frances", new ArrayList<Estudiante>());
-					mapaEstudiante.get("Frances").add(estudiante);
-				}else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Frances" && mapaEstudiante.containsKey("Frances")) {
-					mapaEstudiante.get("Frances").add(estudiante);
-				}
-			}
-		}
-		return mapaEstudiante;
-	}
+	
 }

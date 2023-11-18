@@ -25,7 +25,7 @@ import DeustoAcademy.*;
 
 public class VentanaAdministradorAccesoDocente {
 
-	protected DefaultListModel<Docente> modeloLista;
+	protected DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
 	protected JList<Docente> listaDocente;
 	protected TextField textoNombre;
 	protected TextField textoApellido;
@@ -40,13 +40,17 @@ public class VentanaAdministradorAccesoDocente {
 	protected JComboBox<Docente> comboIngles;
 	protected JComboBox<Docente> comboEuskera;
 	protected JComboBox<Docente> comboFrances;
-	protected ArrayList<Docente> docentes;
-	protected ArrayList<Grupo> grupos;
+	
 	protected JTextArea textoDocente;
 	protected JButton botonModificar;
 	protected JButton botonEliminar;
 
 	public VentanaAdministradorAccesoDocente(Academy datos) {
+		
+		modeloLista.addAll(datos.getDocentes());
+		listaDocente = new JList<Docente>(modeloLista);
+		JScrollPane scrollPlantilla = new JScrollPane(listaDocente);
+		
 		JLabel etiquetaDocente = new JLabel("Docentes");
 
 		JLabel etiquetaCastellano = new JLabel("Castellano");
@@ -68,9 +72,6 @@ public class VentanaAdministradorAccesoDocente {
 		textoUsuario = new TextField(20);
 		textoContraseña = new TextField(20);
 
-		listaDocente = new JList<Docente>(modeloLista);
-		listaDocente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
 		comboCastellano.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -82,6 +83,7 @@ public class VentanaAdministradorAccesoDocente {
 				modeloLista.addElement(seleccionado);
 			}
 		});
+		
 		comboIngles.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -93,6 +95,7 @@ public class VentanaAdministradorAccesoDocente {
 				modeloLista.addElement(seleccionado);
 			}
 		});
+		
 		comboEuskera.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -104,6 +107,7 @@ public class VentanaAdministradorAccesoDocente {
 				modeloLista.addElement(seleccionado);
 			}
 		});
+		
 		comboFrances.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -132,6 +136,7 @@ public class VentanaAdministradorAccesoDocente {
 				}
 			}
 		});
+		
 		botonModificar.addActionListener(new ActionListener() { // Al apretar el botón modificar y tener datos rellenos
 																// en los textfield, se guardan los cambios en docente
 			@Override
@@ -148,6 +153,7 @@ public class VentanaAdministradorAccesoDocente {
 				}
 			}
 		});
+		
 		botonEliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -162,10 +168,6 @@ public class VentanaAdministradorAccesoDocente {
 				}
 			}
 		});
-
-		modeloLista = new DefaultListModel<Docente>();
-		listaDocente = new JList<Docente>(modeloLista);
-		JScrollPane scrollPlantilla = new JScrollPane(listaDocente);
 
 		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, combos, lista)
 

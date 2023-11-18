@@ -89,13 +89,17 @@ public class DatosPersonales {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (!(textoUsuario.getText().equalsIgnoreCase(""))
+							
 							|| !(textoContrasena.getText().equalsIgnoreCase(""))
 							|| !(textoNombre.getText().equalsIgnoreCase(""))
 							|| !(textoNombre.getText().equalsIgnoreCase(""))
 							|| !(textoApellido.getText().equalsIgnoreCase(""))
 							|| !(textoDni.getText().equalsIgnoreCase(""))
 							|| !(textoCorreo.getText().equalsIgnoreCase(""))
-							|| !(textoTelefono.getText().equalsIgnoreCase(""))) {
+							|| !(textoTelefono.getText().equalsIgnoreCase("")))
+					
+					{
+						
 						try {
 
 							if (rol == Rols.ADMINISTRADOR) {
@@ -106,16 +110,14 @@ public class DatosPersonales {
 												Integer.parseInt(textoTelefono.getText()), textoUsuario.getText(),
 												textoContrasena.getText()));
 
-							}
-							if (rol == Rols.ESTUDIANTE) {
+							} if (rol == Rols.ESTUDIANTE) {
 
 								academy.getEstudiantes()
 										.add((Estudiante) new Estudiante(textoNombre.getText(), textoApellido.getText(),
 												Integer.parseInt(textoTelefono.getText()), textoCorreo.getText(),
 												textoDni.getText(), textoUsuario.getText(), textoContrasena.getText()));
 
-							}
-							if (rol == Rols.DOCENTE) {
+							} if (rol == Rols.DOCENTE) {
 
 								academy.getDocentes()
 										.add((Docente) new Docente(textoNombre.getText(), textoApellido.getText(),

@@ -1,8 +1,9 @@
 package DeustoAcademy;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class Estudiante implements Serializable {
+public class Estudiante implements Serializable, Comparable<Estudiante> {
 
 	/**
 	 * 
@@ -93,6 +94,13 @@ public class Estudiante implements Serializable {
 	public String toString() {
 		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correo="
 				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
+	}
+
+	@Override
+	public int compareTo(Estudiante o) {
+		
+		return this.usuario.compareTo(o.usuario) & this.contraseña.compareTo(o.contraseña);
+		
 	}
 
 }

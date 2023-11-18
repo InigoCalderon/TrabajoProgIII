@@ -6,6 +6,7 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
@@ -18,6 +19,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
@@ -35,10 +37,8 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	protected JMenu menuIngles;
 	protected JMenu menuEuskera;
 	protected JMenu menuFrances;
-	protected ArrayList<Estudiante> estudiantes;
-	protected ArrayList<Grupo> grupos;
 
-	protected DefaultListModel<Estudiante> modeloLista;
+	protected DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
 	protected JList<Estudiante> listaEstudiante;
 
 	protected TextField textoNombre;
@@ -58,6 +58,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	
 	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
 
+		modeloLista.addAll(datos.getEstudiantes());
+		listaEstudiante = new JList<Estudiante>(modeloLista);
+		listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
+		
 		barraMenu = new JMenuBar();
 		menuCastellano = new JMenu("Castellano");
 		menuIngles = new JMenu("Ingles");
@@ -213,6 +218,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				}
 			}
 		});
+		
 		botonModificar.addActionListener(new ActionListener() { // Al apretar el botón modificar y tener datos rellenos
 																// en los textfield, se guardan los cambios en
 																// estudiante
@@ -243,10 +249,6 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				}
 			}
 		});
-
-		modeloLista = new DefaultListModel<Estudiante>();
-		listaEstudiante = new JList<Estudiante>(modeloLista);
-		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
 
 		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, lista)
 
