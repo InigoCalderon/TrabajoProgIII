@@ -104,6 +104,12 @@ public class Academy {
 		return claves;
 	}
 
+	public ArrayList<Grupo> getGrupos(){
+		
+		return grupos;
+		
+	}
+	
 	public void cargar_datos() {
 
 		// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS

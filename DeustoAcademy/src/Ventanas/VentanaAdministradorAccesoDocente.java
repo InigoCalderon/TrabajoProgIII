@@ -235,7 +235,7 @@ public class VentanaAdministradorAccesoDocente {
 		comboEuskera.removeAllItems();
 		comboFrances.removeAllItems();
 		comboIngles.removeAllItems();
-		for (Grupo grupo : grupos) {
+		for (Grupo grupo : datos.getGrupos()) {
 			for (Docente docente : datos.getDocentes()) {
 				if (grupo.getIdioma().equals("Castellano") && grupo.getDocente() == docente) {
 					comboCastellano.addItem(docente);
