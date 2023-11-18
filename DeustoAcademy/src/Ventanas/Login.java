@@ -18,7 +18,6 @@ public class Login extends JFrame {
 	 */
 
 	private static final long serialVersionUID = 1L;
-	protected ArrayList<Administrador> administrador;
 	protected JButton botonIngresar;
 	protected JButton botonCancelar;
 	protected JButton botonCrear;
@@ -52,21 +51,39 @@ public class Login extends JFrame {
 					ventana.dispose();
 
 				}
+				
 				if (rol == Rols.ESTUDIANTE && autentificador(academy, rol)) {
 
 					// ENTRAMOS EN EL MENU ESTUDIANTE
 
-					new VentanaEstudiante(academy, rol);
-					ventana.dispose();
+					for (Estudiante estudiante : academy.getEstudiantes()) {
+						
+						if (estudiante.getUsuario() == textoUsuario.getText().strip()) {
+							
+							new VentanaEstudiante(academy, rol, estudiante);
+							ventana.dispose();
+							
+						}
+						
+					}
 
 				}
+				
 				if (rol == Rols.DOCENTE && autentificador(academy, rol)) {
 
 					// ENTRAMOS EN EL MENU DOCENTE
-
-					new VentanaDocente(academy, rol, new Docente());
-					ventana.dispose();
-
+					
+					for (Docente doce : academy.getDocentes()) {
+						
+						if (doce.getUsuario() == textoUsuario.getText().strip()) {
+							
+							new VentanaDocente(academy, rol, doce);
+							ventana.dispose();
+							
+						}
+						
+					}
+					
 				}
 
 			}
@@ -78,13 +95,13 @@ public class Login extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
+				if (!(textoUsuario.getText().strip().equalsIgnoreCase("") || textoContraseña.getText().strip().equalsIgnoreCase(""))) {
 
 					try {
 
 						if (!academy.getClaves().get(rol).keySet().contains(textoUsuario.getText())) {
 
-							new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
+							new DatosPersonales(academy, rol, textoUsuario.getText().strip(), textoContraseña.getText().strip());
 							ventana.dispose();
 
 						} else {
@@ -96,7 +113,7 @@ public class Login extends JFrame {
 
 					} catch (Exception e2) {
 
-						new DatosPersonales(academy, rol, textoUsuario.getText(), textoContraseña.getText());
+						new DatosPersonales(academy, rol, textoUsuario.getText().strip(), textoContraseña.getText().strip());
 						ventana.dispose();
 
 					}
@@ -174,14 +191,13 @@ public class Login extends JFrame {
 
 	boolean autentificador(Academy academy, Rols rol) {
 
-		if (!(textoUsuario.getText().equalsIgnoreCase("") || textoContraseña.getText().equalsIgnoreCase(""))) {
+		if (!(textoUsuario.getText().strip().equalsIgnoreCase("") || textoContraseña.getText().strip().equalsIgnoreCase(""))) {
 
 			try {
 
-				if (academy.getClaves().get(rol).keySet().contains(textoUsuario.getText())) {
+				if (academy.getClaves().get(rol).keySet().contains(textoUsuario.getText().strip())) {
 
-					if (academy.getClaves().get(rol).get(textoUsuario.getText())
-							.equalsIgnoreCase(textoContraseña.getText())) {
+					if (academy.getClaves().get(rol).get(textoUsuario.getText().strip()).equalsIgnoreCase(textoContraseña.getText().strip())) {
 
 						return true;
 
@@ -216,5 +232,5 @@ public class Login extends JFrame {
 		return false;
 
 	}
-
+	
 }
