@@ -43,8 +43,8 @@ public class VentanaEstudiante extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);
         
-		int anchoDeseado = 960 / 20;
-		int altoDeseado = (int) (560 * 0.075);
+		int anchoDeseado = 960 / 14;
+		int altoDeseado = (int) (560 * 0.0975);
 		
 		Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
