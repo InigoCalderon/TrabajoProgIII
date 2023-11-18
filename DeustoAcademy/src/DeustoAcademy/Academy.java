@@ -277,39 +277,39 @@ public class Academy {
 			
 			for (Grupo grupo: grupos) {
 				
-				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Castellano" && !mapaEstudiante.containsKey("Castellano")) {
+				if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()==Idioma.Castellano && !mapaEstudiante.containsKey("Castellano")) {
 					
 					mapaEstudiante.put("Castellano", new ArrayList<Estudiante>());
 					mapaEstudiante.get("Castellano").add(estudiante);
 					
-				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Castellano" && mapaEstudiante.containsKey("Castellano")) {
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()==Idioma.Castellano && mapaEstudiante.containsKey("Castellano")) {
 					
 					mapaEstudiante.get("Castellano").add(estudiante);
 					
-				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Ingles" && !mapaEstudiante.containsKey("Ingles")) {
+				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()== Idioma.Ingles && !mapaEstudiante.containsKey("Ingles")) {
 					
 					mapaEstudiante.put("Ingles", new ArrayList<Estudiante>());
 					mapaEstudiante.get("Ingles").add(estudiante);
 					
-				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Ingles" && mapaEstudiante.containsKey("Ingles")) {
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()== Idioma.Ingles && mapaEstudiante.containsKey("Ingles")) {
 					
 					mapaEstudiante.get("Ingles").add(estudiante);
 					
-				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Euskera" && !mapaEstudiante.containsKey("Euskera")) {
+				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()== Idioma.Euskera && !mapaEstudiante.containsKey("Euskera")) {
 					
 					mapaEstudiante.put("Euskera", new ArrayList<Estudiante>());
 					mapaEstudiante.get("Euskera").add(estudiante);
 					
-				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Euskera" && mapaEstudiante.containsKey("Euskera")) {
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()== Idioma.Euskera && mapaEstudiante.containsKey("Euskera")) {
 					
 					mapaEstudiante.get("Euskera").add(estudiante);
 					
-				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Frances" && !mapaEstudiante.containsKey("Frances")) {
+				} if (grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()== Idioma.Frances && !mapaEstudiante.containsKey("Frances")) {
 					
 					mapaEstudiante.put("Frances", new ArrayList<Estudiante>());
 					mapaEstudiante.get("Frances").add(estudiante);
 					
-				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()=="Frances" && mapaEstudiante.containsKey("Frances")) {
+				} else if(grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma()== Idioma.Frances && mapaEstudiante.containsKey("Frances")) {
 					
 					mapaEstudiante.get("Frances").add(estudiante);
 					

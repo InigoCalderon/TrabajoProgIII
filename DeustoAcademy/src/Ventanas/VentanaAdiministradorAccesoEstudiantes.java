@@ -32,11 +32,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	* 
 	*/
 	private static final long serialVersionUID = 1L;
-	protected JMenuBar barraMenu;
+	/*protected JMenuBar barraMenu;
 	protected JMenu menuCastellano;
 	protected JMenu menuIngles;
 	protected JMenu menuEuskera;
-	protected JMenu menuFrances;
+	protected JMenu menuFrances; */
 
 	protected DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
 	protected JList<Estudiante> listaEstudiante;
@@ -54,6 +54,10 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 	protected Academy datos;
 	
+	protected JButton botonCastellano;
+	protected JButton botonIngles;
+	protected JButton botonEuskera;
+	protected JButton botonFrances;
 	
 	
 	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
@@ -62,7 +66,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		listaEstudiante = new JList<Estudiante>(modeloLista);
 		listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
-		
+		/*
 		barraMenu = new JMenuBar();
 		menuCastellano = new JMenu("Castellano");
 		menuIngles = new JMenu("Ingles");
@@ -73,7 +77,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		barraMenu.add(menuIngles);
 		barraMenu.add(menuEuskera);
 		barraMenu.add(menuFrances);
-
+		*/
 		textoNombre = new TextField(20);
 		textoApellido = new TextField(20);
 		textoDni = new TextField(20);
@@ -84,13 +88,19 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
-
-		menuCastellano.addMenuListener(new MenuListener() {
-
+		
+		botonCastellano = new JButton("Castellano");
+		botonIngles = new JButton("Ingles");
+		botonEuskera = new JButton("Euskera");
+		botonFrances = new JButton("Frances");
+		
+		botonCastellano.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				listaEstudiante.removeAll();
+				datos.actualizarMapaEstudiante();
 				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
 					if( idioma.equals("Castellano")) {
 						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Castellano")) {
@@ -99,27 +109,15 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 						
 					}
 				}
-				
 			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
 		});
-		menuIngles.addMenuListener(new MenuListener() {
-
+		
+		botonIngles.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
 				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
 					if( idioma.equals("Ingles")) {
@@ -130,24 +128,13 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 					}
 				}
 			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
 		});
-		menuEuskera.addMenuListener(new MenuListener() {
-
+		botonEuskera.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
 				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
 					if( idioma.equals("Euskera")) {
@@ -158,24 +145,14 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 					}
 				}
 			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
 		});
-		menuFrances.addMenuListener(new MenuListener() {
-
+		
+		botonFrances.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
 				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
 					if( idioma.equals("Frances")) {
@@ -185,18 +162,6 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 						
 					}
 				}
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 
@@ -258,8 +223,14 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		JPanel panelModificarDatos = new JPanel();
 		JPanel panelIzquierda = new JPanel();
 		JFrame ventana = new JFrame("Ventana Administrador acceso estudiantes");
-
-		panelMenu.add(barraMenu);
+		
+		
+		panelMenu.add(botonCastellano);
+		panelMenu.add(botonIngles);
+		panelMenu.add(botonEuskera);
+		panelMenu.add(botonFrances);
+		
+		/*panelMenu.add(barraMenu);*/
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
 
