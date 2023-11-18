@@ -91,8 +91,8 @@ public class Docente implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Docente [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
-				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
+		return "Docente " + nombre + ", " + apellido + ", " + dni + ", " + correo
+				+ ", " + telefono + ", " + usuario + ", " + contraseña ;
 	}
 
 }

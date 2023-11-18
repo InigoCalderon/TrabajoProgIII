@@ -55,11 +55,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 	protected Academy datos;
 	
-	protected JButton botonCastellano;
+/*	protected JButton botonCastellano;
 	protected JButton botonIngles;
 	protected JButton botonEuskera;
 	protected JButton botonFrances;
-	
+*/
 	
 	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
 
@@ -90,7 +90,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
-		
+	/*	
 		botonCastellano = new JButton("Castellano");
 		botonIngles = new JButton("Ingles");
 		botonEuskera = new JButton("Euskera");
@@ -178,7 +178,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				
 			}
 		});
-
+*/
 		listaEstudiante.addListSelectionListener(new ListSelectionListener() { // Al seleccionar un estudiante de la
 																				// lista, se muestra en los textfield
 																				// sus datos
@@ -220,20 +220,20 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				Estudiante estudiante = listaEstudiante.getSelectedValue();
 				if (estudiante != null) {
 					datos.getEstudiantes().remove(estudiante);
-
+					actualizarLista(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
 					JOptionPane.showMessageDialog(null, "Estudiante eliminado", "Ok", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				actualizarLista(datos);
-				textoNombre.setText("");
-				textoApellido.setText("");
-				textoDni.setText("");
-				textoTelefono.setText( "");
-				textoCorreo.setText("");
-				textoUsuario.setText("");
-				textoContraseña.setText("");
+				
 			}
 		});
 		
@@ -247,12 +247,12 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		JPanel panelIzquierda = new JPanel();
 		JFrame ventana = new JFrame("Ventana Administrador acceso estudiantes");
 		
-		
+/*		
 		panelMenu.add(botonCastellano);
 		panelMenu.add(botonIngles);
 		panelMenu.add(botonEuskera);
 		panelMenu.add(botonFrances);
-		
+*/		
 		/*panelMenu.add(barraMenu);*/
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
