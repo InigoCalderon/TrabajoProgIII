@@ -22,6 +22,7 @@ public class VentanaEstudiante extends JFrame {
 	protected JButton botonChat;
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
+	protected JLabel info;
 	
 	protected Icon chatIcon = new ImageIcon("res/chat.png");
 	protected Icon exitIcon = new ImageIcon("res/exit.png");
@@ -31,16 +32,13 @@ public class VentanaEstudiante extends JFrame {
 
 	public VentanaEstudiante(Academy academy, Rols rol, Estudiante estudiante) {
 		
-		JFrame ventana = new JFrame((String.format(" Bienvenido %s %s",
-				estudiante.getNombre(),
-				estudiante.getApellido())
-		));
+		JFrame ventana = new JFrame("MENU ESTUDIANTE");
 		
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);
         
-		int anchoDeseado = 960 / 14;
-		int altoDeseado = (int) (560 * 0.0975);
+		int anchoDeseado = 960 / 20;
+		int altoDeseado = (int) (560 * 0.075);
 		
 		Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
@@ -60,6 +58,7 @@ public class VentanaEstudiante extends JFrame {
 		botonCalendario = new JButton(new ImageIcon(image5));
 		botonSalir = new JButton(new ImageIcon(image2));
 		
+		//info.setText();
 		
 		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
@@ -83,6 +82,7 @@ public class VentanaEstudiante extends JFrame {
         menuBar.add(botonNotas);
         menuBar.add(botonCalendario);
         menuBar.add(botonChat);
+        menuBar.add(info);
         menuBar.add(botonSalir);
         
         menuBar.setBackground(new Color(0, 247, 255));

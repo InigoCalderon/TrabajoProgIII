@@ -36,24 +36,25 @@ public class VentanaAdministradorAccesoDocente {
 	protected TextField textoContraseña;
 
 	protected Academy datos;
-	protected JComboBox<Docente> comboCastellano;
+/*	protected JComboBox<Docente> comboCastellano;
 	protected JComboBox<Docente> comboIngles;
 	protected JComboBox<Docente> comboEuskera;
 	protected JComboBox<Docente> comboFrances;
-	
+*/	
 	protected JTextArea textoDocente;
 	protected JButton botonModificar;
 	protected JButton botonEliminar;
+	protected JButton botonAñadir;
 
 	public VentanaAdministradorAccesoDocente(Academy datos) {
 		
-		modeloLista.addAll(datos.getDocentes());
+		
 		listaDocente = new JList<Docente>(modeloLista);
 		JScrollPane scrollPlantilla = new JScrollPane(listaDocente);
-		
+		actualizarCombos(datos);
 		JLabel etiquetaDocente = new JLabel("Docentes");
 
-		JLabel etiquetaCastellano = new JLabel("Castellano");
+/*		JLabel etiquetaCastellano = new JLabel("Castellano");
 		comboCastellano = new JComboBox<Docente>();
 		JLabel etiquetaIngles = new JLabel("Ingles");
 		comboIngles = new JComboBox<Docente>();
@@ -61,9 +62,10 @@ public class VentanaAdministradorAccesoDocente {
 		comboEuskera = new JComboBox<Docente>();
 		JLabel etiquetaFrances = new JLabel("Frances");
 		comboFrances = new JComboBox<Docente>();
-
+*/
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
+		botonAñadir = new JButton("Añadir");
 		textoNombre = new TextField(20);
 		textoApellido = new TextField(20);
 		textoDni = new TextField(20);
@@ -71,7 +73,7 @@ public class VentanaAdministradorAccesoDocente {
 		textoTelefono = new TextField(20);
 		textoUsuario = new TextField(20);
 		textoContraseña = new TextField(20);
-
+/*
 		comboCastellano.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -119,7 +121,7 @@ public class VentanaAdministradorAccesoDocente {
 				modeloLista.addElement(seleccionado);
 			}
 		});
-
+*/
 		listaDocente.addListSelectionListener(new ListSelectionListener() { // Al seleccionar un docente de la lista, se
 																			// muestar en los textfield sus datos
 			@Override
@@ -146,7 +148,7 @@ public class VentanaAdministradorAccesoDocente {
 					actualizarDocente(docente);
 
 					listaDocente.clearSelection();
-					actualizarListas();
+					actualizarCombos(datos);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -160,12 +162,44 @@ public class VentanaAdministradorAccesoDocente {
 				Docente docente = listaDocente.getSelectedValue();
 				if (docente != null) {
 					datos.getDocentes().remove(docente);
-					actualizarListas();
+					actualizarCombos(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
 
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				
+			}
+		});
+		botonAñadir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (!textoNombre.getText().isBlank() && !textoApellido.getText().isBlank() && !textoDni.getText().isBlank() && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank())  {
+					Docente nuevo = new Docente();
+					actualizarDocente(nuevo);
+					datos.getDocentes().add(nuevo);
+					actualizarCombos(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
+				}else {
+					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 
@@ -176,7 +210,7 @@ public class VentanaAdministradorAccesoDocente {
 		JPanel panelBotones = new JPanel();
 		JPanel panelModificarDatos = new JPanel();
 		JPanel panelIzquierda = new JPanel();
-		JPanel panelCombos = new JPanel();
+/*		JPanel panelCombos = new JPanel();
 
 		panelCombos.add(etiquetaCastellano);
 		panelCombos.add(comboCastellano);
@@ -186,9 +220,10 @@ public class VentanaAdministradorAccesoDocente {
 		panelCombos.add(comboEuskera);
 		panelCombos.add(etiquetaFrances);
 		panelCombos.add(comboFrances);
-
+*/
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
+		panelBotones.add(botonAñadir);
 
 		panelModificarDatos.setLayout(new GridLayout(5, 2));
 		panelModificarDatos.add(new JLabel("Nombre: "));
@@ -210,7 +245,7 @@ public class VentanaAdministradorAccesoDocente {
 
 		ventana.add(panelIzquierda, BorderLayout.WEST);
 
-		ventana.add(panelCombos, BorderLayout.NORTH);
+/*		ventana.add(panelCombos, BorderLayout.NORTH);			*/
 		ventana.add(scrollPlantilla, BorderLayout.SOUTH);
 		ventana.add(panelBotones, BorderLayout.SOUTH);
 
@@ -229,26 +264,44 @@ public class VentanaAdministradorAccesoDocente {
 		docente.setUsuario(textoUsuario.getText());
 		docente.setContraseña(textoContraseña.getText());
 	}
-
-	public void actualizarListas() {
+	
+	public void actualizarCombos(Academy datos) {
+		/*ArrayList<Docente> docenteCastellano = new ArrayList<Docente>();
+		ArrayList<Docente> docenteIngles = new ArrayList<Docente>();
+		ArrayList<Docente> docenteEuskera = new ArrayList<Docente>();
+		ArrayList<Docente> docenteFrances = new ArrayList<Docente>();
+		*/
+		
+		modeloLista.clear();
+		try {
+			datos.getDocentes().sort(null);
+		} catch (ClassCastException e) {}  // Ignora error de ordenación
+		for (Docente docente : datos.getDocentes()) {
+			modeloLista.addElement(docente);	
+		}
+/*		
 		comboCastellano.removeAllItems();
 		comboEuskera.removeAllItems();
 		comboFrances.removeAllItems();
 		comboIngles.removeAllItems();
 		for (Grupo grupo : datos.getGrupos()) {
 			for (Docente docente : datos.getDocentes()) {
-				if (grupo.getIdioma().equals("Castellano") && grupo.getDocente() == docente) {
+				if (grupo.getIdioma().equals(Idioma.Castellano) && grupo.getDocente() == docente) {
 					comboCastellano.addItem(docente);
-				} else if (grupo.getIdioma().equals("Ingles") && grupo.getDocente() == docente) {
+					docenteCastellano.add(docente);
+				} else if (grupo.getIdioma().equals(Idioma.Ingles) && grupo.getDocente() == docente) {
 					comboIngles.addItem(docente);
-				} else if (grupo.getIdioma().equals("Euskera") && grupo.getDocente() == docente) {
+					docenteIngles.add(docente);
+				} else if (grupo.getIdioma().equals(Idioma.Euskera) && grupo.getDocente() == docente) {
 					comboEuskera.addItem(docente);
-				} else if (grupo.getIdioma().equals("Frances") && grupo.getDocente() == docente) {
+					docenteEuskera.add(docente);
+				} else if (grupo.getIdioma().equals(Idioma.Frances) && grupo.getDocente() == docente) {
 					comboFrances.addItem(docente);
+					docenteFrances.add(docente);
 				}
 
 			}
 		}
-	}
+*/	}
 
 }

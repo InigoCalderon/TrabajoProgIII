@@ -107,8 +107,8 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 
 	@Override
 	public String toString() {
-		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correo="
-				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + ", idiomas="
+		return "Estudiante " + nombre + ", " + apellido + ", " + telefono + ", "
+				+ correo + ", " + dni + ", " + usuario + ", " + contraseña + ", "
 				+ idiomas + "]";
 	}
 
