@@ -1,158 +1,119 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-
 import DeustoAcademy.*;
 
 public class VentanaDocente extends JFrame {
-	protected JButton botonClases;
-	protected JButton botonCalificaciones;
-	protected JButton botonInfoD;
-	protected JButton botonSalir;
+    protected JButton botonClases;
+    protected JButton botonCalificaciones;
+    protected JButton botonInfoD;
+    protected JButton botonSalir;
 
-	protected JButton botonGuardarInformacion;
+    protected JButton botonGuardarInformacion;
 
-	protected JTextField textoNombre;
-	protected JTextField textoApellido;
-	protected JTextField textoTitulacion;
-	protected JTextField textoTelefono;
-	protected JTextField textoCorreo;
-	protected JTextField textoDni;
+    protected JTextField textoNombre;
+    protected JTextField textoApellido;
+    protected JTextField textoTitulacion;
+    protected JTextField textoTelefono;
+    protected JTextField textoCorreo;
+    protected JTextField textoDni;
 
-	public VentanaDocente(Academy academy, Rols Rol, Docente docente) {
+    public VentanaDocente(Academy academy, Rols Rol, Docente docente) {
 
-		// TODO Auto-generated constructor stub
-		JPanel panelBotones = new JPanel();
-		JPanel panelInformacion = new JPanel();
-		JLabel etiquetaBienvenido = new JLabel("Bienvenido" + docente.getUsuario());
+        JPanel panelBotones = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel panelInformacion = new JPanel(new GridLayout(6, 2, 10, 10));
 
-		/*
-		 * JLabel etiquetaNombre = new JLabel("Nombre"); textoNombre = new
-		 * JTextField(docente.getNombre()); JLabel etiquetaApellido = new
-		 * JLabel("Apellido"); textoApellido = new JTextField(docente.getApellido());
-		 * JLabel etiquetaTelefono = new JLabel("Telefono"); textoTelefono = new
-		 * JTextField(docente.getTelefono()); JLabel etiquetaCorreo = new
-		 * JLabel("Correo"); textoCorreo = new JTextField(docente.getCorreo()); JLabel
-		 * etiquetaDni = new JLabel("Dni"); textoDni = new JTextField(docente.getDni());
-		 */
+        ZonedDateTime now = ZonedDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        JLabel etiquetaFechaHora = new JLabel(formatter.format(now));
 
-		ZonedDateTime now = ZonedDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		JLabel etiquetaFechaHora = new JLabel(formatter.format(now));
+        botonClases = new JButton("Clases");
+        botonCalificaciones = new JButton("Calificaciones");
+        botonInfoD = new JButton("Info Prof.");
+        botonSalir = new JButton("Volver");
+        botonGuardarInformacion = new JButton("Guardar");
 
-		botonClases = new JButton("Clases");
-		botonCalificaciones = new JButton("Calificaciones");
-		botonInfoD = new JButton("Información del profesor");
-		botonSalir = new JButton("Volver atras");
-		botonGuardarInformacion = new JButton("Guardar");
+        // Ajustar el tamaño de la fuente de los botones
+        float fontSize = 14.0f;
+        botonClases.setFont(botonClases.getFont().deriveFont(fontSize));
+        botonCalificaciones.setFont(botonCalificaciones.getFont().deriveFont(fontSize));
+        botonInfoD.setFont(botonInfoD.getFont().deriveFont(fontSize));
+        botonSalir.setFont(botonSalir.getFont().deriveFont(fontSize));
+        botonGuardarInformacion.setFont(botonGuardarInformacion.getFont().deriveFont(fontSize));
 
-		/*
-		 * botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		 * botonCalificaciones.setPreferredSize(new Dimension(anchoDeseado,
-		 * altoDeseado)); botonClases.setPreferredSize(new Dimension(anchoDeseado,
-		 * altoDeseado)); botonInfoD.setPreferredSize(new Dimension(anchoDeseado,
-		 * altoDeseado));
-		 */
+        // Agregar ActionListener para los botones
+        botonGuardarInformacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: Lógica para guardar la información
+            }
+        });
 
-		botonGuardarInformacion.addActionListener(new ActionListener() { // Con este botón los profesores pueden
-																			// actualizar la información personal
-																			// Cuando se crean la cuenta en la ventana
-																			// anterior, los datos personales no son
-																			// introducidos, aqui se da la oportunidad a
-																			// hacerlo
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (textoNombre != null && textoApellido != null && textoTitulacion != null && textoTelefono != null
-						&& textoCorreo != null && textoDni != null) {
-					docente.setNombre(textoNombre.getText());
-					docente.setApellido(textoApellido.getText());
-					docente.setTelefono(Integer.parseInt(textoTelefono.getText()));
-					docente.setCorreo(textoCorreo.getText());
-					docente.setDni(textoDni.getText());
-				} else {
-					JOptionPane.showMessageDialog(null, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		botonClases.addActionListener(new ActionListener() {
+        botonClases.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VentanaClases ventanaClases = new VentanaClases();
+                VentanaClases.createAndShowGUI();
+                dispose();
+            }
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) { // Este botón creará nueva ventana para ver las clases del
-															// estudiante
-				VentanaClases ventanaClases = new VentanaClases();
-				VentanaClases.createAndShowGUI();
-				dispose();
-			}
-		});
-		botonCalificaciones.addActionListener(new ActionListener() { // Este botón creará nueva ventana para ver las
-																		// calificaciones de sus alumnos
+        botonCalificaciones.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones();
+                dispose();
+            }
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones();
-				dispose();
-			}
-		});
-		botonInfoD.addActionListener(new ActionListener() { // Este botón creará nueva ventana para ver la informacion
-															// del profesor
+        botonInfoD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VentanaInfoDocente ventanaInfoDocente = new VentanaInfoDocente();
+                dispose();
+            }
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VentanaInfoDocente ventanaInfoDocente = new VentanaInfoDocente();
-				dispose();
-			}
-		});
-		botonSalir.addActionListener(new ActionListener() {
+        botonSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new Login(docente, Rol, academy);
+            }
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+        // Agregar componentes a los paneles
+        panelBotones.add(botonClases);
+        panelBotones.add(botonCalificaciones);
+        panelBotones.add(botonInfoD);
+        panelBotones.add(botonGuardarInformacion);
+        panelBotones.add(botonSalir);
 
-				dispose();
-				new Login(docente, Rol, academy);
+        panelInformacion.add(new JLabel("Nombre:"));
+        panelInformacion.add(new JTextField(docente.getNombre()));
+        panelInformacion.add(new JLabel("Apellido:"));
+        panelInformacion.add(new JTextField(docente.getApellido()));
+        panelInformacion.add(new JLabel("Teléfono:"));
+        panelInformacion.add(new JTextField(String.valueOf(docente.getTelefono())));
+        panelInformacion.add(new JLabel("Correo:"));
+        panelInformacion.add(new JTextField(docente.getCorreo()));
+        panelInformacion.add(new JLabel("DNI:"));
+        panelInformacion.add(new JTextField(docente.getDni()));
 
-			}
-		});
+        // Agregar componentes al JFrame
+        this.add(panelBotones, BorderLayout.CENTER);
+        this.add(panelInformacion, BorderLayout.SOUTH);
 
-		this.add(etiquetaBienvenido, BorderLayout.NORTH);
-		// this.add(etiquetaFechaHora, BorderLayout.NORTH);
-
-		panelBotones.add(botonClases);
-		panelBotones.add(botonCalificaciones);
-		panelBotones.add(botonInfoD);
-		panelBotones.add(botonGuardarInformacion);
-		panelBotones.add(botonSalir);
-
-		this.add(panelBotones, BorderLayout.CENTER);
-
-		/*
-		 * panelInformacion.add(etiquetaNombre); panelInformacion.add(textoNombre);
-		 * panelInformacion.add(etiquetaApellido); panelInformacion.add(textoApellido);
-		 * panelInformacion.add(etiquetaTelefono); panelInformacion.add(textoTelefono);
-		 * panelInformacion.add(etiquetaCorreo); panelInformacion.add(textoCorreo);
-		 * panelInformacion.add(etiquetaDni); panelInformacion.add(textoDni);
-		 * this.add(panelInformacion,BorderLayout.SOUTH);
-		 */
-
-		this.setTitle("Ventana Docente");
-		this.setSize(600, 800);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-	}
-
+        this.setTitle("Ventana Docente");
+        this.setSize(600, 800);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
 }
