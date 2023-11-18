@@ -22,7 +22,6 @@ public class VentanaEstudiante extends JFrame {
 	protected JButton botonChat;
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
-	protected JLabel info;
 	
 	protected Icon chatIcon = new ImageIcon("res/chat.png");
 	protected Icon exitIcon = new ImageIcon("res/exit.png");
@@ -82,7 +81,6 @@ public class VentanaEstudiante extends JFrame {
         menuBar.add(botonNotas);
         menuBar.add(botonCalendario);
         menuBar.add(botonChat);
-        menuBar.add(info);
         menuBar.add(botonSalir);
         
         menuBar.setBackground(new Color(0, 247, 255));
