@@ -1,6 +1,7 @@
 package DeustoAcademy;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Estudiante implements Serializable, Comparable<Estudiante> {
@@ -17,9 +18,10 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 	protected String dni;
 	protected String usuario;
 	protected String contraseña;
+	protected ArrayList<Idioma> idiomas;
 
 	public Estudiante(String nombre, String apellido, int telefono, String correo, String dni, String usuario,
-			String contraseña) {
+			String contraseña, ArrayList<Idioma> idiomas) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -28,10 +30,23 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 		this.dni = dni;
 		this.usuario = usuario;
 		this.contraseña = contraseña;
+		this.idiomas = new ArrayList<Idioma>();
+		for (Idioma idioma : idiomas) {
+			this.idiomas.add(idioma);
+		}
 	}
 
 	public Estudiante() {
 		super();
+		this.idiomas = new ArrayList<Idioma>();
+	}
+	
+	public ArrayList<Idioma> getIdiomas() {
+		return idiomas;
+	}
+
+	public void setIdiomas(ArrayList<Idioma> idiomas) {
+		this.idiomas = idiomas;
 	}
 
 	public String getNombre() {
@@ -93,7 +108,8 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 	@Override
 	public String toString() {
 		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correo="
-				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
+				+ correo + ", dni=" + dni + ", usuario=" + usuario + ", contraseña=" + contraseña + ", idiomas="
+				+ idiomas + "]";
 	}
 
 	@Override
