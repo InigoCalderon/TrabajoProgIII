@@ -27,6 +27,7 @@ import javax.swing.event.MenuListener;
 import DeustoAcademy.*;
 
 
+
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	/**
 	* 
@@ -62,10 +63,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	
 	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
 
-		modeloLista.addAll(datos.getEstudiantes());
+	/*	modeloLista.addAll(datos.getEstudiantes());			*/
 		listaEstudiante = new JList<Estudiante>(modeloLista);
 		listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
+		actualizarLista(datos);
 		/*
 		barraMenu = new JMenuBar();
 		menuCastellano = new JMenu("Castellano");
@@ -101,14 +103,17 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				// TODO Auto-generated method stub
 				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Castellano")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Castellano")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> castellano = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Castellano)) {
+							castellano.add(estudiante);
 						}
-						
 					}
 				}
+				modeloLista.addAll(castellano);
+				
 			}
 		});
 		
@@ -119,14 +124,17 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				// TODO Auto-generated method stub
 				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Ingles")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Ingles")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> ingles = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Ingles)) {
+							ingles.add(estudiante);
 						}
-						
 					}
 				}
+				modeloLista.addAll(ingles);
+				
 			}
 		});
 		botonEuskera.addActionListener(new ActionListener() {
@@ -136,14 +144,17 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				// TODO Auto-generated method stub
 				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Euskera")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Euskera")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> euskera = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Euskera)) {
+							euskera.add(estudiante);
 						}
-						
 					}
 				}
+				modeloLista.addAll(euskera);
+				
 			}
 		});
 		
@@ -154,14 +165,17 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				// TODO Auto-generated method stub
 				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Frances")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Frances")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> frances = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Frances)) {
+							frances.add(estudiante);
 						}
-						
 					}
 				}
+				modeloLista.addAll(frances);
+				
 			}
 		});
 
@@ -212,9 +226,18 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				actualizarLista(datos);
+				textoNombre.setText("");
+				textoApellido.setText("");
+				textoDni.setText("");
+				textoTelefono.setText( "");
+				textoCorreo.setText("");
+				textoUsuario.setText("");
+				textoContraseña.setText("");
 			}
 		});
-
+		
+		
 		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, lista)
 
 		JPanel panelMenu = new JPanel();
@@ -264,7 +287,15 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
-
+	public void actualizarLista(Academy datos) {
+		modeloLista.clear();
+		try {
+			datos.getEstudiantes().sort(null);
+		} catch (ClassCastException e) {}  // Ignora error de ordenación
+		for (Estudiante estudiante : datos.getEstudiantes()) {
+			modeloLista.addElement(estudiante);	
+		}
+	}
 	public void actualizarEstudiante(Estudiante estudiante) {
 		estudiante.setNombre(textoNombre.getText());
 		estudiante.setApellido(textoApellido.getText());
