@@ -58,7 +58,7 @@ public class Login extends JFrame {
 
 					for (Estudiante estudiante : academy.getEstudiantes()) {
 						
-						if (estudiante.getUsuario() == textoUsuario.getText().strip()) {
+						if (estudiante.getUsuario().compareTo(textoUsuario.getText().strip()) == 0) {
 							
 							new VentanaEstudiante(academy, rol, estudiante);
 							ventana.dispose();
@@ -75,7 +75,7 @@ public class Login extends JFrame {
 					
 					for (Docente doce : academy.getDocentes()) {
 						
-						if (doce.getUsuario() == textoUsuario.getText().strip()) {
+						if (doce.getUsuario().compareTo(textoUsuario.getText().strip()) == 0) {
 							
 							new VentanaDocente(academy, rol, doce);
 							ventana.dispose();
