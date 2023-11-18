@@ -306,21 +306,4 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		estudiante.setContraseña(textoContraseña.getText());
 	}
 
-	public static void main(String[] args) { // DATOS DE PRUEBA
-		ArrayList<Docente> a = new ArrayList<Docente>();
-		for (int i = 0; i < 5; i++) {
-			a.add(new Docente("nombre" + i, "apellido" + i, "dni" + i, "correo" + i, i, "user" + i, "pass" + i));
-		}
-		ArrayList<Estudiante> b = new ArrayList<Estudiante>();
-		for (int i = 0; i < 5; i++) {
-			b.add(new Estudiante("nombre" + i, "apellido" + i, i, "correo" + i, "dni" + i, "user" + i, "pass" + i));
-		}
-		ArrayList<Administrador> c = new ArrayList<Administrador>();
-		for (int i = 0; i < 5; i++) {
-			c.add(new Administrador("nombre" + i, "apellido" + i, "dni" + i, "correo" + i, i, "user" + i, "pass" + i));
-		}
-		new VentanaAdiministradorAccesoEstudiantes(new Academy(c, b, a));
-
-	}
-
 }
