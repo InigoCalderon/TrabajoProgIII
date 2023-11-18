@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import DeustoAcademy.*;
 
@@ -93,6 +95,7 @@ public class VentanaDocente extends JFrame {
 			public void actionPerformed(ActionEvent e) { // Este botón creará nueva ventana para ver las clases del
 															// estudiante
 				VentanaClases ventanaClases = new VentanaClases();
+				VentanaClases.createAndShowGUI();
 				dispose();
 			}
 		});

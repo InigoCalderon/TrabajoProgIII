@@ -3,7 +3,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import DeustoAcademy.Docente;
-import DeustoAcademy.Docente;
 
 public class DocenteTest {
 
