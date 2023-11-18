@@ -19,7 +19,7 @@ public class VentanaAdministrador extends JFrame {
 	private static final long serialVersionUID = 1L;
 	protected JRadioButton radioEstudiante;
 	protected JRadioButton radioDocente;
-	protected JRadioButton radioCuentas;
+	protected JRadioButton radioGrupos;
 	protected JButton botonIngresar;
 	protected Academy datos;
 
@@ -29,11 +29,11 @@ public class VentanaAdministrador extends JFrame {
 		botonIngresar = new JButton("Ingresar");
 		radioEstudiante = new JRadioButton("Estudiantes");
 		radioDocente = new JRadioButton("Docentes");
-		radioCuentas = new JRadioButton("Cuentas Academy");
+		radioGrupos = new JRadioButton("Grupos y asignaciones");
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(radioEstudiante);
 		bg.add(radioDocente);
-		bg.add(radioCuentas);
+		bg.add(radioGrupos);
 		JPanel panelRadio = new JPanel();
 		JPanel panelIngresar = new JPanel();
 		JPanel panelTexto = new JPanel();
@@ -49,8 +49,9 @@ public class VentanaAdministrador extends JFrame {
 				} else if (radioDocente.isSelected()) {
 					System.out.println("Docente");
 					new VentanaAdministradorAccesoDocente(academy);
-				} else if (radioCuentas.isSelected()) {
-					System.out.println("cuentas");
+				} else if (radioGrupos.isSelected()) {
+					System.out.println("grupos");
+					new VentanaAdministradorAccesoGrupos(academy);
 				} else {
 					JOptionPane.showMessageDialog(null, "Has de seleccionar algún apartado ", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -60,7 +61,7 @@ public class VentanaAdministrador extends JFrame {
 
 		panelRadio.add(radioEstudiante);
 		panelRadio.add(radioDocente);
-		panelRadio.add(radioCuentas);
+		panelRadio.add(radioGrupos);
 		panelIngresar.add(botonIngresar);
 		panelTexto.add(etiquetaApartados);
 

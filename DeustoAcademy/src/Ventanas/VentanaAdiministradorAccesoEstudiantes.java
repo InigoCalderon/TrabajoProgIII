@@ -52,7 +52,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 	protected JButton botonModificar;
 	protected JButton botonEliminar;
-
+	protected JButton botonAñadir;
 	protected Academy datos;
 	
 /*	protected JButton botonCastellano;
@@ -90,6 +90,8 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
+		botonAñadir = new JButton("Añadir");
+				
 	/*	
 		botonCastellano = new JButton("Castellano");
 		botonIngles = new JButton("Ingles");
@@ -236,7 +238,30 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				
 			}
 		});
-		
+		botonAñadir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (!textoNombre.getText().isBlank() && !textoApellido.getText().isBlank() && !textoDni.getText().isBlank() && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank())  {
+					Estudiante nuevo = new Estudiante();
+					actualizarEstudiante(nuevo);
+					datos.getEstudiantes().add(nuevo);
+					actualizarLista(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
+				}else {
+					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 		
 		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, lista)
 
@@ -256,6 +281,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		/*panelMenu.add(barraMenu);*/
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
+		panelBotones.add(botonAñadir);
 
 		panelModificarDatos.setLayout(new GridLayout(5, 2));
 		panelModificarDatos.add(new JLabel("Nombre: "));

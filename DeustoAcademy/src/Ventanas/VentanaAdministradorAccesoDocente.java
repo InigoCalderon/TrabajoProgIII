@@ -44,6 +44,7 @@ public class VentanaAdministradorAccesoDocente {
 	protected JTextArea textoDocente;
 	protected JButton botonModificar;
 	protected JButton botonEliminar;
+	protected JButton botonAñadir;
 
 	public VentanaAdministradorAccesoDocente(Academy datos) {
 		
@@ -64,6 +65,7 @@ public class VentanaAdministradorAccesoDocente {
 */
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
+		botonAñadir = new JButton("Añadir");
 		textoNombre = new TextField(20);
 		textoApellido = new TextField(20);
 		textoDni = new TextField(20);
@@ -176,6 +178,30 @@ public class VentanaAdministradorAccesoDocente {
 				
 			}
 		});
+		botonAñadir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (!textoNombre.getText().isBlank() && !textoApellido.getText().isBlank() && !textoDni.getText().isBlank() && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank())  {
+					Docente nuevo = new Docente();
+					actualizarDocente(nuevo);
+					datos.getDocentes().add(nuevo);
+					actualizarCombos(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
+				}else {
+					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 
 		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, combos, lista)
 
@@ -197,6 +223,7 @@ public class VentanaAdministradorAccesoDocente {
 */
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
+		panelBotones.add(botonAñadir);
 
 		panelModificarDatos.setLayout(new GridLayout(5, 2));
 		panelModificarDatos.add(new JLabel("Nombre: "));
@@ -239,11 +266,11 @@ public class VentanaAdministradorAccesoDocente {
 	}
 	
 	public void actualizarCombos(Academy datos) {
-		ArrayList<Docente> docenteCastellano = new ArrayList<Docente>();
+		/*ArrayList<Docente> docenteCastellano = new ArrayList<Docente>();
 		ArrayList<Docente> docenteIngles = new ArrayList<Docente>();
 		ArrayList<Docente> docenteEuskera = new ArrayList<Docente>();
 		ArrayList<Docente> docenteFrances = new ArrayList<Docente>();
-		
+		*/
 		
 		modeloLista.clear();
 		try {
