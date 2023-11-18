@@ -30,10 +30,6 @@ public class VentanaEstudiante extends JFrame {
 	protected Icon calendarIcon = new ImageIcon("res/calendar.png");
 
 	public VentanaEstudiante(Academy academy, Rols rol, Estudiante estudiante) {
-
-		// JFrame ventana = new JFrame(String.format("MENU ESTUDIANTE %s %p",
-		// estudiante.getNombre(), estudiante.getApellido())); // DA ERROR Y NO SÉ
-		// PORQUÉ
 		
 		JFrame ventana = new JFrame((String.format(" Bienvenido %s %s",
 				estudiante.getNombre(),
@@ -106,20 +102,7 @@ public class VentanaEstudiante extends JFrame {
 		 * = new JLabel(formatter.format(now)); /
 		 */
 
-		/*/
-		panelIzquierda.add(botonModificar);
-		panelIzquierda.add(botonCalendario);
-		panelIzquierda.add(botonChat);
-		panelIzquierda.add(botonNotas);
-		panelIzquierda.add(botonSalir);
-
-		panelIzquierda.setLayout(new GridLayout(5, 1));
-		/*/
-		// panelTareas.
-
-		//panelInterno.add(panelIzquierda, BorderLayout.WEST);
 		panelInterno.add(panelTareas);
-		//panelInterno.add(panelTareas, BorderLayout.EAST);
 
 		botonCalendario.addActionListener(new ActionListener() {
 
