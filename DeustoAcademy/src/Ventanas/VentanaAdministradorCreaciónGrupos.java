@@ -45,14 +45,10 @@ public class VentanaAdministradorCreaciónGrupos {
 	
 	public VentanaAdministradorCreaciónGrupos(Academy datos) {
 		
-		/*
-		protected Idioma idioma;
-		protected String nombre;
-		protected Docente docente;
-		protected ArrayList<Estudiante> estudiantes;
-		*/
+		
 		listaGrupo = new JList<Grupo>(modeloLista);
 		JScrollPane scrollPlantilla = new JScrollPane(listaGrupo);
+		actualizarCombos(datos);
 		
 		textoNombre = new JTextField(20);
 		textoIdioma = new JTextField(20);
@@ -116,8 +112,8 @@ public class VentanaAdministradorCreaciónGrupos {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (!textoNombre.getText().isBlank() && comboIdioma.getSelectedItem() != null) {
-					Grupo nuevo = new Grupo();
-					actualizarGrupo(nuevo);
+					Grupo nuevo = new Grupo((Idioma) comboIdioma.getSelectedItem(), textoNombre.getText(), null, new ArrayList<Estudiante>());
+			/*		actualizarGrupo(nuevo);		*/
 					datos.getGrupos().add(nuevo);
 					actualizarCombos(datos);
 					textoNombre.setText("");
@@ -172,7 +168,8 @@ public class VentanaAdministradorCreaciónGrupos {
 		grupo.setNombre(textoNombre.getText());
 		Idioma idioma = (Idioma) comboIdioma.getSelectedItem();
 		grupo.setIdioma(idioma);
-		grupo.setEstudiantes(new ArrayList<Estudiante>());
+		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
+		grupo.setEstudiantes(estudiantes);
 		grupo.setDocente(null);
 	}
 	
