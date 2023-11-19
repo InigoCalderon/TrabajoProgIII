@@ -197,7 +197,7 @@ import DeustoAcademy.*;
 			Border bordeAsignaciones1 = BorderFactory.createTitledBorder("Asignaciones de docentes y grupos");
 			panelBotones.setBorder(bordeAsignaciones1);
 			
-			panelBotones.add(panelBotones);
+			ventana.add(panelBotones);
 			
 			
 			
