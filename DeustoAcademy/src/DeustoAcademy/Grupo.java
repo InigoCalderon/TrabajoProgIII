@@ -7,6 +7,8 @@ public class Grupo   {
 	protected String nombre;
 	protected Docente docente;
 	protected ArrayList<Estudiante> estudiantes;
+	
+	public int capacidad_estudiantes = 0;
 
 	public Grupo(Idioma idioma, String nombre, Docente docente, ArrayList<Estudiante> estudiantes) {
 		super();
@@ -14,14 +16,22 @@ public class Grupo   {
 		this.nombre = nombre;
 		this.docente = docente;
 		this.estudiantes = new ArrayList<>();
-		for (Estudiante estudiante : estudiantes) {
-			this.estudiantes.add(estudiante);
+		
+		while (capacidad_estudiantes < 20) {
+
+			for (Estudiante estudiante : estudiantes) {
+				this.estudiantes.add(estudiante);
+				this.capacidad_estudiantes += 1;
+			}
+			
 		}
+			
 	}
 
 	public Grupo() {
 		super();
 		this.estudiantes.clear();
+		this.capacidad_estudiantes = 0;
 	}
 
 	public Grupo(Grupo g) {
@@ -29,14 +39,19 @@ public class Grupo   {
 		this.idioma = g.idioma;
 		this.nombre = g.nombre;
 		this.docente = g.docente;
-		for (Estudiante estudiante : g.estudiantes) {
-			this.estudiantes.add(estudiante);
+		while (capacidad_estudiantes < 20) {
+
+			for (Estudiante estudiante : estudiantes) {
+				this.estudiantes.add(estudiante);
+				this.capacidad_estudiantes += 1;
+			}
+			
 		}
 	}
 	public Idioma getIdioma() {
 		return idioma;
 	}
-	public void setIdioma() {
+	public void setIdioma(Idioma idioma) {
 		this.idioma = idioma;
 	}
 	public String getNombre() {
@@ -61,15 +76,20 @@ public class Grupo   {
 
 	public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
 		this.estudiantes.clear();
-		for (Estudiante estudiante : estudiantes) {
-			this.estudiantes.add(estudiante);
+		while (capacidad_estudiantes < 20) {
+
+			for (Estudiante estudiante : estudiantes) {
+				this.estudiantes.add(estudiante);
+				this.capacidad_estudiantes += 1;
+			}
+			
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "Grupo [nombre=" + nombre + ", docente=" + docente + ", estudiantes=" + estudiantes + ", idioma="
-				+ idioma + "]";
+		return "Grupo " + idioma + ", " + nombre + ", " + docente + ", "
+				+ estudiantes + ", " + capacidad_estudiantes + "]";
 	}
 
 }

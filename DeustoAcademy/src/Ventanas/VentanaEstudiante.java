@@ -1,10 +1,10 @@
 package Ventanas;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+//import java.time.ZonedDateTime;
+//import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+//import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,12 +17,18 @@ public class VentanaEstudiante extends JFrame {
 	// protected JButton botonExamenes;
 	// protected JButton botonUnidades = new JButton("Temario");
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected JButton botonModificar;
 	protected JButton botonNotas;
 	protected JButton botonChat;
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
+	protected JMenu menuTemario;
 	
+	protected Icon idiomasIcon = new ImageIcon("res/idiomas.png");
 	protected Icon chatIcon = new ImageIcon("res/chat.png");
 	protected Icon exitIcon = new ImageIcon("res/exit.png");
 	protected Icon marksIcon = new ImageIcon("res/notas_academy.png");
@@ -49,6 +55,9 @@ public class VentanaEstudiante extends JFrame {
 				Image.SCALE_SMOOTH);
 		Image image5 = ((ImageIcon) calendarIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
+		Image image6 = ((ImageIcon) idiomasIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
+				Image.SCALE_SMOOTH);
+		
 		
 		// Crea un nuevo icono con la imagen escalada
 		botonModificar = new JButton(new ImageIcon(image4));
@@ -56,19 +65,25 @@ public class VentanaEstudiante extends JFrame {
 		botonNotas = new JButton(new ImageIcon(image3));
 		botonCalendario = new JButton(new ImageIcon(image5));
 		botonSalir = new JButton(new ImageIcon(image2));
+		menuTemario = new JMenu();
+		menuTemario.setIcon(new ImageIcon(image6));
+		
 		
 		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
+		menuTemario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
 		
+		menuTemario.setBackground(new Color(0, 247, 255));
 		botonCalendario.setBackground(new Color(0, 247, 255));
 		botonChat.setBackground(new Color(0, 247, 255));
 		botonSalir.setBackground(new Color(0, 247, 255));
 		botonNotas.setBackground(new Color(0, 247, 255));
 		botonModificar.setBackground(new Color(0, 247, 255));
 		
+		menuTemario.setBorder(null);
 		botonSalir.setBorder(null);
 		botonCalendario.setBorder(null);
 		botonModificar.setBorder(null);
@@ -76,6 +91,7 @@ public class VentanaEstudiante extends JFrame {
 		botonChat.setBorder(null);
 		
 		menuBar.add(botonModificar);
+		menuBar.add(menuTemario);
         menuBar.add(botonNotas);
         menuBar.add(botonCalendario);
         menuBar.add(botonChat);
@@ -83,6 +99,12 @@ public class VentanaEstudiante extends JFrame {
         
         menuBar.setBackground(new Color(0, 247, 255));
 
+        for (Idioma idioma : estudiante.getIdiomas()) {
+			
+        	
+        	
+		}
+        
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		JPanel panelInterno = new JPanel();
 		JPanel panelTareas = new JPanel();
@@ -99,7 +121,7 @@ public class VentanaEstudiante extends JFrame {
 		 */
 
 		panelInterno.add(panelTareas);
-
+		
 		botonCalendario.addActionListener(new ActionListener() {
 
 			@Override
