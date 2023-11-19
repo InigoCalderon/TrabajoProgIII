@@ -31,13 +31,13 @@ public class VentanaEstudiante extends JFrame {
 
 	public VentanaEstudiante(Academy academy, Rols rol, Estudiante estudiante) {
 		
-		JFrame ventana = new JFrame("MENU ESTUDIANTE");
+		JFrame ventana = new JFrame(String.format(" Bienvenido %s %s ", estudiante.getNombre(), estudiante.getApellido()));
 		
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);
         
-		int anchoDeseado = 960 / 20;
-		int altoDeseado = (int) (560 * 0.075);
+		int anchoDeseado = 960 / 14;
+		int altoDeseado = (int) (560 * 0.0975);
 		
 		Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
@@ -56,8 +56,6 @@ public class VentanaEstudiante extends JFrame {
 		botonNotas = new JButton(new ImageIcon(image3));
 		botonCalendario = new JButton(new ImageIcon(image5));
 		botonSalir = new JButton(new ImageIcon(image2));
-		
-		//info.setText();
 		
 		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
