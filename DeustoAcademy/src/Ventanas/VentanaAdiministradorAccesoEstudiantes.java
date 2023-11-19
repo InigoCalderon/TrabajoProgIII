@@ -1,343 +1,195 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import DeustoAcademy.*;
 
-
-
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
-	/**
-	* 
-	*/
-	private static final long serialVersionUID = 1L;
-	/*protected JMenuBar barraMenu;
-	protected JMenu menuCastellano;
-	protected JMenu menuIngles;
-	protected JMenu menuEuskera;
-	protected JMenu menuFrances; */
+    private static final long serialVersionUID = 1L;
+    protected DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
+    protected JList<Estudiante> listaEstudiante;
+    protected TextField textoNombre;
+    protected TextField textoApellido;
+    protected TextField textoDni;
+    protected TextField textoCorreo;
+    protected TextField textoTelefono;
+    protected TextField textoUsuario;
+    protected TextField textoContraseña;
+    protected JButton botonModificar;
+    protected JButton botonEliminar;
+    protected JButton botonAñadir;
+    protected Academy datos;
 
-	protected DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
-	protected JList<Estudiante> listaEstudiante;
+    public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
+        modeloLista = new DefaultListModel<>();
+        listaEstudiante = new JList<Estudiante>(modeloLista);
+        listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
+        actualizarLista(datos);
 
-	protected TextField textoNombre;
-	protected TextField textoApellido;
-	protected TextField textoDni;
-	protected TextField textoCorreo;
-	protected TextField textoTelefono;
-	protected TextField textoUsuario;
-	protected TextField textoContraseña;
+        textoNombre = new TextField(20);
+        textoApellido = new TextField(20);
+        textoDni = new TextField(20);
+        textoCorreo = new TextField(20);
+        textoTelefono = new TextField(20);
+        textoUsuario = new TextField(20);
+        textoContraseña = new TextField(20);
 
-	protected JButton botonModificar;
-	protected JButton botonEliminar;
-	protected JButton botonAñadir;
-	protected Academy datos;
-	
-/*	protected JButton botonCastellano;
-	protected JButton botonIngles;
-	protected JButton botonEuskera;
-	protected JButton botonFrances;
-*/
-	
-	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
+        botonModificar = new JButton("Modificar");
+        botonEliminar = new JButton("Eliminar");
+        botonAñadir = new JButton("Añadir");
 
-	/*	modeloLista.addAll(datos.getEstudiantes());			*/
-		listaEstudiante = new JList<Estudiante>(modeloLista);
-		listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
-		actualizarLista(datos);
-		/*
-		barraMenu = new JMenuBar();
-		menuCastellano = new JMenu("Castellano");
-		menuIngles = new JMenu("Ingles");
-		menuEuskera = new JMenu("Euskera");
-		menuFrances = new JMenu("Frances");
+        listaEstudiante.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                Estudiante estudiante = listaEstudiante.getSelectedValue();
+                if (estudiante != null) {
+                    textoNombre.setText(estudiante.getNombre());
+                    textoApellido.setText(estudiante.getApellido());
+                    textoDni.setText(estudiante.getDni());
+                    textoTelefono.setText(estudiante.getTelefono() + "");
+                    textoCorreo.setText(estudiante.getCorreo());
+                    textoUsuario.setText(estudiante.getUsuario());
+                    textoContraseña.setText(estudiante.getContraseña());
+                }
+            }
+        });
 
-		barraMenu.add(menuCastellano);
-		barraMenu.add(menuIngles);
-		barraMenu.add(menuEuskera);
-		barraMenu.add(menuFrances);
-		*/
-		textoNombre = new TextField(20);
-		textoApellido = new TextField(20);
-		textoDni = new TextField(20);
-		textoCorreo = new TextField(20);
-		textoTelefono = new TextField(20);
-		textoUsuario = new TextField(20);
-		textoContraseña = new TextField(20);
+        botonModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Estudiante estudiante = (Estudiante) listaEstudiante.getSelectedValue();
+                if (estudiante != null) {
+                    actualizarEstudiante(estudiante);
+                    listaEstudiante.clearSelection();
+                }
+            }
+        });
 
-		botonModificar = new JButton("Modificar");
-		botonEliminar = new JButton("Eliminar");
-		botonAñadir = new JButton("Añadir");
-				
-	/*	
-		botonCastellano = new JButton("Castellano");
-		botonIngles = new JButton("Ingles");
-		botonEuskera = new JButton("Euskera");
-		botonFrances = new JButton("Frances");
-		
-		botonCastellano.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				listaEstudiante.removeAll();
-				datos.actualizarMapaEstudiante();
-				
-				ArrayList<Estudiante> castellano = new ArrayList<Estudiante>();
-				for (Estudiante estudiante : datos.getEstudiantes()) {
-					for (Grupo grupo : datos.getGrupos()) {
-						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Castellano)) {
-							castellano.add(estudiante);
-						}
-					}
-				}
-				modeloLista.addAll(castellano);
-				
-			}
-		});
-		
-		botonIngles.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				listaEstudiante.removeAll();
-				datos.actualizarMapaEstudiante();
-				
-				ArrayList<Estudiante> ingles = new ArrayList<Estudiante>();
-				for (Estudiante estudiante : datos.getEstudiantes()) {
-					for (Grupo grupo : datos.getGrupos()) {
-						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Ingles)) {
-							ingles.add(estudiante);
-						}
-					}
-				}
-				modeloLista.addAll(ingles);
-				
-			}
-		});
-		botonEuskera.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				listaEstudiante.removeAll();
-				datos.actualizarMapaEstudiante();
-				
-				ArrayList<Estudiante> euskera = new ArrayList<Estudiante>();
-				for (Estudiante estudiante : datos.getEstudiantes()) {
-					for (Grupo grupo : datos.getGrupos()) {
-						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Euskera)) {
-							euskera.add(estudiante);
-						}
-					}
-				}
-				modeloLista.addAll(euskera);
-				
-			}
-		});
-		
-		botonFrances.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				listaEstudiante.removeAll();
-				datos.actualizarMapaEstudiante();
-				
-				ArrayList<Estudiante> frances = new ArrayList<Estudiante>();
-				for (Estudiante estudiante : datos.getEstudiantes()) {
-					for (Grupo grupo : datos.getGrupos()) {
-						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Frances)) {
-							frances.add(estudiante);
-						}
-					}
-				}
-				modeloLista.addAll(frances);
-				
-			}
-		});
-*/
-		listaEstudiante.addListSelectionListener(new ListSelectionListener() { // Al seleccionar un estudiante de la
-																				// lista, se muestra en los textfield
-																				// sus datos
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				Estudiante estudiante = listaEstudiante.getSelectedValue();
-				if (estudiante != null) {
-					textoNombre.setText(estudiante.getNombre());
-					textoApellido.setText(estudiante.getApellido());
-					textoDni.setText(estudiante.getDni());
-					textoTelefono.setText(estudiante.getTelefono() + "");
-					textoCorreo.setText(estudiante.getCorreo());
-					textoUsuario.setText(estudiante.getUsuario());
-					textoContraseña.setText(estudiante.getContraseña());
+        botonEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Estudiante estudiante = listaEstudiante.getSelectedValue();
+                if (estudiante != null) {
+                    datos.getEstudiantes().remove(estudiante);
+                    actualizarLista(datos);
+                    limpiarCampos();
+                }
+            }
+        });
 
-				}
-			}
-		});
-		
-		botonModificar.addActionListener(new ActionListener() { // Al apretar el botón modificar y tener datos rellenos
-																// en los textfield, se guardan los cambios en
-																// estudiante
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Estudiante estudiante = (Estudiante) listaEstudiante.getSelectedValue();
-				if (estudiante != null) {
-					actualizarEstudiante(estudiante); // Llama al método que modifica el estudiante y sus datos
+        botonAñadir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (camposRellenos()) {
+                    Estudiante nuevo = new Estudiante();
+                    actualizarEstudiante(nuevo);
+                    datos.getEstudiantes().add(nuevo);
+                    actualizarLista(datos);
+                    limpiarCampos();
+                }
+            }
+        });
 
-					listaEstudiante.clearSelection();
-				} else {
-					JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		botonEliminar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Estudiante estudiante = listaEstudiante.getSelectedValue();
-				if (estudiante != null) {
-					datos.getEstudiantes().remove(estudiante);
-					actualizarLista(datos);
-					textoNombre.setText("");
-					textoApellido.setText("");
-					textoDni.setText("");
-					textoTelefono.setText( "");
-					textoCorreo.setText("");
-					textoUsuario.setText("");
-					textoContraseña.setText("");
-					JOptionPane.showMessageDialog(null, "Estudiante eliminado", "Ok", JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		botonAñadir.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				if (!textoNombre.getText().isBlank() && !textoApellido.getText().isBlank() && !textoDni.getText().isBlank() && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank())  {
-					Estudiante nuevo = new Estudiante();
-					actualizarEstudiante(nuevo);
-					datos.getEstudiantes().add(nuevo);
-					actualizarLista(datos);
-					textoNombre.setText("");
-					textoApellido.setText("");
-					textoDni.setText("");
-					textoTelefono.setText( "");
-					textoCorreo.setText("");
-					textoUsuario.setText("");
-					textoContraseña.setText("");
-				}else {
-					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		
-		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, lista)
+        JPanel panelBotones = new JPanel();
+        JPanel panelModificarDatos = new JPanel();
+        JPanel panelIzquierda = new JPanel();
+        JFrame ventana = new JFrame("Ventana Administrador acceso estudiantes");
 
-		JPanel panelMenu = new JPanel();
+        panelBotones.add(botonEliminar);
+        panelBotones.add(botonModificar);
+        panelBotones.add(botonAñadir);
 
-		JPanel panelBotones = new JPanel();
-		JPanel panelModificarDatos = new JPanel();
-		JPanel panelIzquierda = new JPanel();
-		JFrame ventana = new JFrame("Ventana Administrador acceso estudiantes");
-		
-/*		
-		panelMenu.add(botonCastellano);
-		panelMenu.add(botonIngles);
-		panelMenu.add(botonEuskera);
-		panelMenu.add(botonFrances);
-*/		
-		/*panelMenu.add(barraMenu);*/
-		panelBotones.add(botonEliminar);
-		panelBotones.add(botonModificar);
-		panelBotones.add(botonAñadir);
+        panelModificarDatos.setLayout(new GridLayout(4, 30));
+        panelModificarDatos.add(new JLabel("Nombre: "));
+        panelModificarDatos.add(textoNombre);
+        panelModificarDatos.add(new JLabel("Apellido: "));
+        panelModificarDatos.add(textoApellido);
+        panelModificarDatos.add(new JLabel("DNI: "));
+        panelModificarDatos.add(textoDni);
+        panelModificarDatos.add(new JLabel("Correo: "));
+        panelModificarDatos.add(textoCorreo);
+        panelModificarDatos.add(new JLabel("Teléfono: "));
+        panelModificarDatos.add(textoTelefono);
+        panelModificarDatos.add(new JLabel("Usuario: "));
+        panelModificarDatos.add(textoUsuario);
+        panelModificarDatos.add(new JLabel("Contraseña: "));
+        panelModificarDatos.add(textoContraseña);
 
-		panelModificarDatos.setLayout(new GridLayout(4,30));
-		panelModificarDatos.add(new JLabel("Nombre: "));
-		panelModificarDatos.add(textoNombre);
-		panelModificarDatos.add(new JLabel("Apellido: "));
-		panelModificarDatos.add(textoApellido);
-		panelModificarDatos.add(new JLabel("DNI: "));
-		panelModificarDatos.add(textoDni);
-		panelModificarDatos.add(new JLabel("Correo: "));
-		panelModificarDatos.add(textoCorreo);
-		panelModificarDatos.add(new JLabel("Teléfono: "));
-		panelModificarDatos.add(textoTelefono);
-		panelModificarDatos.add(new JLabel("Usuario: "));
-		panelModificarDatos.add(textoUsuario);
-		panelModificarDatos.add(new JLabel("Contraseña: "));
-		panelModificarDatos.add(textoContraseña);
+        panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
-		panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
+        ventana.add(panelIzquierda, BorderLayout.WEST);
+        ventana.add(scrollPlantilla, BorderLayout.CENTER);
+        ventana.add(panelBotones, BorderLayout.SOUTH);
 
-		ventana.add(panelIzquierda, BorderLayout.WEST);
+        // Color de fondo
+        Color colorFondo = new Color(88, 187, 240);
+        panelIzquierda.setBackground(colorFondo);
+        panelModificarDatos.setBackground(colorFondo);
+        panelBotones.setBackground(colorFondo);
+        ventana.getContentPane().setBackground(colorFondo);
 
+        Border bordeBotones = BorderFactory.createTitledBorder("Botones");
+        panelBotones.setBorder(bordeBotones);
 
-		ventana.add(scrollPlantilla, BorderLayout.SOUTH);
-		ventana.add(panelBotones, BorderLayout.SOUTH);
+        Border bordeDatos = BorderFactory.createTitledBorder("Datos");
+        panelModificarDatos.setBorder(bordeDatos);
 
-		Border bordeBotones = BorderFactory.createTitledBorder("Botones");
-		panelBotones.setBorder(bordeBotones);
-		
-		Border bordeDatos = BorderFactory.createTitledBorder("Datos");
-		panelModificarDatos.setBorder(bordeDatos);
-		
-		ventana.add(scrollPlantilla, BorderLayout.CENTER);
-		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
-		ventana.setVisible(true);
-		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        ventana.setSize(960, 560);
+        ventana.setVisible(true);
+        ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
 
-	}
-	public void actualizarLista(Academy datos) {
-		modeloLista.clear();
-		try {
-			datos.getEstudiantes().sort(null);
-		} catch (ClassCastException e) {}  // Ignora error de ordenación
-		for (Estudiante estudiante : datos.getEstudiantes()) {
-			modeloLista.addElement(estudiante);	
-		}
-	}
-	public void actualizarEstudiante(Estudiante estudiante) {
-		estudiante.setNombre(textoNombre.getText());
-		estudiante.setApellido(textoApellido.getText());
-		estudiante.setDni(textoDni.getText());
-		estudiante.setCorreo(textoCorreo.getText());
-		estudiante.setTelefono(Integer.parseInt(textoTelefono.getText()));
-		estudiante.setUsuario(textoUsuario.getText());
-		estudiante.setContraseña(textoContraseña.getText());
-	}
+    public void actualizarLista(Academy datos) {
+        modeloLista.clear();
+        try {
+            datos.getEstudiantes().sort(null);
+        } catch (ClassCastException ignored) {
+        }
+        for (Estudiante estudiante : datos.getEstudiantes()) {
+            modeloLista.addElement(estudiante);
+        }
+    }
 
+    public void actualizarEstudiante(Estudiante estudiante) {
+        estudiante.setNombre(textoNombre.getText());
+        estudiante.setApellido(textoApellido.getText());
+        estudiante.setDni(textoDni.getText());
+        estudiante.setCorreo(textoCorreo.getText());
+        estudiante.setTelefono(Integer.parseInt(textoTelefono.getText()));
+        estudiante.setUsuario(textoUsuario.getText());
+        estudiante.setContraseña(textoContraseña.getText());
+    }
+
+    public void limpiarCampos() {
+        textoNombre.setText("");
+        textoApellido.setText("");
+        textoDni.setText("");
+        textoTelefono.setText("");
+        textoCorreo.setText("");
+        textoUsuario.setText("");
+        textoContraseña.setText("");
+    }
+
+    public boolean camposRellenos() {
+        return !textoNombre.getText().isBlank() && !textoApellido.getText().isBlank() && !textoDni.getText().isBlank()
+                && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank()
+                && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank();
+    }
 }
