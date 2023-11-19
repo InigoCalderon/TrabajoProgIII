@@ -235,7 +235,7 @@ public class DatosPersonales {
 									if (grupo.getIdioma() == (Idioma) spinner.getValue() && grupo.getDocente() == null) {
 										
 										grupo.setDocente(nuevo_docente);
-										grupo.setNombre(String.format("GRUPO[%n]-(%n %n)", idioma, nuevo_docente.getNombre(), nuevo_docente.getApellido()));
+										grupo.setNombre(String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()));
 										asignado = true;
 										break;
 										
@@ -243,9 +243,16 @@ public class DatosPersonales {
 									
 								}
 								
-								if (asignado == false) {
+								if (!asignado) {
+
+									Grupo nuevo_grupo = new Grupo(
+											(Idioma) spinner.getValue(), 
+											String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()), 
+											nuevo_docente,
+											new ArrayList<>()
+									);
 									
-									new Grupo((Idioma) spinner.getValue(), String.format("GRUPO[%n]-(%n %n)", idioma, nuevo_docente.getNombre(), nuevo_docente.getApellido()), nuevo_docente, new ArrayList<>());
+									academy.getGrupos().add(nuevo_grupo);
 									
 								}
 								
@@ -309,6 +316,7 @@ public class DatosPersonales {
 			ventana.setSize(720, 480); // tamaño grande, 960*560 y tamaño pequeño 720*480
 			ventana.setVisible(true);
 			ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			ventana.setLocationRelativeTo(null);
 
 		});
 

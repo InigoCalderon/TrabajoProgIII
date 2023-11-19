@@ -1,8 +1,13 @@
 package DeustoAcademy;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Grupo   {
+public class Grupo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Idioma idioma;
 	protected String nombre;
 	protected Docente docente;
@@ -17,11 +22,17 @@ public class Grupo   {
 		this.docente = docente;
 		this.estudiantes = new ArrayList<>();
 		
-		while (capacidad_estudiantes < 20) {
+		if (capacidad_estudiantes < 20) {
 
-			for (Estudiante estudiante : estudiantes) {
-				this.estudiantes.add(estudiante);
-				this.capacidad_estudiantes += 1;
+			if (!(estudiantes.size() == 0)) {
+				
+				for (Estudiante estudiante : estudiantes) {
+					
+					this.estudiantes.add(estudiante);
+					this.capacidad_estudiantes += 1;
+					
+				}
+				
 			}
 			
 		}
@@ -39,21 +50,30 @@ public class Grupo   {
 		this.idioma = g.idioma;
 		this.nombre = g.nombre;
 		this.docente = g.docente;
-		while (capacidad_estudiantes < 20) {
+		if (capacidad_estudiantes < 20) {
 
-			for (Estudiante estudiante : estudiantes) {
-				this.estudiantes.add(estudiante);
-				this.capacidad_estudiantes += 1;
+			if (!(estudiantes.size() == 0)) {
+				
+				for (Estudiante estudiante : g.estudiantes) {
+					
+					this.estudiantes.add(estudiante);
+					this.capacidad_estudiantes += 1;
+					
+				}
+				
 			}
 			
 		}
 	}
+	
 	public Idioma getIdioma() {
 		return idioma;
 	}
+	
 	public void setIdioma(Idioma idioma) {
 		this.idioma = idioma;
 	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -76,11 +96,17 @@ public class Grupo   {
 
 	public void setEstudiantes(ArrayList<Estudiante> estudiantes) {
 		this.estudiantes.clear();
-		while (capacidad_estudiantes < 20) {
+		if (capacidad_estudiantes < 20) {
 
-			for (Estudiante estudiante : estudiantes) {
-				this.estudiantes.add(estudiante);
-				this.capacidad_estudiantes += 1;
+			if (!(estudiantes.size() == 0)) {
+				
+				for (Estudiante estudiante : estudiantes) {
+					
+					this.estudiantes.add(estudiante);
+					this.capacidad_estudiantes += 1;
+					
+				}
+				
 			}
 			
 		}

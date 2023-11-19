@@ -221,7 +221,7 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/admins.dat");
+			System.err.println("Error guardando datos en " + "res/admins.dat");
 
 			e.printStackTrace();
 		}
@@ -238,7 +238,7 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/grupos.dat");
+			System.err.println("Error guardando datos en " + "res/grupos.dat");
 
 			e.printStackTrace();
 		}
@@ -255,7 +255,7 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/docentes.dat");
+			System.err.println("Error guardando datos en " + "res/docentes.dat");
 
 			e.printStackTrace();
 		}
@@ -272,7 +272,7 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/estudiantes.dat");
+			System.err.println("Error guardando datos en " + "res/estudiantes.dat");
 
 			e.printStackTrace();
 		}
