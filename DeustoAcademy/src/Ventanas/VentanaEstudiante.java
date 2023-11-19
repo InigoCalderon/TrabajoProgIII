@@ -22,11 +22,11 @@ public class VentanaEstudiante extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected JButton botonModificar;
-	protected JButton botonNotas;
 	protected JButton botonChat;
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
 	protected JMenu menuTemario;
+	protected JMenu menuNotas;
 	
 	protected Icon idiomasIcon = new ImageIcon("res/idiomas.png");
 	protected Icon chatIcon = new ImageIcon("res/chat.png");
@@ -62,19 +62,24 @@ public class VentanaEstudiante extends JFrame {
 		// Crea un nuevo icono con la imagen escalada
 		botonModificar = new JButton(new ImageIcon(image4));
 		botonChat = new JButton(new ImageIcon(image1));
-		botonNotas = new JButton(new ImageIcon(image3));
 		botonCalendario = new JButton(new ImageIcon(image5));
 		botonSalir = new JButton(new ImageIcon(image2));
 		menuTemario = new JMenu();
 		menuTemario.setIcon(new ImageIcon(image6));
 		menuTemario.setBackground(new Color(0, 247, 255));
+		menuNotas = new JMenu();
+		menuNotas.setIcon(new ImageIcon(image3));
+		menuNotas.setBackground(new Color(0, 247, 255));
 		
 		for (Idioma idioma : estudiante.getIdiomas()) {
 			
-			JMenuItem nuevo_menu = new JMenuItem(idioma.toString());
-			nuevo_menu.setBackground(new Color(0, 247, 255));
 			
-			nuevo_menu.addActionListener(new ActionListener() {
+			JMenuItem nuevo_menu1 = new JMenuItem(idioma.toString());
+			nuevo_menu1.setBackground(new Color(0, 247, 255));
+			JMenuItem nuevo_menu2 = new JMenuItem(idioma.toString());
+			nuevo_menu2.setBackground(new Color(0, 247, 255));
+			
+			nuevo_menu1.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -84,13 +89,25 @@ public class VentanaEstudiante extends JFrame {
 				}
 			});
 			
-        	menuTemario.add(nuevo_menu);
+        	menuTemario.add(nuevo_menu1);
+        	
+        	nuevo_menu2.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					new VentanaCalificaciones(idioma);
+					
+				}
+			});
+        	
+        	menuNotas.add(nuevo_menu2);
         	
 		}
 		
 		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		botonNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
+		menuNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
 		menuTemario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
@@ -99,30 +116,24 @@ public class VentanaEstudiante extends JFrame {
 		botonCalendario.setBackground(new Color(0, 247, 255));
 		botonChat.setBackground(new Color(0, 247, 255));
 		botonSalir.setBackground(new Color(0, 247, 255));
-		botonNotas.setBackground(new Color(0, 247, 255));
+		menuNotas.setBackground(new Color(0, 247, 255));
 		botonModificar.setBackground(new Color(0, 247, 255));
 		
 		menuTemario.setBorder(null);
 		botonSalir.setBorder(null);
 		botonCalendario.setBorder(null);
 		botonModificar.setBorder(null);
-		botonNotas.setBorder(null);
+		menuNotas.setBorder(null);
 		botonChat.setBorder(null);
 		
 		menuBar.add(botonModificar);
 		menuBar.add(menuTemario);
-        menuBar.add(botonNotas);
+        menuBar.add(menuNotas);
         menuBar.add(botonCalendario);
         menuBar.add(botonChat);
         menuBar.add(botonSalir);
         
         menuBar.setBackground(new Color(0, 247, 255));
-
-        for (Idioma idioma : estudiante.getIdiomas()) {
-			
-        	
-        	
-		}
         
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		JPanel panelInterno = new JPanel();
@@ -150,14 +161,6 @@ public class VentanaEstudiante extends JFrame {
 		});
 
 		botonChat.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
-		botonNotas.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
