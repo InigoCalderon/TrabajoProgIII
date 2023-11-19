@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Tarea extends Grupo {
+public class Tarea {
 
 	protected String fecha_creacion = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(ZonedDateTime.now());
 	protected String fecha_entrega = null;
@@ -96,10 +96,9 @@ public class Tarea extends Grupo {
 
 	@Override
 	public String toString() {
-		return "Tarea [fecha_creacion=" + fecha_creacion + ", fecha_entrega=" + fecha_entrega + ", titulo=" + titulo
-				+ ", comentario=" + comentario + ", n_docs_adjuntos=" + n_docs_adjuntos + ", nombre_docs_adjuntos="
-				+ nombre_docs_adjuntos + ", nombre=" + nombre + ", docente=" + docente + ", estudiantes=" + estudiantes
-				+ ", idioma=" + idioma + "]";
+		return "Tarea [" + fecha_creacion + ", " + fecha_entrega + ", " + titulo
+				+ ", " + comentario + ", " + n_docs_adjuntos + ", "
+				+ nombre_docs_adjuntos + "]";
 	}
 
 }

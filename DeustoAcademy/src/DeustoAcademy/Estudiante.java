@@ -2,8 +2,9 @@ package DeustoAcademy;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Estudiante implements Serializable {
+public class Estudiante implements Serializable, Comparable<Estudiante> {
 
 	/**
 	 * 
@@ -110,5 +111,24 @@ public class Estudiante implements Serializable {
 				+ correo + ", " + dni + ", " + usuario + ", " + contraseña + ", "
 				+ idiomas + "]";
 	}
+
+	@Override
+	public int compareTo(Estudiante o) {
+		return this.usuario.compareToIgnoreCase(o.usuario);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(usuario);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Estudiante))
+            return false;
+
+		Estudiante e = (Estudiante) o;
+        return this.usuario == e.usuario;
+	}	
 
 }

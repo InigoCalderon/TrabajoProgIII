@@ -12,10 +12,11 @@ public class Grupo implements Serializable {
 	protected String nombre;
 	protected Docente docente;
 	protected ArrayList<Estudiante> estudiantes;
+	protected ArrayList<Tarea> tareas;
 	
 	public int capacidad_estudiantes = 0;
 
-	public Grupo(Idioma idioma, String nombre, Docente docente, ArrayList<Estudiante> estudiantes) {
+	public Grupo(Idioma idioma, String nombre, Docente docente, ArrayList<Estudiante> estudiantes, ArrayList<Tarea> tareas) {
 		super();
 		this.idioma = idioma;
 		this.nombre = nombre;
@@ -36,6 +37,11 @@ public class Grupo implements Serializable {
 			}
 			
 		}
+		
+		this.tareas = new ArrayList<>();
+		for (Tarea tarea : tareas) {
+			this.tareas.add(tarea);
+		}
 			
 	}
 
@@ -43,6 +49,7 @@ public class Grupo implements Serializable {
 		super();
 		this.estudiantes.clear();
 		this.capacidad_estudiantes = 0;
+		this.tareas.clear();
 	}
 
 	public Grupo(Grupo g) {
@@ -64,8 +71,25 @@ public class Grupo implements Serializable {
 			}
 			
 		}
+		this.tareas = new ArrayList<>();
+		for (Tarea tarea : g.tareas) {
+			this.tareas.add(tarea);
+		}
 	}
 	
+	
+	
+	public ArrayList<Tarea> getTareas() {
+		return tareas;
+	}
+
+	public void setTareas(ArrayList<Tarea> tareas) {
+		this.tareas = new ArrayList<>();
+		for (Tarea tarea : tareas) {
+			this.tareas.add(tarea);
+		}
+	}
+
 	public Idioma getIdioma() {
 		return idioma;
 	}
@@ -114,8 +138,8 @@ public class Grupo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Grupo " + idioma + ", " + nombre + ", " + docente + ", "
-				+ estudiantes + ", " + capacidad_estudiantes + "]";
+		return "Grupo [" + idioma + ", " + nombre + ", " + docente + ", "
+				+ estudiantes + ", " + tareas + ", " + capacidad_estudiantes + "]";
 	}
 
 }
