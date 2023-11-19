@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+
+import javax.swing.SwingUtilities;
+
 import Ventanas.*;
 
 public class Academy {
@@ -377,21 +380,30 @@ public class Academy {
 
 	public static void main(String[] args) {
 
-		try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
-            LogManager.getLogManager().readConfiguration(fis);
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
-        }
+		SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
 		
-		logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
+			try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
+	            LogManager.getLogManager().readConfiguration(fis);
+	        } catch (IOException e) {
+	            logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
+	        }
+			
+			logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
+	
+			Academy A1 = new Academy();
+	
+			A1.cargar_datos();
+	
+			A1.actualizar_claves();
+	
+			new SelectRol(A1);
+		
+            }
 
-		Academy A1 = new Academy();
-
-		A1.cargar_datos();
-
-		A1.actualizar_claves();
-
-		new SelectRol(A1);
+        });
 
 	}
 	
