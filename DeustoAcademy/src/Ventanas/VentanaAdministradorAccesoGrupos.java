@@ -37,6 +37,9 @@ import DeustoAcademy.*;
 
 		protected JButton botonAsignar1;
 		protected JButton botonAsignar2;
+		protected JButton botonCrearGrupo;
+			
+		
 		
 		protected JTextArea textoAsignacion1;
 		protected Academy datos;
@@ -61,7 +64,7 @@ import DeustoAcademy.*;
 			
 			botonAsignar1 = new JButton("Asignar docente a grupo");
 			botonAsignar2 = new JButton("Asignar estudiante a grupo");
-			
+			botonCrearGrupo = new JButton("Crear grupos");
 			
 			
 			
@@ -135,7 +138,14 @@ import DeustoAcademy.*;
 			});
 			
 			
-			
+			botonCrearGrupo.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+																			// En construcción 
+				}
+			});
 			
 			
 			
@@ -204,24 +214,27 @@ import DeustoAcademy.*;
 		
 		public static boolean esAptoGrupoDocente(Grupo grupo, Docente docente) {
 			
-			if (grupo.getDocente().equals("") /* docente.getIdioma().equals(grupo.getIdioma())*/) {
+			if (grupo.getDocente().equals("") && docente.getIdioma().equals(grupo.getIdioma())) {
 				return true;
 			}else {
 				return false;
 			}
 		
 		}
-/*
+
 		public static boolean esAptoGrupoEstudiante(Grupo grupo, Estudiante estudiante) {
-			
-			if ( estudiante.getIdioma().equals(grupo.getIdioma())) {
-				return true;
-			}else {
-				return false;
+			for (Idioma idioma : estudiante.getIdiomas()) {
+				if (idioma.equals(grupo.getIdioma()) ) {
+					return true;
+				}else {
+					return false;
+				}
 			}
+			return false;
+			
 		
 		}
-*/
+
 		public void actualizarCombos(Academy datos) {
 			comboGrupos1.removeAllItems();
 			for(Grupo grupo: datos.getGrupos()) {
