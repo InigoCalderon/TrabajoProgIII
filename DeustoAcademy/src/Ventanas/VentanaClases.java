@@ -57,10 +57,10 @@ public class VentanaClases extends JFrame {
                 // Lógica condicional para abrir diferentes ventanas según la selección
                 if (seleccion.equals("Clase 1")) {
                     // Abre una ventana específica para Clase 1
-                    new VentanaClase1();
+                    //new VentanaClase1();
                 } else if (seleccion.equals("Clase 2")) {
                     // Abre una ventana específica para Clase 2
-                    new VentanaClase2();
+                    //new VentanaClase2();
                 }
             }
         });

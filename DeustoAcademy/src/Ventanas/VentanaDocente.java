@@ -32,6 +32,8 @@ public class VentanaDocente extends JFrame {
 
     public VentanaDocente(Academy academy, Rols Rol, Docente docente) {
 
+		JFrame ventana = new JFrame(String.format(" Bienvenido %s %s ", docente.getNombre(), docente.getApellido()));
+
         JPanel panelBotones = new JPanel((LayoutManager) new FlowLayout(FlowLayout.CENTER, 10, 10));
         JPanel panelInformacion = new JPanel(new GridLayout(6, 2, 10, 10));
 
@@ -121,15 +123,15 @@ public class VentanaDocente extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 VentanaClases ventanaClases = new VentanaClases();
                 VentanaClases.createAndShowGUI();
-                dispose();
+                ventana.dispose();
             }
         });
 
         botonCalificaciones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones();
-                dispose();
+                VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones(idioma);
+                ventana.dispose();
             }
         });
 
@@ -137,15 +139,15 @@ public class VentanaDocente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VentanaInfoDocente ventanaInfoDocente = new VentanaInfoDocente();
-                dispose();
+                ventana.dispose();
             }
         });
 
         botonSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new Login(docente, Rol, academy);
+                ventana.dispose();
+                new Login(academy, Rol);
             }
         });
 
@@ -176,13 +178,13 @@ public class VentanaDocente extends JFrame {
 		panelInformacion.setBackground(new Color(88, 214, 240));
 
         // Agregar componentes al JFrame
-        this.add(panelBotones, BorderLayout.CENTER);
-        this.add(panelInformacion, BorderLayout.SOUTH);
+        ventana.add(panelBotones, BorderLayout.CENTER);
+        ventana.add(panelInformacion, BorderLayout.SOUTH);
 
-        this.setTitle("Ventana Docente");
-        this.setSize(800, 500);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
+        ventana.setTitle("Ventana Docente");
+        ventana.setSize(800, 500);
+        ventana.setVisible(true);
+        ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        ventana.setLocationRelativeTo(null);
     }
 }
