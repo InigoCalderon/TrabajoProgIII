@@ -24,6 +24,8 @@ import DeustoAcademy.Estudiante;
 import DeustoAcademy.Idioma;
 
 public class VentanaCalendarioEstudiante extends JFrame {
+	
+
 	protected JButton botonSalir;
 
 	private static List<Idioma> idiomas = List.of(new Idioma("Ingles"), new Idioma("Castellano"), new Idioma("Euskera"),
@@ -77,6 +79,7 @@ public class VentanaCalendarioEstudiante extends JFrame {
 			// teniendo en cuenta el valor de la columna recibida
 			// actualizamos la propiedad correspondiente de la Persona
 			// teniendo en cuenta el tipo concreto de dato
+			
 			switch (columnIndex) {
 			case 0:
 				i.setIdioma((String) aValue);
@@ -92,6 +95,7 @@ public class VentanaCalendarioEstudiante extends JFrame {
 				break;
 			default:
 				break;
+				
 			}
 		}
 
@@ -120,7 +124,20 @@ public class VentanaCalendarioEstudiante extends JFrame {
 	class EditorCalendario extends AbstractCellEditor implements TableCellEditor {
 		private JComboBox<String> ComboAsiganturas;
 
-		public void ComboAsiganturas() {
+		@Override
+		public Object getCellEditorValue() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		//public void ComboAsiganturas() {
 			// creamos el componente con los países a seleccionar
 			ComboAsiganturas = new JComboBox<>(new String[] { "Castellano", "Ingles", "Euskera", "Frances" });
 			// Font currentFont = ComboAsiganturas.getFont();
@@ -175,4 +192,5 @@ public class VentanaCalendarioEstudiante extends JFrame {
 		new VentanaCalendarioEstudiante(new Estudiante());
 
 	}
+	
 }

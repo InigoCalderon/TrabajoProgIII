@@ -4,6 +4,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,23 +22,23 @@ public class VentanaEstudiante extends JFrame {
 	protected JButton botonChat;
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
+	
+	protected Icon chatIcon = new ImageIcon("res/chat.png");
+	protected Icon exitIcon = new ImageIcon("res/exit.png");
+	protected Icon marksIcon = new ImageIcon("res/notas_academy.png");
+	protected Icon settingsIcon = new ImageIcon("res/settings.png");
+	protected Icon calendarIcon = new ImageIcon("res/calendar.png");
 
-	public VentanaEstudiante(Academy academy, Rols rol) {
-
-		// JFrame ventana = new JFrame(String.format("MENU ESTUDIANTE %s %p",
-		// estudiante.getNombre(), estudiante.getApellido())); // DA ERROR Y NO SÉ
-		// PORQUÉ
-		JFrame ventana = new JFrame("MENU ESTUDIANTE");
-
-		int anchoDeseado = 100;
-		int altoDeseado = 82;
-
-		Icon chatIcon = new ImageIcon("res/chat.png");
-		Icon exitIcon = new ImageIcon("res/exit.png");
-		Icon marksIcon = new ImageIcon("res/notas_academy.png");
-		Icon settingsIcon = new ImageIcon("res/settings.png");
-		Icon calendarIcon = new ImageIcon("res/calendar.png");
-
+	public VentanaEstudiante(Academy academy, Rols rol, Estudiante estudiante) {
+		
+		JFrame ventana = new JFrame(String.format(" Bienvenido %s %s ", estudiante.getNombre(), estudiante.getApellido()));
+		
+		JMenuBar menuBar = new JMenuBar();
+        ventana.setJMenuBar(menuBar);
+        
+		int anchoDeseado = 960 / 14;
+		int altoDeseado = (int) (560 * 0.0975);
+		
 		Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
 		Image image2 = ((ImageIcon) exitIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
@@ -47,38 +49,42 @@ public class VentanaEstudiante extends JFrame {
 				Image.SCALE_SMOOTH);
 		Image image5 = ((ImageIcon) calendarIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
-
+		
 		// Crea un nuevo icono con la imagen escalada
 		botonModificar = new JButton(new ImageIcon(image4));
 		botonChat = new JButton(new ImageIcon(image1));
 		botonNotas = new JButton(new ImageIcon(image3));
 		botonCalendario = new JButton(new ImageIcon(image5));
 		botonSalir = new JButton(new ImageIcon(image2));
-
+		
 		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-
+		botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
+		
 		botonCalendario.setBackground(new Color(0, 247, 255));
 		botonChat.setBackground(new Color(0, 247, 255));
 		botonSalir.setBackground(new Color(0, 247, 255));
 		botonNotas.setBackground(new Color(0, 247, 255));
 		botonModificar.setBackground(new Color(0, 247, 255));
-
-		botonCalendario.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		
+		botonSalir.setBorder(null);
+		botonCalendario.setBorder(null);
+		botonModificar.setBorder(null);
+		botonNotas.setBorder(null);
+		botonChat.setBorder(null);
+		
+		menuBar.add(botonModificar);
+        menuBar.add(botonNotas);
+        menuBar.add(botonCalendario);
+        menuBar.add(botonChat);
+        menuBar.add(botonSalir);
+        
+        menuBar.setBackground(new Color(0, 247, 255));
 
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		JPanel panelInterno = new JPanel();
-		JPanel panelIzquierda = new JPanel();
 		JPanel panelTareas = new JPanel();
 
 		panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
@@ -92,18 +98,7 @@ public class VentanaEstudiante extends JFrame {
 		 * = new JLabel(formatter.format(now)); /
 		 */
 
-		panelIzquierda.add(botonModificar);
-		panelIzquierda.add(botonCalendario);
-		panelIzquierda.add(botonChat);
-		panelIzquierda.add(botonNotas);
-		panelIzquierda.add(botonSalir);
-
-		panelIzquierda.setLayout(new GridLayout(5, 1));
-
-		// panelTareas.
-
-		panelInterno.add(panelIzquierda, BorderLayout.WEST);
-		panelInterno.add(panelTareas, BorderLayout.EAST);
+		panelInterno.add(panelTareas);
 
 		botonCalendario.addActionListener(new ActionListener() {
 

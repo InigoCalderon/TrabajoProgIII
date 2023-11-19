@@ -6,6 +6,7 @@ import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.DefaultListModel;
@@ -18,6 +19,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
@@ -25,20 +27,19 @@ import javax.swing.event.MenuListener;
 import DeustoAcademy.*;
 
 
+
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 	/**
 	* 
 	*/
 	private static final long serialVersionUID = 1L;
-	protected JMenuBar barraMenu;
+	/*protected JMenuBar barraMenu;
 	protected JMenu menuCastellano;
 	protected JMenu menuIngles;
 	protected JMenu menuEuskera;
-	protected JMenu menuFrances;
-	protected ArrayList<Estudiante> estudiantes;
-	protected ArrayList<Grupo> grupos;
+	protected JMenu menuFrances; */
 
-	protected DefaultListModel<Estudiante> modeloLista;
+	protected DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
 	protected JList<Estudiante> listaEstudiante;
 
 	protected TextField textoNombre;
@@ -51,13 +52,23 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 	protected JButton botonModificar;
 	protected JButton botonEliminar;
-
+	protected JButton botonAñadir;
 	protected Academy datos;
 	
-	
+/*	protected JButton botonCastellano;
+	protected JButton botonIngles;
+	protected JButton botonEuskera;
+	protected JButton botonFrances;
+*/
 	
 	public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
 
+	/*	modeloLista.addAll(datos.getEstudiantes());			*/
+		listaEstudiante = new JList<Estudiante>(modeloLista);
+		listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
+		actualizarLista(datos);
+		/*
 		barraMenu = new JMenuBar();
 		menuCastellano = new JMenu("Castellano");
 		menuIngles = new JMenu("Ingles");
@@ -68,7 +79,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		barraMenu.add(menuIngles);
 		barraMenu.add(menuEuskera);
 		barraMenu.add(menuFrances);
-
+		*/
 		textoNombre = new TextField(20);
 		textoApellido = new TextField(20);
 		textoDni = new TextField(20);
@@ -79,122 +90,97 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 
 		botonModificar = new JButton("Modificar");
 		botonEliminar = new JButton("Eliminar");
-
-		menuCastellano.addMenuListener(new MenuListener() {
-
-			@Override
-			public void menuSelected(MenuEvent e) {
-				// TODO Auto-generated method stub
+		botonAñadir = new JButton("Añadir");
 				
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Castellano")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Castellano")) {
-							modeloLista.addElement(estudiante);
+	/*	
+		botonCastellano = new JButton("Castellano");
+		botonIngles = new JButton("Ingles");
+		botonEuskera = new JButton("Euskera");
+		botonFrances = new JButton("Frances");
+		
+		botonCastellano.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
+				datos.actualizarMapaEstudiante();
+				
+				ArrayList<Estudiante> castellano = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Castellano)) {
+							castellano.add(estudiante);
 						}
-						
 					}
 				}
+				modeloLista.addAll(castellano);
 				
 			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
 		});
-		menuIngles.addMenuListener(new MenuListener() {
-
+		
+		botonIngles.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Ingles")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Ingles")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> ingles = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Ingles)) {
+							ingles.add(estudiante);
 						}
-						
 					}
 				}
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
+				modeloLista.addAll(ingles);
+				
 			}
 		});
-		menuEuskera.addMenuListener(new MenuListener() {
-
+		botonEuskera.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Euskera")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Euskera")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> euskera = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Euskera)) {
+							euskera.add(estudiante);
 						}
-						
 					}
 				}
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
+				modeloLista.addAll(euskera);
+				
 			}
 		});
-		menuFrances.addMenuListener(new MenuListener() {
-
+		
+		botonFrances.addActionListener(new ActionListener() {
+			
 			@Override
-			public void menuSelected(MenuEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				listaEstudiante.removeAll();
 				datos.actualizarMapaEstudiante();
-				for (String idioma : datos.actualizarMapaEstudiante().keySet()) {
-					if( idioma.equals("Frances")) {
-						for (Estudiante estudiante : datos.actualizarMapaEstudiante().get("Frances")) {
-							modeloLista.addElement(estudiante);
+				
+				ArrayList<Estudiante> frances = new ArrayList<Estudiante>();
+				for (Estudiante estudiante : datos.getEstudiantes()) {
+					for (Grupo grupo : datos.getGrupos()) {
+						if( grupo.getEstudiantes().contains(estudiante) && grupo.getIdioma().equals(Idioma.Frances)) {
+							frances.add(estudiante);
 						}
-						
 					}
 				}
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-
+				modeloLista.addAll(frances);
+				
 			}
 		});
-
+*/
 		listaEstudiante.addListSelectionListener(new ListSelectionListener() { // Al seleccionar un estudiante de la
 																				// lista, se muestra en los textfield
 																				// sus datos
@@ -213,6 +199,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				}
 			}
 		});
+		
 		botonModificar.addActionListener(new ActionListener() { // Al apretar el botón modificar y tener datos rellenos
 																// en los textfield, se guardan los cambios en
 																// estudiante
@@ -235,19 +222,47 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 				Estudiante estudiante = listaEstudiante.getSelectedValue();
 				if (estudiante != null) {
 					datos.getEstudiantes().remove(estudiante);
-
+					actualizarLista(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
 					JOptionPane.showMessageDialog(null, "Estudiante eliminado", "Ok", JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				
 			}
 		});
-
-		modeloLista = new DefaultListModel<Estudiante>();
-		listaEstudiante = new JList<Estudiante>(modeloLista);
-		JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
-
+		botonAñadir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (!textoNombre.getText().isBlank() && !textoApellido.getText().isBlank() && !textoDni.getText().isBlank() && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank())  {
+					Estudiante nuevo = new Estudiante();
+					actualizarEstudiante(nuevo);
+					datos.getEstudiantes().add(nuevo);
+					actualizarLista(datos);
+					textoNombre.setText("");
+					textoApellido.setText("");
+					textoDni.setText("");
+					textoTelefono.setText( "");
+					textoCorreo.setText("");
+					textoUsuario.setText("");
+					textoContraseña.setText("");
+				}else {
+					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		
 		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, lista)
 
 		JPanel panelMenu = new JPanel();
@@ -256,10 +271,17 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		JPanel panelModificarDatos = new JPanel();
 		JPanel panelIzquierda = new JPanel();
 		JFrame ventana = new JFrame("Ventana Administrador acceso estudiantes");
-
-		panelMenu.add(barraMenu);
+		
+/*		
+		panelMenu.add(botonCastellano);
+		panelMenu.add(botonIngles);
+		panelMenu.add(botonEuskera);
+		panelMenu.add(botonFrances);
+*/		
+		/*panelMenu.add(barraMenu);*/
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
+		panelBotones.add(botonAñadir);
 
 		panelModificarDatos.setLayout(new GridLayout(5, 2));
 		panelModificarDatos.add(new JLabel("Nombre: "));
@@ -291,7 +313,15 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
-
+	public void actualizarLista(Academy datos) {
+		modeloLista.clear();
+		try {
+			datos.getEstudiantes().sort(null);
+		} catch (ClassCastException e) {}  // Ignora error de ordenación
+		for (Estudiante estudiante : datos.getEstudiantes()) {
+			modeloLista.addElement(estudiante);	
+		}
+	}
 	public void actualizarEstudiante(Estudiante estudiante) {
 		estudiante.setNombre(textoNombre.getText());
 		estudiante.setApellido(textoApellido.getText());
@@ -300,23 +330,6 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		estudiante.setTelefono(Integer.parseInt(textoTelefono.getText()));
 		estudiante.setUsuario(textoUsuario.getText());
 		estudiante.setContraseña(textoContraseña.getText());
-	}
-
-	public static void main(String[] args) { // DATOS DE PRUEBA
-		ArrayList<Docente> a = new ArrayList<Docente>();
-		for (int i = 0; i < 5; i++) {
-			a.add(new Docente("nombre" + i, "apellido" + i, "dni" + i, "correo" + i, i, "user" + i, "pass" + i));
-		}
-		ArrayList<Estudiante> b = new ArrayList<Estudiante>();
-		for (int i = 0; i < 5; i++) {
-			b.add(new Estudiante("nombre" + i, "apellido" + i, i, "correo" + i, "dni" + i, "user" + i, "pass" + i));
-		}
-		ArrayList<Administrador> c = new ArrayList<Administrador>();
-		for (int i = 0; i < 5; i++) {
-			c.add(new Administrador("nombre" + i, "apellido" + i, "dni" + i, "correo" + i, i, "user" + i, "pass" + i));
-		}
-		new VentanaAdiministradorAccesoEstudiantes(new Academy(c, b, a));
-
 	}
 
 }

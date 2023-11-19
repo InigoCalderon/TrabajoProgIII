@@ -16,9 +16,11 @@ public class Docente implements Serializable {
 	protected int telefono;
 	protected String usuario;
 	protected String contraseña;
+	protected Idioma idioma;
 
+	
 	public Docente(String nombre, String apellido, String dni, String correo, int telefono, String usuario,
-			String contraseña) {
+			String contraseña, Idioma idioma) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -27,8 +29,9 @@ public class Docente implements Serializable {
 		this.telefono = telefono;
 		this.usuario = usuario;
 		this.contraseña = contraseña;
+		this.idioma = idioma;
 	}
-
+	
 	public Docente() {
 		super();
 	}
@@ -43,6 +46,14 @@ public class Docente implements Serializable {
 
 	public String getApellido() {
 		return apellido;
+	}
+
+	public Idioma getIdioma() {
+		return idioma;
+	}
+
+	public void setIdioma(Idioma idioma) {
+		this.idioma = idioma;
 	}
 
 	public void setApellido(String apellido) {
@@ -91,8 +102,9 @@ public class Docente implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Docente [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
-				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
+		return "Docente " + nombre + ", " + apellido + ", " + dni + ", " + correo
+				+ ", " + telefono + ", " + usuario + ", " + contraseña + ", "
+				+ idioma + "]";
 	}
 
 }
