@@ -6,7 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,7 +30,7 @@ public class VentanaAdministrador extends JFrame {
 
     public VentanaAdministrador(Academy academy, Rols rol) {
 
-		JFrame ventana = new JFrame("Bienvenido admin");
+        JFrame ventana = new JFrame("Bienvenido admin");
 
         JLabel etiquetaApartados = new JLabel("Apartados de datos");
         botonIngresar = new JButton("Ingresar");
@@ -37,10 +38,6 @@ public class VentanaAdministrador extends JFrame {
         radioEstudiante = new JRadioButton("Estudiantes");
         radioDocente = new JRadioButton("Docentes");
         radioGrupos = new JRadioButton("Grupos y asignaciones");
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(radioEstudiante);
-        bg.add(radioDocente);
-        bg.add(radioGrupos);
         JPanel panelRadio = new JPanel();
         JPanel panelBotones = new JPanel(); // Nuevo panel para botones
         JPanel panelTexto = new JPanel();
@@ -64,7 +61,7 @@ public class VentanaAdministrador extends JFrame {
                 }
             }
         });
-        
+
         botonSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,7 +69,7 @@ public class VentanaAdministrador extends JFrame {
                 new Login(academy, rol);
             }
         });
-        
+
         // Establecer estilo y diseño
         Font font = new Font("Arial", Font.BOLD, 18);
         radioEstudiante.setFont(font);
@@ -95,13 +92,16 @@ public class VentanaAdministrador extends JFrame {
         botonSalir.setPreferredSize(new Dimension(120, 40));
 
         // Agregar componentes a los paneles
+        panelRadio.setLayout(new BoxLayout(panelRadio, BoxLayout.X_AXIS));
+        panelRadio.add(Box.createHorizontalGlue()); // Centrar en la mitad horizontal
         panelRadio.add(radioEstudiante);
         panelRadio.add(radioDocente);
         panelRadio.add(radioGrupos);
-        
+        panelRadio.add(Box.createHorizontalGlue()); // Centrar en la mitad horizontal
+
         panelBotones.add(botonIngresar);
         panelBotones.add(botonSalir);
-        
+
         panelTexto.add(etiquetaApartados);
 
         // Establecer color de fondo para los paneles
@@ -113,11 +113,15 @@ public class VentanaAdministrador extends JFrame {
         ventana.setLayout(new BorderLayout());
         ventana.add(panelRadio, BorderLayout.CENTER);
         ventana.add(panelTexto, BorderLayout.NORTH);
+        ventana.add(Box.createVerticalStrut(20), BorderLayout.WEST); // Espaciado a la izquierda
+        ventana.add(Box.createVerticalStrut(20), BorderLayout.EAST); // Espaciado a la derecha
         ventana.add(panelBotones, BorderLayout.SOUTH);
-        
+
+        // Centrar en medio de la pantalla
+        ventana.setLocationRelativeTo(null);
+
         ventana.setSize(800, 500);
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ventana.setLocationRelativeTo(null);
     }
 }
