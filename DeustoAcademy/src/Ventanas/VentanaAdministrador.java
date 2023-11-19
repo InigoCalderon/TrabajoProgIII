@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup; // Importar ButtonGroup
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,6 +39,13 @@ public class VentanaAdministrador extends JFrame {
         radioEstudiante = new JRadioButton("Estudiantes");
         radioDocente = new JRadioButton("Docentes");
         radioGrupos = new JRadioButton("Grupos y asignaciones");
+
+        // Agrupar los botones de radio
+        ButtonGroup group = new ButtonGroup();
+        group.add(radioEstudiante);
+        group.add(radioDocente);
+        group.add(radioGrupos);
+
         JPanel panelRadio = new JPanel();
         JPanel panelBotones = new JPanel(); // Nuevo panel para botones
         JPanel panelTexto = new JPanel();
