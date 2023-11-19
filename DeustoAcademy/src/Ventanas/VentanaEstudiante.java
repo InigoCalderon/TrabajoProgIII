@@ -40,7 +40,7 @@ public class VentanaEstudiante extends JFrame {
 		JFrame ventana = new JFrame(String.format(" Bienvenido %s %s ", estudiante.getNombre(), estudiante.getApellido()));
 		
 		JMenuBar menuBar = new JMenuBar();
-        ventana.setJMenuBar(menuBar);
+        ventana.setJMenuBar(menuBar);  
         
 		int anchoDeseado = 960 / 14;
 		int altoDeseado = (int) (560 * 0.0975);
@@ -67,7 +67,26 @@ public class VentanaEstudiante extends JFrame {
 		botonSalir = new JButton(new ImageIcon(image2));
 		menuTemario = new JMenu();
 		menuTemario.setIcon(new ImageIcon(image6));
+		menuTemario.setBackground(new Color(0, 247, 255));
 		
+		for (Idioma idioma : estudiante.getIdiomas()) {
+			
+			JMenuItem nuevo_menu = new JMenuItem(idioma.toString());
+			nuevo_menu.setBackground(new Color(0, 247, 255));
+			
+			nuevo_menu.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					new Temario(idioma);
+					
+				}
+			});
+			
+        	menuTemario.add(nuevo_menu);
+        	
+		}
 		
 		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
