@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -66,7 +67,7 @@ import DeustoAcademy.*;
 			botonAsignar2 = new JButton("Asignar estudiante a grupo");
 			botonCrearGrupo = new JButton("Crear grupos");
 			
-			
+			actualizarCombos(datos);
 			
 			
 			
@@ -82,25 +83,28 @@ import DeustoAcademy.*;
 						comboDocentes.removeItem(docente);
 						actualizarCombos(datos);
 						JOptionPane.showMessageDialog(null, "Asignación realizada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						Thread hilo = new Thread() {					
+							public void run() {
+								textoAsignacion1.append("Asignando docente " + docente.getNombre() + "al grupo " + grupo.getNombre() + "de idioma " + grupo.getIdioma()+ "el proceso se realizará en: ");
+									for (int i = 0; i < 4; i++) {
+										textoAsignacion1.append("    "+i);
+										try { Thread.sleep(1000); } catch (InterruptedException e) {}
+									}
+								botonAsignar1.setEnabled(true);
+								textoAsignacion1.append("  terminado!  ");
+							}
+						};
+						botonAsignar1.setEnabled(false);
+						hilo.start();
 					} else {
 						JOptionPane.showMessageDialog(null, "No se ha podido realizar la asignación, revisa que el grupo y docente comparten idioma", "Error", JOptionPane.ERROR_MESSAGE);
+						
 					}
 					
 					
-					/*
-					Thread hilo = new Thread() {					
-						public void run() {
-							textoAsignacion1.append("Asignando docente" + docente.getNombre() + "al grupo" + grupo.getNombre() + "de idioma" + grupo.getIdioma()+ "\n");
-								for (int i = 0; i < 5; i++) {
-									textoAsignacion1.append(i+"\n");
-									try { Thread.sleep(1000); } catch (InterruptedException e) {}
-								}
-							botonAsignar1.setEnabled(true);
-						}
-					};
-					botonAsignar1.setEnabled(false);
-					hilo.start();
-					*/
+					
+					
+					
 				}
 			});
 			
@@ -110,30 +114,32 @@ import DeustoAcademy.*;
 					Grupo grupo = (Grupo) comboGrupos2.getSelectedItem();
 					Estudiante estudiante = (Estudiante) comboEstudiantes.getSelectedItem();
 					
-					if (grupo != null && estudiante != null /* && esAptoGrupoEstudiante(grupo, estudiante) */) {
+					if (grupo != null && estudiante != null && esAptoGrupoEstudiante(grupo, estudiante) ) {
 						grupo.getEstudiantes().add(estudiante);
 						actualizarCombos(datos);
 						JOptionPane.showMessageDialog(null, "Asignación realizada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-
+						Thread hilo = new Thread() {					
+							public void run() {
+								textoAsignacion1.append("Asignando estudiante " + estudiante.getNombre() + "al grupo " + grupo.getNombre() + "de idioma " + grupo.getIdioma() +"el proceso se realizará en: ");
+									for (int i = 0; i < 4; i++) {
+										textoAsignacion1.append("    "+i);
+										try { Thread.sleep(1000); } catch (InterruptedException e) {}
+									}
+									textoAsignacion1.append("  terminado!  ");
+									botonAsignar2.setEnabled(true);
+							}
+						};
+						botonAsignar2.setEnabled(false);
+						hilo.start();
 						
 					} else {
-						JOptionPane.showMessageDialog(null, "No se ha podido realizar la asignación, revisa que el grupo y estudiante comparten idioma", "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "No se ha podido realizar la asignación, revisa que el grupo y estudiante comparten idioma, o que el estudiante ya es parte del grupo", "Error", JOptionPane.ERROR_MESSAGE);
+						
+						
 					}
 					
-					/*
-					Thread hilo = new Thread() {					
-						public void run() {
-							textoAsignacion1.append("Asignando estudiante" + estudiante.getNombre() + "al grupo" + grupo.getNombre() + "de idioma" + grupo.getIdioma()+ "\n");
-								for (int i = 0; i < 5; i++) {
-									textoAsignacion1.append(i+"\n");
-									try { Thread.sleep(1000); } catch (InterruptedException e) {}
-								}
-							botonAsignar1.setEnabled(true);
-						}
-					};
-					botonAsignar1.setEnabled(false);
-					hilo.start();
-					*/
+					
+					
 				}
 			});
 			
@@ -156,28 +162,27 @@ import DeustoAcademy.*;
 
 			JPanel panelAsignaciones1 = new JPanel();
 			panelAsignaciones1.setLayout(new GridLayout(1,3));
-			panelAsignaciones1.add(comboGrupos1, BorderLayout.NORTH);
-			panelAsignaciones1.add(comboDocentes, BorderLayout.NORTH);
-			panelAsignaciones1.add(botonAsignar1, BorderLayout.NORTH);
+			panelAsignaciones1.add(comboGrupos1);
+			panelAsignaciones1.add(comboDocentes);
+			panelAsignaciones1.add(botonAsignar1);
 			
 			JPanel panelAsignaciones2 = new JPanel();
 			panelAsignaciones2.setLayout(new GridLayout(1,3));
-			panelAsignaciones2.add(comboGrupos2, BorderLayout.SOUTH);
-			panelAsignaciones2.add(comboEstudiantes, BorderLayout.SOUTH);
-			panelAsignaciones2.add(botonAsignar2, BorderLayout.SOUTH);
+			panelAsignaciones2.add(comboGrupos2);
+			panelAsignaciones2.add(comboEstudiantes);
+			panelAsignaciones2.add(botonAsignar2);
 			
 			
 			
 			
 			JPanel panelBoton = new JPanel();
-			panelBoton.add(botonCrearGrupo, BorderLayout.EAST);
+			panelBoton.add(botonCrearGrupo, BorderLayout.CENTER);
 			
 			JPanel panelTexto = new JPanel();
 			panelTexto.add(textoAsignacion1);
 			
 			ventana.add(panelTexto, BorderLayout.SOUTH);
-			ventana.add(panelAsignaciones1,BorderLayout.NORTH);
-			ventana.add(panelAsignaciones2, BorderLayout.NORTH);			
+	
 			ventana.add(panelBoton, BorderLayout.EAST);
 			
 			Border bordeAsigancion1 = BorderFactory.createTitledBorder("Asignación de docente con grupo");
@@ -188,7 +193,10 @@ import DeustoAcademy.*;
 			panelTexto.setBorder(bordeTest);
 			
 			JPanel panelTodoNorte = new JPanel();
-			
+			panelTodoNorte.setLayout(new GridLayout(2,1));
+			panelTodoNorte.add(panelAsignaciones1);
+			panelTodoNorte.add(panelAsignaciones2);
+			ventana.add(panelTodoNorte, BorderLayout.NORTH);
 			
 			ventana.setSize(960, 560); // tamaño grande, 960*560 y tamañAo pequeño 720*480
 			ventana.setVisible(true);
@@ -198,7 +206,7 @@ import DeustoAcademy.*;
 		
 		public static boolean esAptoGrupoDocente(Grupo grupo, Docente docente) {
 			
-			if (grupo.getDocente().equals("") && docente.getIdioma().equals(grupo.getIdioma())) {
+			if (grupo.getDocente().equals(null) && docente.getIdioma().equals(grupo.getIdioma())) {
 				return true;
 			}else {
 				return false;
@@ -208,7 +216,8 @@ import DeustoAcademy.*;
 
 		public static boolean esAptoGrupoEstudiante(Grupo grupo, Estudiante estudiante) {
 			for (Idioma idioma : estudiante.getIdiomas()) {
-				if (idioma.equals(grupo.getIdioma()) ) {
+			
+				if (idioma.equals(grupo.getIdioma())  && !grupo.getEstudiantes().contains(estudiante) ) {
 					return true;
 				}else {
 					return false;
