@@ -57,7 +57,7 @@ public class VentanaAdministradorCreaciónGrupos {
 		textoNombre = new JTextField(20);
 		textoIdioma = new JTextField(20);
 		
-		comboIdioma = new JComboBox<Idioma>();
+		comboIdioma = new JComboBox<Idioma>(Idioma.values());
 		
 		botonAñadir = new JButton("Añadir");
 		botonEliminar = new JButton("Eliminar");
@@ -172,6 +172,8 @@ public class VentanaAdministradorCreaciónGrupos {
 		grupo.setNombre(textoNombre.getText());
 		Idioma idioma = (Idioma) comboIdioma.getSelectedItem();
 		grupo.setIdioma(idioma);
+		grupo.setEstudiantes(new ArrayList<Estudiante>());
+		grupo.setDocente(null);
 	}
 	
 	public void actualizarCombos(Academy datos) {

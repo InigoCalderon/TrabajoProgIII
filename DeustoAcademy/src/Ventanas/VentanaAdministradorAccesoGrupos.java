@@ -60,7 +60,7 @@ import DeustoAcademy.*;
 			
 			comboEstudiantes = new JComboBox<Estudiante>();
 			
-			textoAsignacion1 = new JTextArea(20, 10);
+			textoAsignacion1 = new JTextArea(10, 80);
 			
 			botonAsignar1 = new JButton("Asignar docente a grupo");
 			botonAsignar2 = new JButton("Asignar estudiante a grupo");
@@ -143,7 +143,7 @@ import DeustoAcademy.*;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-																			// En construcción 
+					new VentanaAdministradorCreaciónGrupos(datos);
 				}
 			});
 			
@@ -158,53 +158,37 @@ import DeustoAcademy.*;
 			panelAsignaciones1.setLayout(new GridLayout(1,3));
 			panelAsignaciones1.add(comboGrupos1, BorderLayout.NORTH);
 			panelAsignaciones1.add(comboDocentes, BorderLayout.NORTH);
+			panelAsignaciones1.add(botonAsignar1, BorderLayout.NORTH);
+			
 			JPanel panelAsignaciones2 = new JPanel();
 			panelAsignaciones2.setLayout(new GridLayout(1,3));
-			panelAsignaciones2.add(comboGrupos1, BorderLayout.NORTH);
-			panelAsignaciones2.add(comboDocentes, BorderLayout.NORTH);
+			panelAsignaciones2.add(comboGrupos2, BorderLayout.SOUTH);
+			panelAsignaciones2.add(comboEstudiantes, BorderLayout.SOUTH);
+			panelAsignaciones2.add(botonAsignar2, BorderLayout.SOUTH);
 			
+			
+			
+			
+			JPanel panelBoton = new JPanel();
+			panelBoton.add(botonCrearGrupo, BorderLayout.EAST);
 			
 			JPanel panelTexto = new JPanel();
-			panelTexto.setLayout(new BorderLayout());
+			panelTexto.add(textoAsignacion1);
 			
-			
-			
-			Border bordeGrupos1 = BorderFactory.createTitledBorder("Grupos disponibles");
-			comboGrupos1.setBorder(bordeGrupos1);
-			
-			
-			
-			Border bordeDocentes = BorderFactory.createTitledBorder("Docentes disponibles");
-			comboDocentes.setBorder(bordeDocentes);
-
-			Border bordeGrupos2 = BorderFactory.createTitledBorder("Grupos disponibles");
-			comboGrupos2.setBorder(bordeGrupos2);
-			
-			
-			
-			Border bordeEstudiantes = BorderFactory.createTitledBorder("Estudiantes disponibles");
-			comboEstudiantes.setBorder(bordeEstudiantes);
-			
-			
-			
-			panelTexto.add(textoAsignacion1, BorderLayout.CENTER);
-			
-			JPanel panelBotones = new JPanel();
-			
-			panelBotones.add(botonAsignar1);
-			
-			
-			Border bordeAsignaciones1 = BorderFactory.createTitledBorder("Asignaciones de docentes y grupos");
-			panelBotones.setBorder(bordeAsignaciones1);
-			
-			ventana.add(panelBotones);
-			
-			
-			
-			ventana.add(panelAsignaciones1, BorderLayout.NORTH);
-			ventana.add(panelAsignaciones2, BorderLayout.CENTER);
 			ventana.add(panelTexto, BorderLayout.SOUTH);
-
+			ventana.add(panelAsignaciones1,BorderLayout.NORTH);
+			ventana.add(panelAsignaciones2, BorderLayout.NORTH);			
+			ventana.add(panelBoton, BorderLayout.EAST);
+			
+			Border bordeAsigancion1 = BorderFactory.createTitledBorder("Asignación de docente con grupo");
+			panelAsignaciones1.setBorder(bordeAsigancion1);
+			Border bordeAsigancion2 = BorderFactory.createTitledBorder("Asignación de estudiantes con grupos");
+			panelAsignaciones2.setBorder(bordeAsigancion2);
+			Border bordeTest = BorderFactory.createTitledBorder("Últimas asignaciones...");
+			panelTexto.setBorder(bordeTest);
+			
+			JPanel panelTodoNorte = new JPanel();
+			
 			
 			ventana.setSize(960, 560); // tamaño grande, 960*560 y tamañAo pequeño 720*480
 			ventana.setVisible(true);

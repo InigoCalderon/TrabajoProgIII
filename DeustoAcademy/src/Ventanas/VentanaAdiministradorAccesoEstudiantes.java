@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MenuEvent;
@@ -283,7 +285,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		panelBotones.add(botonModificar);
 		panelBotones.add(botonAñadir);
 
-		panelModificarDatos.setLayout(new GridLayout(5, 2));
+		panelModificarDatos.setLayout(new GridLayout(4,30));
 		panelModificarDatos.add(new JLabel("Nombre: "));
 		panelModificarDatos.add(textoNombre);
 		panelModificarDatos.add(new JLabel("Apellido: "));
@@ -299,15 +301,21 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
 		panelModificarDatos.add(new JLabel("Contraseña: "));
 		panelModificarDatos.add(textoContraseña);
 
-		panelIzquierda.add(panelModificarDatos, BorderLayout.NORTH);
+		panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
 		ventana.add(panelIzquierda, BorderLayout.WEST);
 
-		ventana.add(panelMenu, BorderLayout.NORTH);
 
-		ventana.add(scrollPlantilla, BorderLayout.CENTER);
+		ventana.add(scrollPlantilla, BorderLayout.SOUTH);
 		ventana.add(panelBotones, BorderLayout.SOUTH);
 
+		Border bordeBotones = BorderFactory.createTitledBorder("Botones");
+		panelBotones.setBorder(bordeBotones);
+		
+		Border bordeDatos = BorderFactory.createTitledBorder("Datos");
+		panelModificarDatos.setBorder(bordeDatos);
+		
+		ventana.add(scrollPlantilla, BorderLayout.CENTER);
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
 		ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

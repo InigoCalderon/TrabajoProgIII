@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -8,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import DeustoAcademy.*;
@@ -221,11 +225,14 @@ public class VentanaAdministradorAccesoDocente {
 		panelCombos.add(etiquetaFrances);
 		panelCombos.add(comboFrances);
 */
-		panelBotones.add(botonEliminar);
-		panelBotones.add(botonModificar);
 		panelBotones.add(botonAñadir);
+		panelBotones.add(botonModificar);
+		panelBotones.add(botonEliminar);
 
-		panelModificarDatos.setLayout(new GridLayout(5, 2));
+		panelModificarDatos.setLayout(new GridLayout(4,30));
+
+		
+		
 		panelModificarDatos.add(new JLabel("Nombre: "));
 		panelModificarDatos.add(textoNombre);
 		panelModificarDatos.add(new JLabel("Apellido: "));
@@ -241,7 +248,7 @@ public class VentanaAdministradorAccesoDocente {
 		panelModificarDatos.add(new JLabel("Contraseña: "));
 		panelModificarDatos.add(textoContraseña);
 
-		panelIzquierda.add(panelModificarDatos, BorderLayout.NORTH);
+		panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
 		ventana.add(panelIzquierda, BorderLayout.WEST);
 
@@ -249,6 +256,14 @@ public class VentanaAdministradorAccesoDocente {
 		ventana.add(scrollPlantilla, BorderLayout.SOUTH);
 		ventana.add(panelBotones, BorderLayout.SOUTH);
 
+		Border bordeBotones = BorderFactory.createTitledBorder("Botones");
+		panelBotones.setBorder(bordeBotones);
+		
+		Border bordeDatos = BorderFactory.createTitledBorder("Datos");
+		panelModificarDatos.setBorder(bordeDatos);
+		
+		
+		
 		ventana.add(scrollPlantilla, BorderLayout.CENTER);
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamañAo pequeño 720*480
 		ventana.setVisible(true);
