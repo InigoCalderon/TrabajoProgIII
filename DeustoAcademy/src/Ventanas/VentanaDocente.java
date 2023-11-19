@@ -183,5 +183,6 @@ public class VentanaDocente extends JFrame {
         this.setSize(800, 500);
         this.setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
     }
 }

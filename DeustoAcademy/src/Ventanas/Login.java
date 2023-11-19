@@ -182,6 +182,7 @@ public class Login extends JFrame {
 		ventana.pack();
 		ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		ventana.setLocationRelativeTo(null);
 
 	}
 

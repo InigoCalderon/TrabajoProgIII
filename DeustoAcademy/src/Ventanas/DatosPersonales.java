@@ -170,32 +170,93 @@ public class DatosPersonales {
 
 							} if (rol == Rols.ESTUDIANTE) {
 
-								academy.getEstudiantes()
-										.add((Estudiante) new Estudiante(
-												textoNombre.getText(), 
-												textoApellido.getText(),
-												Integer.parseInt(textoTelefono.getText()), 
-												textoCorreo.getText(),
-												textoDni.getText(), 
-												textoUsuario.getText(), 
-												textoContrasena.getText(),
-												new ArrayList<>(setIdiomas)
-												));
+								ArrayList<Idioma> idiomas_demandados = new ArrayList<>(setIdiomas);
+								ArrayList<Idioma> idiomas_asignados = new ArrayList<>();
+								Estudiante nuevo_estudiante = new Estudiante(
+										textoNombre.getText(), 
+										textoApellido.getText(), 
+										Integer.parseInt(textoTelefono.getText()), 
+										textoCorreo.getText(), textoDni.getText(), 
+										textoUsuario.getText(),
+										textoContrasena.getText(), 
+										idiomas_demandados
+								);
+								
+								// SI HAY GRUPOS DISPONIBLES TE METE EN ELLOS
+								for (Idioma idioma : idiomas_demandados) {
+									
+									for (Grupo grupo : academy.getGrupos()) {
+										
+										if (grupo.getIdioma() == idioma && grupo.capacidad_estudiantes < 20) {
+											
+											// añadimos estudiante al grupo
+											grupo.getEstudiantes().add(nuevo_estudiante);
+											grupo.capacidad_estudiantes += 1;
+											idiomas_asignados.add(idioma);
+											break;
+										}
+										
+									}
+									
+								}
+								
+								//SINO HAY GRUPOS DISPONIBLES TE CREA UNO
+								idiomas_demandados.removeAll(idiomas_asignados);
+								
+								if (!(idiomas_demandados.size() == 0)) {
+									
+									ArrayList<Estudiante> lista = new ArrayList<Estudiante>();
+									lista.add(nuevo_estudiante);
+									
+									for (Idioma idioma : idiomas_demandados) {
+										new Grupo(idioma, String.format("GRUPO[%n]-(Docente Sin Asignar)", idioma), null, lista);
+									}
+								}
+								
+								academy.getEstudiantes().add(nuevo_estudiante);
 
 							} if (rol == Rols.DOCENTE) {
-
-								academy.getDocentes()
-										.add((Docente) new Docente(
-												textoNombre.getText(), 
-												textoApellido.getText(),
-												textoDni.getText(),
-												textoCorreo.getText(),
-												Integer.parseInt(textoTelefono.getText()),
-												textoUsuario.getText(),
-												textoContrasena.getText(),
-												(Idioma) spinner.getValue()
-												));
 								
+								boolean asignado = false;
+
+								Docente nuevo_docente = new Docente(
+										textoNombre.getText(), 
+										textoApellido.getText(),
+										textoDni.getText(),
+										textoCorreo.getText(),
+										Integer.parseInt(textoTelefono.getText()),
+										textoUsuario.getText(),
+										textoContrasena.getText(),
+										(Idioma) spinner.getValue()
+								);
+								
+								for (Grupo grupo : academy.getGrupos()) {
+									
+									if (grupo.getIdioma() == (Idioma) spinner.getValue() && grupo.getDocente() == null) {
+										
+										grupo.setDocente(nuevo_docente);
+										grupo.setNombre(String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()));
+										asignado = true;
+										break;
+										
+									}
+									
+								}
+								
+								if (!asignado) {
+
+									Grupo nuevo_grupo = new Grupo(
+											(Idioma) spinner.getValue(), 
+											String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()), 
+											nuevo_docente,
+											new ArrayList<>()
+									);
+									
+									academy.getGrupos().add(nuevo_grupo);
+									
+								}
+								
+								academy.getDocentes().add(nuevo_docente);
 
 							}
 
@@ -255,6 +316,7 @@ public class DatosPersonales {
 			ventana.setSize(720, 480); // tamaño grande, 960*560 y tamaño pequeño 720*480
 			ventana.setVisible(true);
 			ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			ventana.setLocationRelativeTo(null);
 
 		});
 

@@ -1,10 +1,14 @@
 package Ventanas;
 
-public class VentanaCalificaciones {
+import javax.swing.JFrame;
+import DeustoAcademy.*;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+public class VentanaCalificaciones extends JFrame{
 
+	public VentanaCalificaciones(Idioma idioma) {
+		
+		
+		
 	}
 
 }

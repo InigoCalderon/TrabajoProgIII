@@ -16,7 +16,6 @@ public class SelectRol extends JFrame {
 
 	protected JComboBox<Rols> comboRol;
 	protected JButton botonIngresar;
-	protected JButton botonSalir;
 
 	public SelectRol(Academy academy) throws HeadlessException {
 		super();
@@ -24,7 +23,6 @@ public class SelectRol extends JFrame {
 		JPanel panelLogin1 = new JPanel();
 		JLabel etiquetaRol = new JLabel("Escoge tu rol:");
 		botonIngresar = new JButton("Entrar");
-		botonSalir = new JButton("Salir");
 		comboRol = new JComboBox<Rols>();
 		comboRol.addItem(Rols.ESTUDIANTE);
 		comboRol.addItem(Rols.DOCENTE);
@@ -56,15 +54,6 @@ public class SelectRol extends JFrame {
 			}
 		});
 
-		botonSalir.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ventana.dispose();
-
-			}
-		});
-
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		panelPrincipal.setBackground(new Color(88, 187, 240));
@@ -72,7 +61,6 @@ public class SelectRol extends JFrame {
 		panelLogin1.add(etiquetaRol);
 		panelLogin1.add(comboRol);
 		panelLogin1.add(botonIngresar);
-		panelLogin1.add(botonSalir);
 		panelLogin1.setBackground(new Color(88, 214, 240));
 		panelLogin1.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
@@ -80,6 +68,7 @@ public class SelectRol extends JFrame {
 		ventana.add(panelPrincipal);
 
 		ventana.setVisible(true);
+		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		ventana.pack();
 

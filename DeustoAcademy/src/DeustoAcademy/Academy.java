@@ -19,13 +19,13 @@ public class Academy {
 	protected ArrayList<Administrador> administradores = new ArrayList<>();
 	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
 	protected ArrayList<Docente> docentes = new ArrayList<>();
+	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();	
 
 	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
-	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();	
 	
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
-			ArrayList<Docente> docentes) {
+			ArrayList<Docente> docentes, ArrayList<Grupo> grupos) {
 		super();
 		for (Docente docente : docentes) {
 			this.docentes.add(docente);
@@ -36,6 +36,9 @@ public class Academy {
 		for (Administrador administrador : administradores) {
 			this.administradores.add(administrador);
 		}
+		for (Grupo grupo : grupos) {
+			this.grupos.add(grupo);
+		}
 	}
 
 	public Academy() {
@@ -43,6 +46,7 @@ public class Academy {
 		this.administradores.clear();
 		this.estudiantes.clear();
 		this.docentes.clear();
+		this.grupos.clear();
 	}
 
 	public Academy(Academy a) {
@@ -56,10 +60,20 @@ public class Academy {
 		for (Administrador administrador : a.administradores) {
 			this.administradores.add(administrador);
 		}
+		for (Grupo grupo : a.grupos) {
+			this.grupos.add(grupo);
+		}
 	}
 
 	public ArrayList<Administrador> getAdministradores() {
 		return administradores;
+	}
+
+	public void setGrupos(ArrayList<Grupo> grupos) {
+		this.grupos.clear();
+		for (Grupo grupo : grupos) {
+			this.grupos.add(grupo);
+		}
 	}
 
 	public void setAdministradores(ArrayList<Administrador> administradores) {
@@ -94,7 +108,7 @@ public class Academy {
 	@Override
 	public String toString() {
 		return "Academy [administradores=" + administradores + ", estudiantes=" + estudiantes + ", docentes=" + docentes
-				+ "]";
+				+ ", grupos=" + grupos + ", claves=" + claves + "]";
 	}
 
 	public HashMap<Rols, HashMap<String, String>> getClaves() {
@@ -117,6 +131,24 @@ public class Academy {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
 			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
+
+			ois.close();
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
+		
+		try {
+
+			FileInputStream fis = new FileInputStream("res/grupos.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			this.grupos = (ArrayList<Grupo>) ois.readObject();
 
 			ois.close();
 			fis.close();
@@ -189,7 +221,24 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/admins.dat");
+			System.err.println("Error guardando datos en " + "res/admins.dat");
+
+			e.printStackTrace();
+		}
+		
+		try {
+
+			FileOutputStream fos = new FileOutputStream("res/grupos.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+			oos.writeObject(this.grupos);
+
+			oos.close();
+			fos.close();
+
+		} catch (IOException e) {
+
+			System.err.println("Error guardando datos en " + "res/grupos.dat");
 
 			e.printStackTrace();
 		}
@@ -206,7 +255,7 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/docentes.dat");
+			System.err.println("Error guardando datos en " + "res/docentes.dat");
 
 			e.printStackTrace();
 		}
@@ -223,7 +272,7 @@ public class Academy {
 
 		} catch (IOException e) {
 
-			System.err.println("Error guardando pedidos en " + "res/estudiantes.dat");
+			System.err.println("Error guardando datos en " + "res/estudiantes.dat");
 
 			e.printStackTrace();
 		}
