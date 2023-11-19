@@ -188,6 +188,7 @@ public class VentanaEstudiante extends JFrame {
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
 		ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		ventana.setLocationRelativeTo(null);
 
 	}
 

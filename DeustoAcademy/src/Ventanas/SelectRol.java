@@ -80,6 +80,7 @@ public class SelectRol extends JFrame {
 		ventana.add(panelPrincipal);
 
 		ventana.setVisible(true);
+		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		ventana.pack();
 
