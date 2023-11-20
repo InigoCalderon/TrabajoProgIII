@@ -1,3 +1,5 @@
+import static org.junit.Assert.assertNull;
+
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -10,38 +12,38 @@ public class AdministradorTest {
 	
 	
 	@Test
-	public String TestGetNombre() {
+	public void TestGetNombre() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("nombre", nueva.getNombre());
 	}
 	@Test
-	public String TestGetApellido() {
+	public void TestGetApellido() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("apellido",nueva.getApellido() );
 		
 	}
 	@Test
-	public String TestGetDni() {
+	public void TestGetDni() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("dni",nueva.getDni() );
 	}
 	@Test
-	public String TestGetCorreo() {
+	public void TestGetCorreo() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("correo",nueva.getCorreo() );
 	}
 	@Test
-	public int TestGetTelefono() {
+	public void TestGetTelefono() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals(123,nueva.getTelefono() );
 	}
 	@Test
-	public String TestGetUsuario() {
+	public void TestGetUsuario() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("usuario",nueva.getUsuario() );
 	}
 	@Test
-	public String TestGetContraseña() {
+	public void TestGetContraseña() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("contraseña",nueva.getContraseña() );
 	}
