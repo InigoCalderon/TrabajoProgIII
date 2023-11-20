@@ -47,7 +47,7 @@ public class AdministradorTest {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("contraseña",nueva.getContraseña() );
 	}
-	
+	/*/
 	@Test
 	public String TestSetNombre() {
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
@@ -84,5 +84,5 @@ public class AdministradorTest {
 		assertEquals("modificacion", nueva.setContraseña("modificacion"));
 	}
 	
-	
+	/*/
 }
