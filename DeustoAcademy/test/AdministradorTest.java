@@ -1,12 +1,12 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import DeustoAcademy.Administrador;
 
 public class AdministradorTest {
-
-protected Administrador administrador;
+	
+	protected Administrador administrador;
 	
 	
 	@Test
@@ -81,5 +81,6 @@ protected Administrador administrador;
 		Administrador nueva = new Administrador("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña");
 		assertEquals("modificacion", nueva.setContraseña("modificacion"));
 	}
+	
 	
 }
