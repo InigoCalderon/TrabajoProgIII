@@ -2,29 +2,20 @@ package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.JTree;
 import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.SwingUtilities;
@@ -209,7 +200,7 @@ public class DatosPersonales {
 									lista.add(nuevo_estudiante);
 									
 									for (Idioma idioma : idiomas_demandados) {
-										new Grupo(idioma, String.format("GRUPO[%n]-(Docente Sin Asignar)", idioma), null, lista);
+										new Grupo(idioma, String.format("GRUPO[%n]-(Docente Sin Asignar)", idioma), null, lista, new ArrayList<Tarea>());
 									}
 								}
 								
@@ -249,6 +240,7 @@ public class DatosPersonales {
 											(Idioma) spinner.getValue(), 
 											String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()), 
 											nuevo_docente,
+											new ArrayList<>(),
 											new ArrayList<>()
 									);
 									
@@ -304,6 +296,7 @@ public class DatosPersonales {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
 					ventana.dispose();
 					new Login(academy, rol);
 
