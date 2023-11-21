@@ -155,6 +155,7 @@ public class VentanaAdministradorAccesoDocente {
         ventana.add(scrollPlantilla, BorderLayout.SOUTH);
         ventana.add(panelIzquierda, BorderLayout.WEST);
         ventana.add(panelBotones, BorderLayout.SOUTH);
+        ventana.add(scrollPlantilla, BorderLayout.CENTER);
 
         // Color de fondo
         Color colorFondo = new Color(88, 187, 240);

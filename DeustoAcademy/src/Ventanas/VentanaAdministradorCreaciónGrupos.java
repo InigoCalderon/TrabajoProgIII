@@ -27,6 +27,7 @@ import DeustoAcademy.Docente;
 import DeustoAcademy.Estudiante;
 import DeustoAcademy.Grupo;
 import DeustoAcademy.Idioma;
+import DeustoAcademy.Tarea;
 
 public class VentanaAdministradorCreaciónGrupos {
 	
@@ -112,7 +113,7 @@ public class VentanaAdministradorCreaciónGrupos {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (!textoNombre.getText().isBlank() && comboIdioma.getSelectedItem() != null) {
-					Grupo nuevo = new Grupo((Idioma) comboIdioma.getSelectedItem(), textoNombre.getText(), null, new ArrayList<Estudiante>());
+					Grupo nuevo = new Grupo((Idioma) comboIdioma.getSelectedItem(), textoNombre.getText(), null, new ArrayList<Estudiante>(), new ArrayList<Tarea>());
 			/*		actualizarGrupo(nuevo);		*/
 					datos.getGrupos().add(nuevo);
 					actualizarCombos(datos);
