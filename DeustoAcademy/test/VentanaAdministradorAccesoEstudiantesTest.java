@@ -2,21 +2,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import DeustoAcademy.Academy;
-import DeustoAcademy.Docente;
+import DeustoAcademy.Estudiante;
 import DeustoAcademy.Idioma;
-import Ventanas.VentanaAdministradorAccesoDocente;
+import Ventanas.VentanaAdiministradorAccesoEstudiantes;
 
-public class VentanaAdministradorAccesoDocenteTest {
-	protected VentanaAdministradorAccesoDocente ventana;
+
+public class VentanaAdministradorAccesoEstudiantesTest {
+	protected VentanaAdiministradorAccesoEstudiantes ventana;
 	protected Academy datos;
 	
 	
 	
 	@Test
-	public void TestActualizarDocente() {
+	public void TestActualizarEstudiante() {
 		String nombre = "Nombre";
 		String apellido= "Apellido";
 		String dni = "16092625P";
@@ -24,9 +27,9 @@ public class VentanaAdministradorAccesoDocenteTest {
 		int telefono = 634444024;
 		String user = "usuario";
 		String pass = "1234";
-		Docente nuevo = new Docente();
+		Estudiante nuevo = new Estudiante();
 		
-		ventana.actualizarDocente(nuevo);
+		ventana.actualizarEstudiante(nuevo);
 		assertEquals(nombre, nuevo.getNombre());
 		assertEquals(apellido, nuevo.getApellido());
 		assertEquals(dni, nuevo.getDni());
@@ -38,11 +41,12 @@ public class VentanaAdministradorAccesoDocenteTest {
 	}
 	
 	@Test
-	public void TestActualizarCombos() {
-		Docente nuevo = new Docente("nombre", "apellido", "1234", "@gmail.com", 123, "usuario", "contra", Idioma.Castellano);
+	public void TestActualizarLista() {
+		
+		Estudiante nuevo = new Estudiante("nombre", "apellido", 1234, "@gmail.com", "123", "usuario", "contra", new ArrayList<Idioma>());
 		Academy academy = new Academy();
-		academy.getDocentes().add(nuevo);
-		ventana.actualizarCombos(academy);
+		academy.getEstudiantes().add(nuevo);
+		ventana.actualizarLista(academy);
 		assertTrue(ventana.modeloLista.contains(nuevo));
 	}
 	

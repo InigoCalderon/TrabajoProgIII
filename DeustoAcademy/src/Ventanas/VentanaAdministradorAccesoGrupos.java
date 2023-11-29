@@ -33,10 +33,10 @@ import DeustoAcademy.*;
 
 	public class VentanaAdministradorAccesoGrupos {
 
-		protected JComboBox<Grupo> comboGrupos1;
-		protected JComboBox<Grupo> comboGrupos2;
-		protected JComboBox<Docente> comboDocentes;
-		protected JComboBox<Estudiante> comboEstudiantes;
+		public JComboBox<Grupo> comboGrupos1;
+		public JComboBox<Grupo> comboGrupos2;
+		public JComboBox<Docente> comboDocentes;
+		public JComboBox<Estudiante> comboEstudiantes;
 
 		protected JButton botonAsignar1;
 		protected JButton botonAsignar2;

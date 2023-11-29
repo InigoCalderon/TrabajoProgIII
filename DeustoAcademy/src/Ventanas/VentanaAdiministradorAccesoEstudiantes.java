@@ -22,15 +22,15 @@ import DeustoAcademy.*;
 
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
     private static final long serialVersionUID = 1L;
-    protected DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
-    protected JList<Estudiante> listaEstudiante;
-    protected TextField textoNombre;
-    protected TextField textoApellido;
-    protected TextField textoDni;
-    protected TextField textoCorreo;
-    protected TextField textoTelefono;
-    protected TextField textoUsuario;
-    protected TextField textoContraseña;
+    public DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
+    public JList<Estudiante> listaEstudiante;
+    public TextField textoNombre;
+    public TextField textoApellido;
+    public TextField textoDni;
+    public TextField textoCorreo;
+    public TextField textoTelefono;
+    public TextField textoUsuario;
+    public TextField textoContraseña;
     protected JButton botonModificar;
     protected JButton botonEliminar;
     protected JButton botonAñadir;
