@@ -27,16 +27,16 @@ import DeustoAcademy.*;
 
 public class VentanaAdministradorAccesoDocente {
 
-    protected DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
-    protected JList<Docente> listaDocente;
-    protected TextField textoNombre;
-    protected TextField textoApellido;
-    protected TextField textoDni;
-    protected TextField textoCorreo;
-    protected TextField textoTelefono;
-    protected TextField textoUsuario;
-    protected TextField textoContraseña;
-    protected Academy datos;
+    public DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
+    public JList<Docente> listaDocente;
+    public TextField textoNombre;
+    public TextField textoApellido;
+    public TextField textoDni;
+    public TextField textoCorreo;
+    public TextField textoTelefono;
+    public TextField textoUsuario;
+    public TextField textoContraseña;
+    public Academy datos;
 
     protected JTextArea textoDocente;
     protected JButton botonModificar;
