@@ -1,23 +1,23 @@
 package DeustoAcademy;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
 public class Tarea {
 
-	protected String fecha_creacion = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(ZonedDateTime.now());
-	protected String fecha_entrega = null;
+	protected String fecha_creacion = LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+	protected String fecha_entrega; // 17/02/22
 	protected String titulo;
 	protected String comentario;
-	protected int calificacion;
+	protected String calificacion;
 	protected int n_docs_adjuntos;
 	protected ArrayList<String> nombre_docs_adjuntos;
 
-	public Tarea(String fecha_creacion, String fecha_entrega, String titulo, String comentario, int calificacion, int n_docs_adjuntos,
+	public Tarea(String fecha_entrega, String titulo, String comentario, String calificacion, int n_docs_adjuntos,
 			ArrayList<String> nombre_docs_adjuntos) {
 		super();
-		this.fecha_creacion = fecha_creacion;
 		this.fecha_entrega = fecha_entrega;
 		this.titulo = titulo;
 		this.comentario = comentario;
@@ -31,7 +31,7 @@ public class Tarea {
 
 	public Tarea() {
 		super();
-		this.calificacion = 0;
+		this.calificacion = "Sin calificar";
 		this.n_docs_adjuntos = 0;
 		this.nombre_docs_adjuntos = new ArrayList<>();
 	}
@@ -50,11 +50,11 @@ public class Tarea {
 		}
 	}
 
-	public int getCalificacion() {
+	public String getCalificacion() {
 		return calificacion;
 	}
 
-	public void setCalificacion(int calificacion) {
+	public void setCalificacion(String calificacion) {
 		this.calificacion = calificacion;
 	}
 

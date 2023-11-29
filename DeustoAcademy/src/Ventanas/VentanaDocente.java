@@ -130,7 +130,7 @@ public class VentanaDocente extends JFrame {
         botonCalificaciones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones(idioma);
+                VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones(null);
                 ventana.dispose();
             }
         });

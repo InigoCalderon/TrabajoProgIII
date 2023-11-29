@@ -22,10 +22,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import DeustoAcademy.*;
+
 
 
 
@@ -118,15 +120,32 @@ import DeustoAcademy.*;
 						grupo.getEstudiantes().add(estudiante);
 						actualizarCombos(datos);
 						JOptionPane.showMessageDialog(null, "Asignación realizada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-						Thread hilo = new Thread() {					
+						
+						Thread hilo = new Thread() {
+							
 							public void run() {
-								textoAsignacion1.append("Asignando estudiante " + estudiante.getNombre() + "al grupo " + grupo.getNombre() + "de idioma " + grupo.getIdioma() +"el proceso se realizará en: ");
-									for (int i = 0; i < 4; i++) {
-										textoAsignacion1.append("    "+i);
-										try { Thread.sleep(1000); } catch (InterruptedException e) {}
-									}
-									textoAsignacion1.append("  terminado!  ");
-									botonAsignar2.setEnabled(true);
+								
+				            	textoAsignacion1.append("Asignando estudiante " + estudiante.getNombre() + "al grupo " + grupo.getNombre() + "de idioma " + grupo.getIdioma() +"el proceso se realizará en: ");
+								for (int i = 0; i < 4; i++) {
+									
+									final int time = i;
+									
+									SwingUtilities.invokeLater(new Runnable() {
+
+							            @Override
+							            public void run() {
+										textoAsignacion1.append("    " + time);
+										
+							            }
+							        }); 
+									
+									try { Thread.sleep(1000); } catch (InterruptedException e) {}
+									
+								}
+								
+								textoAsignacion1.append("  terminado!  ");
+								botonAsignar2.setEnabled(true);
+									
 							}
 						};
 						botonAsignar2.setEnabled(false);

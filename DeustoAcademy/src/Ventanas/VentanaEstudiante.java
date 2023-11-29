@@ -171,6 +171,24 @@ public class VentanaEstudiante extends JFrame {
 
 	    }
 		
+		//
+		
+		// ME INVENTO TAREAS
+		System.out.println();
+		for (Grupo grupo : academy.getGrupos()) {
+			if (grupo.getEstudiantes().contains(estudiante)){
+				grupo.getTareas().add(
+						new Tarea(
+								"26/11/23",
+								"PRÁCTICA 69",
+								"Esta práctica no es teórica",
+								"Sin calificar",
+								0,
+								null
+						));
+			}
+		}
+		
 		// datos de la tabla
 		
 		List<Tarea> tareas = new ArrayList<>();

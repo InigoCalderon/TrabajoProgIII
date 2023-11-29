@@ -19,6 +19,7 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 	protected String usuario;
 	protected String contraseña;
 	protected ArrayList<Idioma> idiomas;
+	protected Grupo grupo;
 
 	public Estudiante(String nombre, String apellido, int telefono, String correo, String dni, String usuario,
 			String contraseña, ArrayList<Idioma> idiomas) {
