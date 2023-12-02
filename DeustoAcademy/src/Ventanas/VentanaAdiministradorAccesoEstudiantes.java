@@ -2,6 +2,7 @@ package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -14,11 +15,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import DeustoAcademy.*;
+
+
 
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -35,14 +42,15 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
     protected JButton botonEliminar;
     protected JButton botonAñadir;
     protected Academy datos;
-
+   
     public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
         modeloLista = new DefaultListModel<>();
         listaEstudiante = new JList<Estudiante>(modeloLista);
         listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPlantilla = new JScrollPane(listaEstudiante);
+        
         actualizarLista(datos);
-
+        JTextField textoBusqueda = new JTextField(20);
         textoNombre = new TextField(20);
         textoApellido = new TextField(20);
         textoDni = new TextField(20);
@@ -106,15 +114,40 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                 }
             }
         });
+        
+        textoBusqueda.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            	listaEstudiante.repaint();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            	listaEstudiante.repaint();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+        });
 
         JPanel panelBotones = new JPanel();
         JPanel panelModificarDatos = new JPanel();
         JPanel panelIzquierda = new JPanel();
         JFrame ventana = new JFrame("Ventana Administrador acceso estudiantes");
-
+        
+       
+        
+        listaEstudiante.setCellRenderer(new MyCellRenderer(textoBusqueda));							// Render de la lista
+        
         panelBotones.add(botonEliminar);
         panelBotones.add(botonModificar);
         panelBotones.add(botonAñadir);
+        
+        JLabel panelBusqueda = new JLabel("Buscar estudiante: ");
+        panelBotones.add(panelBusqueda);
+        panelBotones.add(textoBusqueda);
 
         panelModificarDatos.setLayout(new GridLayout(4, 30));
         panelModificarDatos.add(new JLabel("Nombre: "));
@@ -155,7 +188,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         ventana.setVisible(true);
         ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-
+    
     public void actualizarLista(Academy datos) {
         modeloLista.clear();
         try {
@@ -192,4 +225,38 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                 && !textoCorreo.getText().isBlank() && !textoTelefono.getText().isBlank()
                 && !textoUsuario.getText().isBlank() && !textoCorreo.getText().isBlank();
     }
+    
+    
+    
+    
+    // RENDER DE LA LISTA
+    
+    
+    
+    class MyCellRenderer extends JLabel implements ListCellRenderer<Estudiante> {
+    	 private JTextField textoBusqueda; 
+
+    	    public MyCellRenderer(JTextField textoBusqueda) {
+    	        this.textoBusqueda = textoBusqueda;
+    	        setOpaque(true); 
+    	    }
+		@Override
+		public Component getListCellRendererComponent(JList<? extends Estudiante> list, Estudiante value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			// TODO Auto-generated method stub
+			Estudiante estudiante =  value;
+			if (!textoBusqueda.getText().isBlank() && textoBusqueda.getText() != null &&estudiante.getNombre().startsWith(textoBusqueda.getText()) ) {
+				setForeground(Color.RED);
+				setOpaque(true);
+			}else {
+				setForeground(Color.BLACK);
+				setOpaque(true);
+			}
+			 setText("Estudiante: " +estudiante.getNombre()+ " "+estudiante.getApellido());
+			return this;
+		}
+		
+    }
+    
+    
 }
