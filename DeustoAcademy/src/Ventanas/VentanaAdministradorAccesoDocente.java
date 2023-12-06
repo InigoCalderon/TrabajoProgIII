@@ -2,6 +2,7 @@ package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -19,24 +20,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import DeustoAcademy.*;
+import Ventanas.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
 
 public class VentanaAdministradorAccesoDocente {
 
-    protected DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
-    protected JList<Docente> listaDocente;
-    protected TextField textoNombre;
-    protected TextField textoApellido;
-    protected TextField textoDni;
-    protected TextField textoCorreo;
-    protected TextField textoTelefono;
-    protected TextField textoUsuario;
-    protected TextField textoContraseña;
-    protected Academy datos;
+    public DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
+    public JList<Docente> listaDocente;
+    public TextField textoNombre;
+    public TextField textoApellido;
+    public TextField textoDni;
+    public TextField textoCorreo;
+    public TextField textoTelefono;
+    public TextField textoUsuario;
+    public TextField textoContraseña;
+    public Academy datos;
 
     protected JTextArea textoDocente;
     protected JButton botonModificar;
@@ -49,7 +55,7 @@ public class VentanaAdministradorAccesoDocente {
         JScrollPane scrollPlantilla = new JScrollPane(listaDocente);
         actualizarCombos(datos);
         JLabel etiquetaDocente = new JLabel("Docentes");
-
+        JTextField textoBusqueda = new JTextField(20);
         botonModificar = new JButton("Modificar");
         botonEliminar = new JButton("Eliminar");
         botonAñadir = new JButton("Añadir");
@@ -122,6 +128,22 @@ public class VentanaAdministradorAccesoDocente {
                 }
             }
         });
+        textoBusqueda.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            	listaDocente.repaint();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            	listaDocente.repaint();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
+            }
+        });
 
         JPanel panelBotones = new JPanel();
         JPanel panelModificarDatos = new JPanel();
@@ -151,7 +173,13 @@ public class VentanaAdministradorAccesoDocente {
         panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
         JFrame ventana = new JFrame("Ventana Administrador acceso docentes");
-
+        JLabel panelBusqueda = new JLabel("Buscar docente: ");
+        
+        panelBotones.add(panelBusqueda);
+        panelBotones.add(textoBusqueda);
+        
+        listaDocente.setCellRenderer(new MyCellRenderer(textoBusqueda));							// Render de la lista
+        
         ventana.add(scrollPlantilla, BorderLayout.SOUTH);
         ventana.add(panelIzquierda, BorderLayout.WEST);
         ventana.add(panelBotones, BorderLayout.SOUTH);
@@ -211,4 +239,28 @@ public class VentanaAdministradorAccesoDocente {
                 && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank()
                 && !textoCorreo.getText().isBlank();
     }
+    class MyCellRenderer extends JLabel implements ListCellRenderer<Docente> {
+   	 private JTextField textoBusqueda; 
+
+   	    public MyCellRenderer(JTextField textoBusqueda) {
+   	        this.textoBusqueda = textoBusqueda;
+   	        setOpaque(true); 
+   	    }
+		@Override
+		public Component getListCellRendererComponent(JList<? extends Docente> list, Docente value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			// TODO Auto-generated method stub
+			Docente docente =  value;
+			if (!textoBusqueda.getText().isBlank() && textoBusqueda.getText() != null &&docente.getNombre().startsWith(textoBusqueda.getText()) ) {
+				setForeground(Color.RED);
+				setOpaque(true);
+			}else {
+				setForeground(Color.BLACK);
+				setOpaque(true);
+			}
+			 setText("Docente: " + docente.getNombre()+ " "+docente.getApellido() );
+			return this;
+		}
+		
+   }
 }

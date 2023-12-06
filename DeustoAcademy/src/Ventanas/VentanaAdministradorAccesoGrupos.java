@@ -33,10 +33,10 @@ import DeustoAcademy.*;
 
 	public class VentanaAdministradorAccesoGrupos {
 
-		protected JComboBox<Grupo> comboGrupos1;
-		protected JComboBox<Grupo> comboGrupos2;
-		protected JComboBox<Docente> comboDocentes;
-		protected JComboBox<Estudiante> comboEstudiantes;
+		public JComboBox<Grupo> comboGrupos1;
+		public JComboBox<Grupo> comboGrupos2;
+		public JComboBox<Docente> comboDocentes;
+		public JComboBox<Estudiante> comboEstudiantes;
 
 		protected JButton botonAsignar1;
 		protected JButton botonAsignar2;
@@ -89,14 +89,33 @@ import DeustoAcademy.*;
 							public void run() {
 								textoAsignacion1.append("Asignando docente " + docente.getNombre() + "al grupo " + grupo.getNombre() + "de idioma " + grupo.getIdioma()+ "el proceso se realizará en: ");
 									for (int i = 0; i < 4; i++) {
-										textoAsignacion1.append("    "+i);
+										final int time = i;
+										SwingUtilities.invokeLater(new Runnable() {
+
+								            @Override
+								            public void run() {
+								            	textoAsignacion1.append("    "+time);
+								            }
+								        });
 										try { Thread.sleep(1000); } catch (InterruptedException e) {}
 									}
-								botonAsignar1.setEnabled(true);
-								textoAsignacion1.append("  terminado!  ");
+								SwingUtilities.invokeLater(new Runnable() {
+
+							        @Override
+							        public void run() {
+							        	botonAsignar1.setEnabled(true);
+							        	textoAsignacion1.append("  terminado!  ");
+							        }
+						        });
 							}
 						};
-						botonAsignar1.setEnabled(false);
+						SwingUtilities.invokeLater(new Runnable() {
+
+					        @Override
+					        public void run() {
+					        	botonAsignar1.setEnabled(false);
+					        }
+				        });
 						hilo.start();
 					} else {
 						JOptionPane.showMessageDialog(null, "No se ha podido realizar la asignación, revisa que el grupo y docente comparten idioma", "Error", JOptionPane.ERROR_MESSAGE);
@@ -142,13 +161,23 @@ import DeustoAcademy.*;
 									try { Thread.sleep(1000); } catch (InterruptedException e) {}
 									
 								}
-								
-								textoAsignacion1.append("  terminado!  ");
-								botonAsignar2.setEnabled(true);
-									
+								SwingUtilities.invokeLater(new Runnable() {
+
+						            @Override
+						            public void run() {
+						            	textoAsignacion1.append("  terminado!  ");
+						            	botonAsignar2.setEnabled(true);
+						            }
+						        });	
 							}
 						};
-						botonAsignar2.setEnabled(false);
+						SwingUtilities.invokeLater(new Runnable() {
+
+				        @Override
+				        public void run() {
+				        	botonAsignar2.setEnabled(false);
+				           }
+				       });	
 						hilo.start();
 						
 					} else {
