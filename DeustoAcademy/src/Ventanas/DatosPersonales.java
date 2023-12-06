@@ -44,7 +44,7 @@ public class DatosPersonales {
 	protected JLabel dni = new JLabel("Dni: ");
 	protected JLabel idioma = new JLabel("Idioma: ");
 	protected Set<Idioma> setIdiomas = new HashSet<>();
-
+	
 	public DatosPersonales(Academy academy, Rols rol, String nuevo_user, String nueva_passw) {
 
 		SwingUtilities.invokeLater(() -> {
@@ -141,8 +141,9 @@ public class DatosPersonales {
 							|| !(textoApellido.getText().equalsIgnoreCase(""))
 							|| !(textoDni.getText().equalsIgnoreCase(""))
 							|| !(textoCorreo.getText().equalsIgnoreCase(""))
-							|| !(textoTelefono.getText().equalsIgnoreCase("")))
-					
+							|| !(textoTelefono.getText().equalsIgnoreCase(""))
+							
+						)
 					{
 						
 						try {

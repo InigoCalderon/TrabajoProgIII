@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import DeustoAcademy.*;
 
@@ -28,18 +26,16 @@ public class VentanaEstudiante extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected JButton botonModificar;
-	protected JButton botonChat;
+	//protected JButton botonModificar;
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
-	protected JMenu menuTemario;
-	protected JMenu menuNotas;
+	protected JMenu menuIdiomas;
+	protected JMenuItem menuNotas;
 	
 	protected Icon idiomasIcon = new ImageIcon("res/idiomas.png");
-	protected Icon chatIcon = new ImageIcon("res/chat.png");
 	protected Icon exitIcon = new ImageIcon("res/exit.png");
 	protected Icon marksIcon = new ImageIcon("res/notas_academy.png");
-	protected Icon settingsIcon = new ImageIcon("res/settings.png");
+	protected Icon bookIcon = new ImageIcon("res/book.png");
 	protected Icon calendarIcon = new ImageIcon("res/calendar.png");
 
 	public VentanaEstudiante(Academy academy, Rols rol, Estudiante estudiante) {
@@ -225,42 +221,48 @@ public class VentanaEstudiante extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);  
         
-		int anchoDeseado = 960 / 14;
-		int altoDeseado = (int) (560 * 0.0975);
+		int anchoDeseado1 = 960 / 10;
+		int altoDeseado1 = (int) (560 * 0.15);
 		
-		Image image1 = ((ImageIcon) chatIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
+		int anchoDeseado2 = 960 / 17;
+		int altoDeseado2 = (int) (560 * 0.1);
+		
+		Image image2 = ((ImageIcon) exitIcon).getImage().getScaledInstance(anchoDeseado1, altoDeseado1,
 				Image.SCALE_SMOOTH);
-		Image image2 = ((ImageIcon) exitIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
+		Image image3 = ((ImageIcon) marksIcon).getImage().getScaledInstance(anchoDeseado2, altoDeseado2,
 				Image.SCALE_SMOOTH);
-		Image image3 = ((ImageIcon) marksIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
+		Image image4 = ((ImageIcon) bookIcon).getImage().getScaledInstance(anchoDeseado2, altoDeseado2,
 				Image.SCALE_SMOOTH);
-		Image image4 = ((ImageIcon) settingsIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
+		Image image5 = ((ImageIcon) calendarIcon).getImage().getScaledInstance(anchoDeseado1, altoDeseado1,
 				Image.SCALE_SMOOTH);
-		Image image5 = ((ImageIcon) calendarIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
-				Image.SCALE_SMOOTH);
-		Image image6 = ((ImageIcon) idiomasIcon).getImage().getScaledInstance(anchoDeseado, altoDeseado,
+		Image image6 = ((ImageIcon) idiomasIcon).getImage().getScaledInstance(anchoDeseado1, altoDeseado1,
 				Image.SCALE_SMOOTH);
 		
 		
 		// Crea un nuevo icono con la imagen escalada
-		botonModificar = new JButton(new ImageIcon(image4));
-		botonChat = new JButton(new ImageIcon(image1));
+		//botonModificar = new JButton(new ImageIcon(image4));
 		botonCalendario = new JButton(new ImageIcon(image5));
 		botonSalir = new JButton(new ImageIcon(image2));
-		menuTemario = new JMenu();
-		menuTemario.setIcon(new ImageIcon(image6));
-		menuTemario.setBackground(new Color(0, 247, 255));
-		menuNotas = new JMenu();
-		menuNotas.setIcon(new ImageIcon(image3));
-		menuNotas.setBackground(new Color(0, 247, 255));
+		menuIdiomas = new JMenu();
+		menuIdiomas.setIcon(new ImageIcon(image6));
 		
 		for (Idioma idioma : estudiante.getIdiomas()) {
 			
+			JMenu menuIdioma = new JMenu(idioma.toString());
 			
-			JMenuItem nuevo_menu1 = new JMenuItem(idioma.toString());
+			JMenuItem nuevo_menu1 = new JMenuItem("Temario");
 			nuevo_menu1.setBackground(new Color(0, 247, 255));
-			JMenuItem nuevo_menu2 = new JMenuItem(idioma.toString());
+			nuevo_menu1.setIcon(new ImageIcon(image4));
+			
+			JMenuItem nuevo_menu2 = new JMenuItem("Calificaciones");
+			nuevo_menu2.setIcon(new ImageIcon(image3));
 			nuevo_menu2.setBackground(new Color(0, 247, 255));
+			
+			menuIdioma.add(nuevo_menu1);
+			menuIdioma.add(nuevo_menu2);
+			menuIdiomas.add(menuIdioma);
+			
+			menuIdioma.setBackground(new Color(0, 247, 255));
 			
 			nuevo_menu1.addActionListener(new ActionListener() {
 				
@@ -268,11 +270,10 @@ public class VentanaEstudiante extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					
 					new Temario(idioma);
+					System.out.println("ENTRARIAMOS AL TEMARIO");
 					
 				}
 			});
-			
-        	menuTemario.add(nuevo_menu1);
         	
         	nuevo_menu2.addActionListener(new ActionListener() {
 				
@@ -280,40 +281,27 @@ public class VentanaEstudiante extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 
 					new VentanaCalificaciones(idioma);
+					System.out.println("ENTRARIAMOS A LAS CALIFICACIONES");
 					
 				}
 			});
         	
-        	menuNotas.add(nuevo_menu2);
-        	
 		}
 		
-		botonChat.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		menuNotas.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		botonModificar.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		botonCalendario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
-		menuTemario.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));		
+		botonSalir.setPreferredSize(new Dimension(anchoDeseado1, altoDeseado1));
+		botonCalendario.setPreferredSize(new Dimension(anchoDeseado1, altoDeseado1));		
+		menuIdiomas.setPreferredSize(new Dimension(anchoDeseado1, altoDeseado1));		
 		
-		menuTemario.setBackground(new Color(0, 247, 255));
+		menuIdiomas.setBackground(new Color(0, 247, 255));
 		botonCalendario.setBackground(new Color(0, 247, 255));
-		botonChat.setBackground(new Color(0, 247, 255));
 		botonSalir.setBackground(new Color(0, 247, 255));
-		menuNotas.setBackground(new Color(0, 247, 255));
-		botonModificar.setBackground(new Color(0, 247, 255));
 		
-		menuTemario.setBorder(null);
+		menuIdiomas.setBorder(null);
 		botonSalir.setBorder(null);
 		botonCalendario.setBorder(null);
-		botonModificar.setBorder(null);
-		menuNotas.setBorder(null);
-		botonChat.setBorder(null);
-		
-		menuBar.add(botonModificar);
-		menuBar.add(menuTemario);
-        menuBar.add(menuNotas);
+
+		menuBar.add(menuIdiomas);
         menuBar.add(botonCalendario);
-        menuBar.add(botonChat);
         menuBar.add(botonSalir);
         
         menuBar.setBackground(new Color(0, 247, 255));
@@ -342,24 +330,6 @@ public class VentanaEstudiante extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-			}
-		});
-
-		botonChat.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
-		botonModificar.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				new Login(academy, rol);
-				
 			}
 		});
 
