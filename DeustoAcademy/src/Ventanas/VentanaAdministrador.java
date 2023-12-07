@@ -25,6 +25,7 @@ public class VentanaAdministrador extends JFrame {
     protected JRadioButton radioEstudiante;
     protected JRadioButton radioDocente;
     protected JRadioButton radioGrupos;
+    protected JRadioButton radioAdministrador;
     protected JButton botonIngresar;
     protected JButton botonSalir;
     protected Academy datos;
@@ -39,12 +40,13 @@ public class VentanaAdministrador extends JFrame {
         radioEstudiante = new JRadioButton("Estudiantes");
         radioDocente = new JRadioButton("Docentes");
         radioGrupos = new JRadioButton("Grupos y asignaciones");
-
+        radioAdministrador = new JRadioButton("Administradores");
         // Agrupar los botones de radio
         ButtonGroup group = new ButtonGroup();
         group.add(radioEstudiante);
         group.add(radioDocente);
         group.add(radioGrupos);
+        group.add(radioAdministrador);
 
         JPanel panelRadio = new JPanel();
         JPanel panelBotones = new JPanel(); // Nuevo panel para botones
@@ -55,14 +57,16 @@ public class VentanaAdministrador extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (radioEstudiante.isSelected()) {
-                    System.out.println("estudiante");
+                    
                     new VentanaAdiministradorAccesoEstudiantes(academy);
                 } else if (radioDocente.isSelected()) {
-                    System.out.println("Docente");
+                    
                     new VentanaAdministradorAccesoDocente(academy);
                 } else if (radioGrupos.isSelected()) {
-                    System.out.println("grupos");
+                   
                     new VentanaAdministradorAccesoGrupos(academy);
+                } else if(radioAdministrador.isSelected()) {
+                	new VentanaAdministradorAccesoAdministradores(academy);
                 } else {
                     JOptionPane.showMessageDialog(null, "Has de seleccionar algún apartado ", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -83,19 +87,23 @@ public class VentanaAdministrador extends JFrame {
         radioEstudiante.setFont(font);
         radioDocente.setFont(font);
         radioGrupos.setFont(font);
+        radioAdministrador.setFont(font);
 
         radioEstudiante.setForeground(Color.WHITE);
         radioDocente.setForeground(Color.WHITE);
         radioGrupos.setForeground(Color.WHITE);
+        radioAdministrador.setForeground(Color.WHITE);
 
         radioEstudiante.setPreferredSize(new Dimension(250, 75));
         radioDocente.setPreferredSize(new Dimension(250, 75));
         radioGrupos.setPreferredSize(new Dimension(250, 75)); // Ajusté el tamaño de Grupos
-
+        radioAdministrador.setPreferredSize(new Dimension(250, 75));
+        
         radioEstudiante.setBackground(new Color(88, 187, 240));
         radioDocente.setBackground(new Color(88, 187, 240));
         radioGrupos.setBackground(new Color(88, 187, 240));
-
+        radioAdministrador.setBackground(new Color(88, 187, 240));
+        
         botonIngresar.setPreferredSize(new Dimension(120, 40));
         botonSalir.setPreferredSize(new Dimension(120, 40));
 
@@ -105,6 +113,7 @@ public class VentanaAdministrador extends JFrame {
         panelRadio.add(radioEstudiante);
         panelRadio.add(radioDocente);
         panelRadio.add(radioGrupos);
+        panelRadio.add(radioAdministrador);
         panelRadio.add(Box.createHorizontalGlue()); // Centrar en la mitad horizontal
 
         panelBotones.add(botonIngresar);
