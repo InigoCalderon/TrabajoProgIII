@@ -6,8 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -320,7 +324,61 @@ public class Academy {
 		 */
 
 	}
-	
+	public TreeMap<Estudiante, Float> mapaTarifaEstudiante(Academy datos){
+		TreeMap<Estudiante, Float> mapa = new TreeMap<Estudiante, Float>();
+		Float tarifaMensual = 0f;
+		for (Estudiante estudiante : datos.getEstudiantes()) {
+			
+			if (estudiante.getIdiomas().contains(Idioma.Castellano)) {
+				tarifaMensual += 125f;
+			}else if(estudiante.getIdiomas().contains(Idioma.Euskera)) {
+				tarifaMensual += 130f;
+			}else if(estudiante.getIdiomas().contains(Idioma.Ingles)) {
+				tarifaMensual += 140f;
+			}else if(estudiante.getIdiomas().contains(Idioma.Frances)) {
+				tarifaMensual += 135f;
+			}
+			mapa.putIfAbsent(estudiante, tarifaMensual);
+			mapa.put(estudiante, tarifaMensual);
+		}
+		return mapa;
+		
+	}
+	public TreeMap<Docente, Float> mapaSueldoDocente(Academy datos){
+		TreeMap<Docente, Float> mapa = new TreeMap<Docente, Float>();
+		Float sueldoMensual = 0f;
+		for (Docente docente : datos.getDocentes()) {
+			if (docente.getIdioma().equals(Idioma.Castellano)) {
+				sueldoMensual += 150f;
+			} else if(docente.getIdioma().equals(Idioma.Euskera)) {
+				sueldoMensual += 160f;
+			}else if(docente.getIdioma().equals(Idioma.Ingles)) {
+				sueldoMensual += 170;
+			}else if(docente.getIdioma().equals(Idioma.Frances)) {
+				sueldoMensual += 155f;
+			}
+			for (Grupo grupo : datos.getGrupos()) {
+				 if(grupo.getDocente().equals(docente)) {
+					sueldoMensual += 1000f;
+				}
+			}
+			
+			mapa.putIfAbsent(docente, sueldoMensual);
+			mapa.put(docente, sueldoMensual);
+		}
+		return mapa;
+		
+	}
+	public class comparadorEstudiantes implements Comparator<Estudiante>{
+
+		@Override
+		public int compare(Estudiante o1, Estudiante o2) {
+			// TODO Auto-generated method stub
+			if (o1.getNombre() != o2.getNombre()) return o1.getNombre().compareTo(o2.getNombre());
+			return o1.getApellido().compareTo(o2.getApellido());
+		}
+		
+	}
 	public HashMap<String, ArrayList<Estudiante>> actualizarMapaEstudiante() {
 		
 		HashMap<String, ArrayList<Estudiante>> mapaEstudiante = new HashMap<>();
@@ -369,6 +427,10 @@ public class Academy {
 				
 			}
 			
+		}
+		// Ordenamos todas las listas de estudiantes que hay por cada idioma del mapa
+		for (java.util.Map.Entry<String, ArrayList<Estudiante>> e: mapaEstudiante.entrySet()) {
+			Collections.sort(e.getValue(), new comparadorEstudiantes());
 		}
 		
 		return mapaEstudiante;
