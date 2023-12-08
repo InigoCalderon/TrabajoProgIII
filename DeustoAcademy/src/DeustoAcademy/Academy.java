@@ -324,6 +324,18 @@ public class Academy {
 		 */
 
 	}
+	public Float metodoActivoAcadaemia(Academy datos) {
+		Float activo = 0f;
+		
+		for (Estudiante estudiante : mapaTarifaEstudiante(datos).keySet()) {
+			activo += mapaTarifaEstudiante(datos).get(estudiante);
+		}
+		for (Docente docente : mapaSueldoDocente(datos).keySet()) {
+			activo -= mapaSueldoDocente(datos).get(docente);
+		}	
+		return activo;
+		
+	}
 	public TreeMap<Estudiante, Float> mapaTarifaEstudiante(Academy datos){
 		TreeMap<Estudiante, Float> mapa = new TreeMap<Estudiante, Float>();
 		Float tarifaMensual = 0f;
@@ -338,7 +350,7 @@ public class Academy {
 			}else if(estudiante.getIdiomas().contains(Idioma.Frances)) {
 				tarifaMensual += 135f;
 			}
-			mapa.putIfAbsent(estudiante, tarifaMensual);
+			
 			mapa.put(estudiante, tarifaMensual);
 		}
 		return mapa;
@@ -348,6 +360,9 @@ public class Academy {
 		TreeMap<Docente, Float> mapa = new TreeMap<Docente, Float>();
 		Float sueldoMensual = 0f;
 		for (Docente docente : datos.getDocentes()) {
+			
+			for (Grupo grupo : datos.getGrupos()) {
+			
 			if (docente.getIdioma().equals(Idioma.Castellano)) {
 				sueldoMensual += 150f;
 			} else if(docente.getIdioma().equals(Idioma.Euskera)) {
@@ -357,14 +372,13 @@ public class Academy {
 			}else if(docente.getIdioma().equals(Idioma.Frances)) {
 				sueldoMensual += 155f;
 			}
-			for (Grupo grupo : datos.getGrupos()) {
-				 if(grupo.getDocente().equals(docente)) {
-					sueldoMensual += 1000f;
-				}
-			}
 			
-			mapa.putIfAbsent(docente, sueldoMensual);
+			if(grupo.getDocente().equals(docente)) {
+					sueldoMensual += 900f;
+			}
 			mapa.put(docente, sueldoMensual);
+			}
+		
 		}
 		return mapa;
 		

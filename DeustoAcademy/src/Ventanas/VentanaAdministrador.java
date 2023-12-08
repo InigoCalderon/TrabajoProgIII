@@ -71,7 +71,7 @@ public class VentanaAdministrador extends JFrame {
                 } else if(radioAdministrador.isSelected()) {
                 	new VentanaAdministradorAccesoAdministradores(academy);
                 } else if(radioCuentas.isSelected()) {
-                	//////////////////////////////////////////////////////
+                	new VentanaAdministradorAccesoCuentas(academy);
                 } else {
                     JOptionPane.showMessageDialog(null, "Has de seleccionar algún apartado ", "Error",
                             JOptionPane.ERROR_MESSAGE);

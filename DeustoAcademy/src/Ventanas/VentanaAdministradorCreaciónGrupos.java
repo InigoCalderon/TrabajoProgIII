@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -159,6 +160,13 @@ public class VentanaAdministradorCreaciónGrupos {
 
 		ventana.add(scrollPlantilla, BorderLayout.CENTER);
 
+		// Color de fondo
+        Color colorFondo = new Color(88, 187, 240);
+		panelBotones.setBackground(colorFondo);
+		panelIzquierda.setBackground(colorFondo);
+		panelModificarDatos.setBackground(colorFondo);
+		
+		ventana.getContentPane().setBackground(colorFondo);
 		
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamañAo pequeño 720*480
 		ventana.setVisible(true);
