@@ -84,6 +84,8 @@ public class VentanaAdministradorCreaciónGrupos {
 
 					listaGrupo.clearSelection();
 					actualizarCombos(datos);
+					JOptionPane.showMessageDialog(null, "Grupo modificado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún grupo", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -100,7 +102,8 @@ public class VentanaAdministradorCreaciónGrupos {
 					actualizarCombos(datos);
 					textoNombre.setText("");
 					textoIdioma.setText("");
-
+					JOptionPane.showMessageDialog(null, "Grupo eliminado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún grupo", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -120,7 +123,8 @@ public class VentanaAdministradorCreaciónGrupos {
 					actualizarCombos(datos);
 					textoNombre.setText("");
 					comboIdioma.setSelectedIndex(0);
-					
+					JOptionPane.showMessageDialog(null, "Grupo añadido", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
 							JOptionPane.ERROR_MESSAGE);

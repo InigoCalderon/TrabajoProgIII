@@ -264,12 +264,12 @@ import DeustoAcademy.*;
 		
 		public static boolean esAptoGrupoDocente(Grupo grupo, Docente docente) {
 			
-			if (grupo.getDocente().equals(null) && docente.getIdioma().equals(grupo.getIdioma())) {
+			if (grupo.getDocente() == null  && docente.getIdioma().equals(grupo.getIdioma())) {
 				return true;
 			}else {
 				return false;
 			}
-		
+			
 		}
 
 		public static boolean esAptoGrupoEstudiante(Grupo grupo, Estudiante estudiante) {

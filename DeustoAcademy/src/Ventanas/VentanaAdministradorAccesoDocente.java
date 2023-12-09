@@ -10,8 +10,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,7 +50,12 @@ public class VentanaAdministradorAccesoDocente {
     protected JButton botonModificar;
     protected JButton botonEliminar;
     protected JButton botonAñadir;
-
+    
+    protected JCheckBox checkCastellano;
+    protected JCheckBox checkIngles;
+    protected JCheckBox checkEuskera;
+    protected JCheckBox checkFrances;
+    
     public VentanaAdministradorAccesoDocente(Academy datos) {
 
         listaDocente = new JList<Docente>(modeloLista);
@@ -59,6 +66,7 @@ public class VentanaAdministradorAccesoDocente {
         botonModificar = new JButton("Modificar");
         botonEliminar = new JButton("Eliminar");
         botonAñadir = new JButton("Añadir");
+       
         textoNombre = new TextField(20);
         textoApellido = new TextField(20);
         textoDni = new TextField(20);
@@ -66,10 +74,23 @@ public class VentanaAdministradorAccesoDocente {
         textoTelefono = new TextField(20);
         textoUsuario = new TextField(20);
         textoContraseña = new TextField(20);
+       
+        
+        checkCastellano = new JCheckBox("Castellano");
+        checkIngles = new JCheckBox("Ingles");
+        checkEuskera = new JCheckBox("Euskera");
+        checkFrances = new JCheckBox("Frances");
+        
+        ButtonGroup grupoBotones = new ButtonGroup();
+        grupoBotones.add(checkCastellano);
+        grupoBotones.add(checkIngles);
+        grupoBotones.add(checkCastellano);
+        grupoBotones.add(checkFrances);
 
         listaDocente.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
+            	limpiarCampos();
                 Docente docente = listaDocente.getSelectedValue();
                 if (docente != null) {
                     textoNombre.setText(docente.getNombre());
@@ -79,8 +100,31 @@ public class VentanaAdministradorAccesoDocente {
                     textoCorreo.setText(docente.getCorreo());
                     textoUsuario.setText(docente.getUsuario());
                     textoContraseña.setText(docente.getContraseña());
+                    
+                    if (docente.getIdioma().equals(Idioma.Castellano)) {
+              		   checkCastellano.setSelected(true);
+              	   } else {
+              		 checkCastellano.setSelected(false);
+              	   }
+                    if(docente.getIdioma().equals(Idioma.Ingles)) {
+              		   checkIngles.setSelected(true);
+              	   }else {
+              		 checkIngles.setSelected(false);
+              	   }
+                    if(docente.getIdioma().equals(Idioma.Euskera)) {
+              		   checkEuskera.setSelected(true);
+              	   }else {
+              		 checkEuskera.setSelected(false);
+              	   }
+                    if(docente.getIdioma().equals(Idioma.Frances)) {
+              		   checkFrances.setSelected(true);
+              	   }else {
+              		 checkFrances.setSelected(false);
+              	   }
+                  
+                    }
                 }
-            }
+            
         });
 
         botonModificar.addActionListener(new ActionListener() {
@@ -91,6 +135,8 @@ public class VentanaAdministradorAccesoDocente {
                     actualizarDocente(docente);
                     listaDocente.clearSelection();
                     actualizarCombos(datos);
+                    JOptionPane.showMessageDialog(null, "Docente modificado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -106,6 +152,8 @@ public class VentanaAdministradorAccesoDocente {
                     datos.getDocentes().remove(docente);
                     actualizarCombos(datos);
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Docente eliminado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -122,6 +170,8 @@ public class VentanaAdministradorAccesoDocente {
                     datos.getDocentes().add(nuevo);
                     actualizarCombos(datos);
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Docente añadido", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -153,7 +203,7 @@ public class VentanaAdministradorAccesoDocente {
         panelBotones.add(botonModificar);
         panelBotones.add(botonEliminar);
 
-        panelModificarDatos.setLayout(new GridLayout(4, 30));
+        panelModificarDatos.setLayout(new GridLayout(6, 30));
 
         panelModificarDatos.add(new JLabel("Nombre: "));
         panelModificarDatos.add(textoNombre);
@@ -169,6 +219,18 @@ public class VentanaAdministradorAccesoDocente {
         panelModificarDatos.add(textoUsuario);
         panelModificarDatos.add(new JLabel("Contraseña: "));
         panelModificarDatos.add(textoContraseña);
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        ////////////////////////
+        panelModificarDatos.add(new JLabel("Idiomas: "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(checkCastellano);
+        panelModificarDatos.add(checkIngles);
+        panelModificarDatos.add(checkEuskera);
+        panelModificarDatos.add(checkFrances);
+        
 
         panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
@@ -211,6 +273,15 @@ public class VentanaAdministradorAccesoDocente {
         docente.setTelefono(Integer.parseInt(textoTelefono.getText()));
         docente.setUsuario(textoUsuario.getText());
         docente.setContraseña(textoContraseña.getText());
+        if (checkCastellano.isSelected() == true) {
+        	docente.setIdioma(Idioma.Castellano);
+        }else if(checkIngles.isSelected() == true) {
+        	docente.setIdioma(Idioma.Ingles);
+        }else if(checkEuskera.isSelected() == true) {
+        	docente.setIdioma(Idioma.Euskera);
+        }else if(checkFrances.isSelected() == true) {
+        	docente.setIdioma(Idioma.Frances);
+        }
     }
 
     public void actualizarCombos(Academy datos) {
@@ -231,6 +302,10 @@ public class VentanaAdministradorAccesoDocente {
         textoCorreo.setText("");
         textoUsuario.setText("");
         textoContraseña.setText("");
+        checkCastellano.setSelected(false);
+        checkIngles.setSelected(false);
+        checkEuskera.setSelected(false);
+        checkFrances.setSelected(false);
     }
 
     public boolean camposRellenos() {
