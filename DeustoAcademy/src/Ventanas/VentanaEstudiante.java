@@ -262,22 +262,6 @@ public class VentanaEstudiante extends JFrame {
 			
 			JMenuItem menuTareas = new JMenuItem("Calificaciones de Tareas");
 			
-			for (Grupo grupo :  academy.getGrupos()) {
-				
-				if (grupo.getEstudiantes().contains(estudiante)) {
-					
-					JMenu menuGrupo = new JMenu();
-					
-					for (Tarea tarea : grupo.getTareas()) {
-						menuGrupo.add(new JLabel(String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(idioma))));
-					}// HAS HECHO MAL EL FILTRADO DE TAREAS EN ACADEMY Y RECUERDA QUE TIENES QUE BORRAR LOS DATOS DE GRUPOS Y ASÍ PARA QUE FUNCIONE TODO
-					
-				}
-				
-			}
-			
-			JLabel itemNotaTareas = new JLabel(String.format("      Calificación Final: %s", academy.getNotasTareas().get(estudiante).get(idioma)));
-
 			botonInscribirse.setSelected(academy.getInscritosExamenFinal().get(estudiante).get(idioma));
 			
 			menuIdioma.add(nuevo_menu1);
@@ -286,6 +270,24 @@ public class VentanaEstudiante extends JFrame {
 			menuIdioma.add(itemNotaFinal);
 			menuIdioma.add(menuTareas);
 			
+			for (Grupo grupo :  academy.getGrupos()) {
+				
+				if (grupo.getEstudiantes().contains(estudiante)) {
+					
+					JMenu menuGrupo = new JMenu(grupo.getNombre());
+					
+					for (Tarea tarea : grupo.getTareas()) {
+						
+						menuGrupo.add(new JLabel(String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea))));
+						
+					}
+					
+					menuTareas.add(menuGrupo);
+					
+				}
+				
+			}
+
 			menuIdiomas.add(menuIdioma);
 			
 			menuIdioma.setBackground(new Color(0, 247, 255));
@@ -389,16 +391,6 @@ public class VentanaEstudiante extends JFrame {
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		ventana.setLocationRelativeTo(null);
 
-	}
-
-	private JLabel JLabel(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private JTextField JTextField(String string) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

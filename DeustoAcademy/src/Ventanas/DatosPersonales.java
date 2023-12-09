@@ -177,19 +177,16 @@ public class DatosPersonales {
 								
 								HashMap<Idioma, Boolean> nuevo_hashMap1 = new HashMap<>();
 								HashMap<Idioma, String> nuevo_hashMap2 = new HashMap<>();
-								HashMap<Idioma, String> nuevo_hashMap3 = new HashMap<>();
 								
 								for (Idioma idioma : nuevo_estudiante.getIdiomas()) {
 
 									nuevo_hashMap1.put(idioma, false);
 									nuevo_hashMap2.put(idioma, "Examen no realizado aún");
-									nuevo_hashMap3.put(idioma, "Tarea no entregada aún");
 									
 								}
 								
 								academy.inscritosExamenFinal.put(nuevo_estudiante, nuevo_hashMap1);
 								academy.notasExamenFinal.put(nuevo_estudiante, nuevo_hashMap2);
-								academy.notasTareas.put(nuevo_estudiante, nuevo_hashMap3);
 								
 								// SI HAY GRUPOS DISPONIBLES TE METE EN ELLOS
 								for (Idioma idioma : idiomas_demandados) {

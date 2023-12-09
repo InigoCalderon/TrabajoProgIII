@@ -1,5 +1,6 @@
 package Ventanas;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -64,7 +65,7 @@ import DeustoAcademy.*;
 			comboEstudiantes = new JComboBox<Estudiante>();
 			
 			textoAsignacion1 = new JTextArea(10, 80);
-			
+			textoAsignacion1.setEditable(false);
 			botonAsignar1 = new JButton("Asignar docente a grupo");
 			botonAsignar2 = new JButton("Asignar estudiante a grupo");
 			botonCrearGrupo = new JButton("Crear grupos");
@@ -245,6 +246,15 @@ import DeustoAcademy.*;
 			panelTodoNorte.add(panelAsignaciones1);
 			panelTodoNorte.add(panelAsignaciones2);
 			ventana.add(panelTodoNorte, BorderLayout.NORTH);
+			
+			// Color de fondo
+	        Color colorFondo = new Color(88, 187, 240);
+			panelAsignaciones1.setBackground(colorFondo);
+			panelAsignaciones2.setBackground(colorFondo);
+			panelBoton.setBackground(colorFondo);
+			panelTodoNorte.setBackground(colorFondo);
+			panelTexto.setBackground(colorFondo);
+			ventana.getContentPane().setBackground(colorFondo);
 			
 			ventana.setSize(960, 560); // tamaño grande, 960*560 y tamañAo pequeño 720*480
 			ventana.setVisible(true);

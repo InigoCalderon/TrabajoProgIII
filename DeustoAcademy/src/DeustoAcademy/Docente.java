@@ -2,7 +2,7 @@ package DeustoAcademy;
 
 import java.io.Serializable;
 
-public class Docente implements Serializable {
+public class Docente implements Serializable , Comparable<Docente>{
 
 	/**
 	 * 
@@ -105,6 +105,12 @@ public class Docente implements Serializable {
 		return "Docente " + nombre + ", " + apellido + ", " + dni + ", " + correo
 				+ ", " + telefono + ", " + usuario + ", " + contraseña + ", "
 				+ idioma + "]";
+	}
+
+	@Override
+	public int compareTo(Docente o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

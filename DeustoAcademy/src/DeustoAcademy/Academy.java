@@ -6,8 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -25,10 +29,10 @@ public class Academy {
 	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();
 	public HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = new HashMap<>();
 	public HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal = new HashMap<>();
-	public HashMap<Estudiante, HashMap<Idioma, String>> notasTareas = new HashMap<>();
 	
 	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
+	protected HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<>();
 
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes, ArrayList<Grupo> grupos) {
@@ -41,19 +45,16 @@ public class Academy {
 			
 			HashMap<Idioma, Boolean> nuevo_hashMap1 = new HashMap<>();
 			HashMap<Idioma, String> nuevo_hashMap2 = new HashMap<>();
-			HashMap<Idioma, String> nuevo_hashMap3 = new HashMap<>();
 			
 			for (Idioma idioma : estudiante.getIdiomas()) {
 				
 				nuevo_hashMap1.put(idioma, false);
 				nuevo_hashMap2.put(idioma, "Examen no realizado aún");
-				nuevo_hashMap3.put(idioma, "Tarea no entregada aún");
 				
 			}
 			
 			inscritosExamenFinal.put(estudiante, nuevo_hashMap1);
 			notasExamenFinal.put(estudiante, nuevo_hashMap2);
-			notasTareas.put(estudiante, nuevo_hashMap3);
 			this.estudiantes.add(estudiante);
 			
 		}
@@ -75,50 +76,12 @@ public class Academy {
 		this.docentes.clear();
 		this.grupos.clear();
 	}
-
-	public Academy(Academy a) {
-		super();
-		
-		for (Docente docente : a.docentes) {
-			this.docentes.add(docente);
-		}
-		
-		for (Estudiante estudiante : a.estudiantes) {
-			
-			HashMap<Idioma, Boolean> nuevo_hashMap1 = new HashMap<>();
-			HashMap<Idioma, String> nuevo_hashMap2 = new HashMap<>();
-			HashMap<Idioma, String> nuevo_hashMap3 = new HashMap<>();
-			
-			for (Idioma idioma : estudiante.getIdiomas()) {
-				
-				nuevo_hashMap1.put(idioma, false);
-				nuevo_hashMap2.put(idioma, "Examen no realizado aún");
-				nuevo_hashMap3.put(idioma, "Tarea no entregada aún");
-				
-			}
-			
-			inscritosExamenFinal.put(estudiante, nuevo_hashMap1);
-			notasExamenFinal.put(estudiante, nuevo_hashMap2);
-			notasTareas.put(estudiante, nuevo_hashMap3);
-			this.estudiantes.add(estudiante);
-		}
-		
-		for (Administrador administrador : a.administradores) {
-			this.administradores.add(administrador);
-		}
-		
-		for (Grupo grupo : a.grupos) {
-			this.grupos.add(grupo);
-		}
-	}
 	
-	
-	
-	public HashMap<Estudiante, HashMap<Idioma, String>> getNotasTareas() {
+	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> getNotasTareas() {
 		return notasTareas;
 	}
 
-	public void setNotasTareas(HashMap<Estudiante, HashMap<Idioma, String>> notasTareas) {
+	public void setNotasTareas(HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas) {
 		this.notasTareas = notasTareas;
 	}
 
@@ -186,7 +149,7 @@ public class Academy {
 	public String toString() {
 		return "Academy [" + administradores + ", " + estudiantes + ", " + docentes
 				+ ", " + grupos + ", " + inscritosExamenFinal + ", "
-				+ notasExamenFinal + ", " + notasTareas + ", " + claves + "]";
+				+ notasExamenFinal + ", " + claves + ", " + notasTareas + "]";
 	}
 
 	public HashMap<Rols, HashMap<String, String>> getClaves() {
@@ -262,7 +225,7 @@ public class Academy {
 			FileInputStream fis = new FileInputStream("res/notasTareas.dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
-			this.notasTareas = (HashMap<Estudiante, HashMap<Idioma, String>>) ois.readObject();
+			this.notasTareas = (HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>>) ois.readObject();
 
 			ois.close();
 			fis.close();
@@ -646,7 +609,77 @@ public class Academy {
 		 */
 
 	}
+	public Float metodoActivoAcadaemia(Academy datos) {
+		Float activo = 0f;
+		
+		for (Estudiante estudiante : mapaTarifaEstudiante(datos).keySet()) {
+			activo += mapaTarifaEstudiante(datos).get(estudiante);
+		}
+		for (Docente docente : mapaSueldoDocente(datos).keySet()) {
+			activo -= mapaSueldoDocente(datos).get(docente);
+		}	
+		return activo;
+		
+	}
+	public TreeMap<Estudiante, Float> mapaTarifaEstudiante(Academy datos){
+		TreeMap<Estudiante, Float> mapa = new TreeMap<Estudiante, Float>();
+		Float tarifaMensual = 0f;
+		for (Estudiante estudiante : datos.getEstudiantes()) {
+			
+			if (estudiante.getIdiomas().contains(Idioma.Castellano)) {
+				tarifaMensual += 125f;
+			}else if(estudiante.getIdiomas().contains(Idioma.Euskera)) {
+				tarifaMensual += 130f;
+			}else if(estudiante.getIdiomas().contains(Idioma.Ingles)) {
+				tarifaMensual += 140f;
+			}else if(estudiante.getIdiomas().contains(Idioma.Frances)) {
+				tarifaMensual += 135f;
+			}
+			
+			mapa.put(estudiante, tarifaMensual);
+		}
+		return mapa;
+		
+	}
 	
+	public TreeMap<Docente, Float> mapaSueldoDocente(Academy datos){
+		TreeMap<Docente, Float> mapa = new TreeMap<Docente, Float>();
+		Float sueldoMensual = 0f;
+		for (Docente docente : datos.getDocentes()) {
+			
+			for (Grupo grupo : datos.getGrupos()) {
+			
+			if (docente.getIdioma().equals(Idioma.Castellano)) {
+				sueldoMensual += 150f;
+			} else if(docente.getIdioma().equals(Idioma.Euskera)) {
+				sueldoMensual += 160f;
+			}else if(docente.getIdioma().equals(Idioma.Ingles)) {
+				sueldoMensual += 170;
+			}else if(docente.getIdioma().equals(Idioma.Frances)) {
+				sueldoMensual += 155f;
+			}
+			
+			if(grupo.getDocente().equals(docente)) {
+					sueldoMensual += 900f;
+			}
+			mapa.put(docente, sueldoMensual);
+			}
+		
+		}
+		return mapa;
+		
+	}
+	
+	public class comparadorEstudiantes implements Comparator<Estudiante>{
+
+		@Override
+		public int compare(Estudiante o1, Estudiante o2) {
+			// TODO Auto-generated method stub
+			if (o1.getNombre() != o2.getNombre()) return o1.getNombre().compareTo(o2.getNombre());
+			return o1.getApellido().compareTo(o2.getApellido());
+		}
+		
+	}
 	public HashMap<String, ArrayList<Estudiante>> actualizarMapaEstudiante() {
 		
 		HashMap<String, ArrayList<Estudiante>> mapaEstudiante = new HashMap<>();
@@ -696,8 +729,44 @@ public class Academy {
 			}
 			
 		}
+		// Ordenamos todas las listas de estudiantes que hay por cada idioma del mapa
+		for (java.util.Map.Entry<String, ArrayList<Estudiante>> e: mapaEstudiante.entrySet()) {
+			Collections.sort(e.getValue(), new comparadorEstudiantes());
+		}
 		
 		return mapaEstudiante;
+		
+	}
+	
+	
+	// MÉTODO PARA ACTUALIZAR LAS NOTAS DE LAS TAREAS -- PARA ÍÑIGO
+	// HE PUESTO RETURN PARA QUE SE MUESTRE ALGO PERO DEBERÁ SER ESTE MÉTODO VOID Y NO DEVOLVER NADA
+	// SIMPLEMENTE MODIFICAR LAS NOTAS
+	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> actualizarNotasTareas(Estudiante estudiante){
+			
+		HashMap<Grupo, HashMap<Tarea, String>> nuevo_hashMap = new HashMap<>();
+		
+		for (Grupo grupo : this.getGrupos()) {
+			
+			if (grupo.getEstudiantes().contains(estudiante)) {
+				
+				HashMap<Tarea, String> nuevo_HashMap2 = new HashMap<>();
+				
+				for (Tarea tarea : grupo.getTareas()) {
+					
+					// AQUÍ SE METE LA NOTA DE LA TAREA
+					nuevo_HashMap2.put(tarea, "Sin califiar");
+					
+				}
+				
+				nuevo_hashMap.put(grupo, nuevo_HashMap2);
+				nuevo_HashMap2.clear();
+				
+			}
+			
+		}
+		
+		return new HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>>();
 		
 	}
 	
