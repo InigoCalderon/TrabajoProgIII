@@ -22,26 +22,50 @@ public class Academy {
 	protected ArrayList<Administrador> administradores = new ArrayList<>();
 	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
 	protected ArrayList<Docente> docentes = new ArrayList<>();
-	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();	
-
+	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();
+	public HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = new HashMap<>();
+	public HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal = new HashMap<>();
+	public HashMap<Estudiante, HashMap<Idioma, String>> notasTareas = new HashMap<>();
+	
 	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
-	
+
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes, ArrayList<Grupo> grupos) {
 		super();
 		for (Docente docente : docentes) {
 			this.docentes.add(docente);
 		}
+		
 		for (Estudiante estudiante : estudiantes) {
+			
+			HashMap<Idioma, Boolean> nuevo_hashMap1 = new HashMap<>();
+			HashMap<Idioma, String> nuevo_hashMap2 = new HashMap<>();
+			HashMap<Idioma, String> nuevo_hashMap3 = new HashMap<>();
+			
+			for (Idioma idioma : estudiante.getIdiomas()) {
+				
+				nuevo_hashMap1.put(idioma, false);
+				nuevo_hashMap2.put(idioma, "Examen no realizado aún");
+				nuevo_hashMap3.put(idioma, "Tarea no entregada aún");
+				
+			}
+			
+			inscritosExamenFinal.put(estudiante, nuevo_hashMap1);
+			notasExamenFinal.put(estudiante, nuevo_hashMap2);
+			notasTareas.put(estudiante, nuevo_hashMap3);
 			this.estudiantes.add(estudiante);
+			
 		}
+		
 		for (Administrador administrador : administradores) {
 			this.administradores.add(administrador);
 		}
+		
 		for (Grupo grupo : grupos) {
 			this.grupos.add(grupo);
 		}
+		
 	}
 
 	public Academy() {
@@ -54,18 +78,68 @@ public class Academy {
 
 	public Academy(Academy a) {
 		super();
+		
 		for (Docente docente : a.docentes) {
 			this.docentes.add(docente);
 		}
+		
 		for (Estudiante estudiante : a.estudiantes) {
+			
+			HashMap<Idioma, Boolean> nuevo_hashMap1 = new HashMap<>();
+			HashMap<Idioma, String> nuevo_hashMap2 = new HashMap<>();
+			HashMap<Idioma, String> nuevo_hashMap3 = new HashMap<>();
+			
+			for (Idioma idioma : estudiante.getIdiomas()) {
+				
+				nuevo_hashMap1.put(idioma, false);
+				nuevo_hashMap2.put(idioma, "Examen no realizado aún");
+				nuevo_hashMap3.put(idioma, "Tarea no entregada aún");
+				
+			}
+			
+			inscritosExamenFinal.put(estudiante, nuevo_hashMap1);
+			notasExamenFinal.put(estudiante, nuevo_hashMap2);
+			notasTareas.put(estudiante, nuevo_hashMap3);
 			this.estudiantes.add(estudiante);
 		}
+		
 		for (Administrador administrador : a.administradores) {
 			this.administradores.add(administrador);
 		}
+		
 		for (Grupo grupo : a.grupos) {
 			this.grupos.add(grupo);
 		}
+	}
+	
+	
+	
+	public HashMap<Estudiante, HashMap<Idioma, String>> getNotasTareas() {
+		return notasTareas;
+	}
+
+	public void setNotasTareas(HashMap<Estudiante, HashMap<Idioma, String>> notasTareas) {
+		this.notasTareas = notasTareas;
+	}
+
+	public HashMap<Estudiante, HashMap<Idioma, Boolean>> getInscritosExamenFinal() {
+		return inscritosExamenFinal;
+	}
+
+	public void setInscritosExamenFinal(HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal) {
+		this.inscritosExamenFinal = inscritosExamenFinal;
+	}
+
+	public HashMap<Estudiante, HashMap<Idioma, String>> getNotasExamenFinal() {
+		return notasExamenFinal;
+	}
+
+	public void setNotasExamenFinal(HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal) {
+		this.notasExamenFinal = notasExamenFinal;
+	}
+
+	public void setClaves(HashMap<Rols, HashMap<String, String>> claves) {
+		this.claves = claves;
 	}
 
 	public ArrayList<Administrador> getAdministradores() {
@@ -110,8 +184,9 @@ public class Academy {
 
 	@Override
 	public String toString() {
-		return "Academy [administradores=" + administradores + ", estudiantes=" + estudiantes + ", docentes=" + docentes
-				+ ", grupos=" + grupos + ", claves=" + claves + "]";
+		return "Academy [" + administradores + ", " + estudiantes + ", " + docentes
+				+ ", " + grupos + ", " + inscritosExamenFinal + ", "
+				+ notasExamenFinal + ", " + notasTareas + ", " + claves + "]";
 	}
 
 	public HashMap<Rols, HashMap<String, String>> getClaves() {
@@ -134,6 +209,60 @@ public class Academy {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 
 			this.estudiantes = (ArrayList<Estudiante>) ois.readObject();
+
+			ois.close();
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
+		
+		try {
+
+			FileInputStream fis = new FileInputStream("res/inscritosExamenFinal.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			this.inscritosExamenFinal = (HashMap<Estudiante, HashMap<Idioma, Boolean>>) ois.readObject();
+
+			ois.close();
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
+		
+		try {
+
+			FileInputStream fis = new FileInputStream("res/notasExamenFinal.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			this.notasExamenFinal = (HashMap<Estudiante, HashMap<Idioma, String>>) ois.readObject();
+
+			ois.close();
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
+		
+		try {
+
+			FileInputStream fis = new FileInputStream("res/notasTareas.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			this.notasTareas = (HashMap<Estudiante, HashMap<Idioma, String>>) ois.readObject();
 
 			ois.close();
 			fis.close();
@@ -208,78 +337,275 @@ public class Academy {
 	 * "DATOS.dat");
 	 */
 
-	public void actualizar_datos() {
+	public void actualizar_datos(Rols rol) {
 
 		// AQUÍ SE SUBIRÁN A LA BD, pero mientras tanto usamos ficheros
 
-		try {
+		if (rol == Rols.ESTUDIANTE) {
+			
+			try {
 
-			FileOutputStream fos = new FileOutputStream("res/admins.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
+				FileOutputStream fos = new FileOutputStream("res/estudiantes.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-			oos.writeObject(this.administradores);
+				oos.writeObject(this.estudiantes);
 
-			oos.close();
-			fos.close();
+				oos.close();
+				fos.close();
 
-		} catch (IOException e) {
+			} catch (IOException e) {
 
-			System.err.println("Error guardando datos en " + "res/admins.dat");
+				System.err.println("Error guardando datos en " + "res/estudiantes.dat");
 
-			e.printStackTrace();
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/inscritosExamenFinal.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.inscritosExamenFinal);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/inscritosExamenFinal.dat");
+
+				e.printStackTrace();
+			}
+					
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/notasExamenFinal.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.notasExamenFinal);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/notasExamenFinal.dat");
+
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/notasTareas.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.notasTareas);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/notasTareas.dat");
+
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/grupos.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.grupos);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/grupos.dat");
+
+				e.printStackTrace();
+			}
+			
+		} else if (rol == Rols.DOCENTE) {
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/docentes.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.docentes);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/docentes.dat");
+
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/grupos.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.grupos);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/grupos.dat");
+
+				e.printStackTrace();
+			}
+			
+		} else if (rol == Rols.ADMINISTRADOR) {
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/admins.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.administradores);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/admins.dat");
+
+				e.printStackTrace();
+			}
+			
+		} else {
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/admins.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.administradores);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/admins.dat");
+
+				e.printStackTrace();
+			}
+
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/docentes.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.docentes);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/docentes.dat");
+
+				e.printStackTrace();
+			}
+
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/estudiantes.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.estudiantes);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/estudiantes.dat");
+
+				e.printStackTrace();
+			}
+
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/inscritosExamenFinal.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.inscritosExamenFinal);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/inscritosExamenFinal.dat");
+
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/notasExamenFinal.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.notasExamenFinal);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/notasExamenFinal.dat");
+
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/notasTareas.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.notasTareas);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/notasTareas.dat");
+
+				e.printStackTrace();
+			}
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/grupos.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.grupos);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/grupos.dat");
+
+				e.printStackTrace();
+			}
+			
 		}
 		
-		try {
-
-			FileOutputStream fos = new FileOutputStream("res/grupos.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-			oos.writeObject(this.grupos);
-
-			oos.close();
-			fos.close();
-
-		} catch (IOException e) {
-
-			System.err.println("Error guardando datos en " + "res/grupos.dat");
-
-			e.printStackTrace();
-		}
-
-		try {
-
-			FileOutputStream fos = new FileOutputStream("res/docentes.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-			oos.writeObject(this.docentes);
-
-			oos.close();
-			fos.close();
-
-		} catch (IOException e) {
-
-			System.err.println("Error guardando datos en " + "res/docentes.dat");
-
-			e.printStackTrace();
-		}
-
-		try {
-
-			FileOutputStream fos = new FileOutputStream("res/estudiantes.dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-			oos.writeObject(this.estudiantes);
-
-			oos.close();
-			fos.close();
-
-		} catch (IOException e) {
-
-			System.err.println("Error guardando datos en " + "res/estudiantes.dat");
-
-			e.printStackTrace();
-		}
-
 	}
 
 	public void actualizar_claves() {
@@ -398,7 +724,7 @@ public class Academy {
 			A1.cargar_datos();
 	
 			A1.actualizar_claves();
-	
+			
 			new SelectRol(A1);
 		
             }

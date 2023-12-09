@@ -91,8 +91,8 @@ public class Administrador implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Administrador [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
-				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contraseña=" + contraseña + "]";
+		return "Administrador [" + nombre + ", " + apellido + ", " + dni + "," + correo
+				+ ", " + telefono + ", " + usuario + ", " + contraseña + "]";
 	}
 
 }

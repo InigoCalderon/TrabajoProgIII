@@ -105,12 +105,20 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
+	
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
 
 	@Override
 	public String toString() {
-		return "Estudiante " + nombre + ", " + apellido + ", " + telefono + ", "
+		return "Estudiante [" + nombre + ", " + apellido + ", " + telefono + ", "
 				+ correo + ", " + dni + ", " + usuario + ", " + contraseña + ", "
-				+ idiomas + "]";
+				+ idiomas + ", " + grupo + "]";
 	}
 
 	@Override
@@ -129,7 +137,8 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
             return false;
 
 		Estudiante e = (Estudiante) o;
-        return this.usuario == e.usuario;
+        if (this.usuario.compareToIgnoreCase(e.usuario) == 0) return true;
+        return false;
 	}	
 
 }

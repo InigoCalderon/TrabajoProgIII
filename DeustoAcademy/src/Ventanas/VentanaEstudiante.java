@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import DeustoAcademy.*;
 
@@ -48,6 +49,7 @@ public class VentanaEstudiante extends JFrame {
 	        /**
 	         *
 	         */
+			
 	        private static final long serialVersionUID = 1L;
 
 	        // array con los nombres de las columnas
@@ -174,14 +176,12 @@ public class VentanaEstudiante extends JFrame {
 		for (Grupo grupo : academy.getGrupos()) {
 			if (grupo.getEstudiantes().contains(estudiante)){
 				grupo.getTareas().add(
-						new Tarea(
-								"26/11/23",
-								"PRÁCTICA 69",
-								"Esta práctica no es teórica",
-								"Sin calificar",
-								0,
-								null
-						));
+					new Tarea(
+							"26/11/23",
+							"PRÁCTICA 69",
+							"Esta práctica no es teórica"
+					)
+				);
 			}
 		}
 		
@@ -249,17 +249,43 @@ public class VentanaEstudiante extends JFrame {
 		for (Idioma idioma : estudiante.getIdiomas()) {
 			
 			JMenu menuIdioma = new JMenu(idioma.toString());
-			
+						
 			JMenuItem nuevo_menu1 = new JMenuItem("Temario");
-			nuevo_menu1.setBackground(new Color(0, 247, 255));
 			nuevo_menu1.setIcon(new ImageIcon(image4));
 			
 			JMenuItem nuevo_menu2 = new JMenuItem("Calificaciones");
 			nuevo_menu2.setIcon(new ImageIcon(image3));
-			nuevo_menu2.setBackground(new Color(0, 247, 255));
+			
+			JCheckBox botonInscribirse = new JCheckBox("Inscrito para realizar el examen Final");	
+			
+			JLabel itemNotaFinal = new JLabel(String.format("      Calificación Final: %s", academy.getNotasExamenFinal().get(estudiante).get(idioma)));
+			
+			JMenuItem menuTareas = new JMenuItem("Calificaciones de Tareas");
+			
+			for (Grupo grupo :  academy.getGrupos()) {
+				
+				if (grupo.getEstudiantes().contains(estudiante)) {
+					
+					JMenu menuGrupo = new JMenu();
+					
+					for (Tarea tarea : grupo.getTareas()) {
+						menuGrupo.add(new JLabel(String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(idioma))));
+					}// HAS HECHO MAL EL FILTRADO DE TAREAS EN ACADEMY Y RECUERDA QUE TIENES QUE BORRAR LOS DATOS DE GRUPOS Y ASÍ PARA QUE FUNCIONE TODO
+					
+				}
+				
+			}
+			
+			JLabel itemNotaTareas = new JLabel(String.format("      Calificación Final: %s", academy.getNotasTareas().get(estudiante).get(idioma)));
+
+			botonInscribirse.setSelected(academy.getInscritosExamenFinal().get(estudiante).get(idioma));
 			
 			menuIdioma.add(nuevo_menu1);
 			menuIdioma.add(nuevo_menu2);
+			menuIdioma.add(botonInscribirse);
+			menuIdioma.add(itemNotaFinal);
+			menuIdioma.add(menuTareas);
+			
 			menuIdiomas.add(menuIdioma);
 			
 			menuIdioma.setBackground(new Color(0, 247, 255));
@@ -269,7 +295,7 @@ public class VentanaEstudiante extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					new Temario(idioma);
+					new Temario(idioma, estudiante);
 					System.out.println("ENTRARIAMOS AL TEMARIO");
 					
 				}
@@ -280,8 +306,21 @@ public class VentanaEstudiante extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					new VentanaCalificaciones(idioma);
+					new VentanaCalificaciones(idioma, estudiante);
 					System.out.println("ENTRARIAMOS A LAS CALIFICACIONES");
+					
+				}
+			});
+        	
+        	botonInscribirse.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					academy.getInscritosExamenFinal().get(estudiante).remove(idioma);
+					academy.getInscritosExamenFinal().get(estudiante).put(idioma, botonInscribirse.isSelected());
+					
+					academy.actualizar_datos(Rols.ESTUDIANTE);
 					
 				}
 			});
@@ -350,6 +389,16 @@ public class VentanaEstudiante extends JFrame {
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		ventana.setLocationRelativeTo(null);
 
+	}
+
+	private JLabel JLabel(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private JTextField JTextField(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
