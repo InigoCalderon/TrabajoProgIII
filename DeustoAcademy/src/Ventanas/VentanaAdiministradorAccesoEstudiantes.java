@@ -7,12 +7,17 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -42,6 +47,10 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
     protected JButton botonEliminar;
     protected JButton botonAñadir;
     protected Academy datos;
+   protected JCheckBox checkCastellano;
+   protected JCheckBox checkIngles;
+   protected JCheckBox checkEuskera;
+   protected JCheckBox checkFrances;
    
     public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
         modeloLista = new DefaultListModel<>();
@@ -58,7 +67,12 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         textoTelefono = new TextField(20);
         textoUsuario = new TextField(20);
         textoContraseña = new TextField(20);
-
+        
+        checkCastellano = new JCheckBox("Castellano");
+        checkIngles = new JCheckBox("Ingles");
+        checkEuskera = new JCheckBox("Euskera");
+        checkFrances = new JCheckBox("Frances");
+        
         botonModificar = new JButton("Modificar");
         botonEliminar = new JButton("Eliminar");
         botonAñadir = new JButton("Añadir");
@@ -66,6 +80,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         listaEstudiante.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
+            	 limpiarCampos();
                 Estudiante estudiante = listaEstudiante.getSelectedValue();
                 if (estudiante != null) {
                     textoNombre.setText(estudiante.getNombre());
@@ -75,6 +90,18 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     textoCorreo.setText(estudiante.getCorreo());
                     textoUsuario.setText(estudiante.getUsuario());
                     textoContraseña.setText(estudiante.getContraseña());
+                   for (Idioma idioma : estudiante.getIdiomas()) {
+                	   if (idioma.equals(Idioma.Castellano)) {
+                		   checkCastellano.setSelected(true);
+                	   } else if(idioma.equals(Idioma.Ingles)) {
+                		   checkIngles.setSelected(true);
+                	   }else if(idioma.equals(Idioma.Euskera)) {
+                		   checkEuskera.setSelected(true);
+                	   }else if(idioma.equals(Idioma.Frances)) {
+                		   checkFrances.setSelected(true);
+                	   }
+                   }
+                    
                 }
             }
         });
@@ -86,6 +113,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                 if (estudiante != null) {
                     actualizarEstudiante(estudiante);
                     listaEstudiante.clearSelection();
+                    JOptionPane.showMessageDialog(null, "Estudiante modificado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -98,6 +130,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     datos.getEstudiantes().remove(estudiante);
                     actualizarLista(datos);
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Estudiante eliminado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -111,6 +148,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     datos.getEstudiantes().add(nuevo);
                     actualizarLista(datos);
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Estudiante añadido", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -149,7 +191,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         panelBotones.add(panelBusqueda);
         panelBotones.add(textoBusqueda);
 
-        panelModificarDatos.setLayout(new GridLayout(4, 30));
+        panelModificarDatos.setLayout(new GridLayout(6, 30));
         panelModificarDatos.add(new JLabel("Nombre: "));
         panelModificarDatos.add(textoNombre);
         panelModificarDatos.add(new JLabel("Apellido: "));
@@ -164,6 +206,18 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         panelModificarDatos.add(textoUsuario);
         panelModificarDatos.add(new JLabel("Contraseña: "));
         panelModificarDatos.add(textoContraseña);
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        ////////////////////////
+        panelModificarDatos.add(new JLabel("Idiomas: "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(checkCastellano);
+        panelModificarDatos.add(checkIngles);
+        panelModificarDatos.add(checkEuskera);
+        panelModificarDatos.add(checkFrances);
+        
 
         panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
@@ -199,7 +253,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
             modeloLista.addElement(estudiante);
         }
     }
-
+    
     public void actualizarEstudiante(Estudiante estudiante) {
         estudiante.setNombre(textoNombre.getText());
         estudiante.setApellido(textoApellido.getText());
@@ -208,6 +262,19 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         estudiante.setTelefono(Integer.parseInt(textoTelefono.getText()));
         estudiante.setUsuario(textoUsuario.getText());
         estudiante.setContraseña(textoContraseña.getText());
+        estudiante.getIdiomas().clear();
+        if (checkCastellano.isSelected() == true) {
+        	estudiante.getIdiomas().add(Idioma.Castellano);
+        }
+        if(checkIngles.isSelected() == true) {
+        	estudiante.getIdiomas().add(Idioma.Ingles);
+        }
+        if(checkEuskera.isSelected() == true) {
+        	estudiante.getIdiomas().add(Idioma.Euskera);
+        }
+        if(checkFrances.isSelected() == true) {
+        	estudiante.getIdiomas().add(Idioma.Frances);
+        }
     }
 
     public void limpiarCampos() {
@@ -218,6 +285,10 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         textoCorreo.setText("");
         textoUsuario.setText("");
         textoContraseña.setText("");
+        checkCastellano.setSelected(false);
+        checkIngles.setSelected(false);
+        checkEuskera.setSelected(false);
+        checkFrances.setSelected(false);
     }
 
     public boolean camposRellenos() {
