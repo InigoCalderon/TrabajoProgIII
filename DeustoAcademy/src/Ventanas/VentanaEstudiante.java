@@ -5,16 +5,20 @@ package Ventanas;
 
 import javax.swing.*;
 //import javax.swing.border.EmptyBorder;
+
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+
 import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
+
+
 import DeustoAcademy.*;
 
 
@@ -43,6 +47,8 @@ public class VentanaEstudiante extends JFrame {
 		
 		JFrame ventana = new JFrame(String.format(" Bienvenido %s %s ", estudiante.getNombre(), estudiante.getApellido()));
 		
+		JPanel panelPrincipal = new JPanel(new BorderLayout());
+		JPanel panelInterno = new JPanel();
 		
 		class MyTableModel extends AbstractTableModel {
 
@@ -169,8 +175,6 @@ public class VentanaEstudiante extends JFrame {
 
 	    }
 		
-		//
-		
 		// ME INVENTO TAREAS
 		System.out.println();
 		for (Grupo grupo : academy.getGrupos()) {
@@ -184,39 +188,6 @@ public class VentanaEstudiante extends JFrame {
 				);
 			}
 		}
-		
-		// datos de la tabla
-		
-		List<Tarea> tareas = new ArrayList<>();
-		
-		for (Grupo grupo : academy.getGrupos()) {
-			if (grupo.getEstudiantes().contains(estudiante)){
-				for (Tarea tarea : grupo.getTareas()) {
-		            tareas.add(tarea);
-		        }
-			}
-		}
-
-        // se crea el modelo de la tabla con los datos
-        //MyTableModel tableModel = new MyTableModel(Arrays.asList(persons));
-		
-		MyTableModel tableModel = new MyTableModel(tareas);
-
-        // se crea la tabla y se asigna el modelo/datos
-        JTable table = new JTable(tableModel);
-
-        // se establecen el renderer de la columna de nombres
-        //TableColumn nameColumn = table.getColumnModel().getColumn(0);
-        //nameColumn.setCellRenderer(new NameCellRenderer());
-
-        // se establece el renderer y el editor de la columna de fechas
-        //TableColumn birthdateColumn = table.getColumnModel().getColumn(2);
-        //birthdateColumn.setCellRenderer(new DateCellRenderer());
-        //birthdateColumn.setCellEditor(new DateCellEditor());
-
-        // la tabla se añade en un scroll pane para poder
-        // navegar por las filas
-        JScrollPane scrollPane = new JScrollPane(table);
 		
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);  
@@ -341,36 +312,36 @@ public class VentanaEstudiante extends JFrame {
 		botonSalir.setBorder(null);
 		botonCalendario.setBorder(null);
 
+		menuBar.add(botonSalir);
 		menuBar.add(menuIdiomas);
         menuBar.add(botonCalendario);
-        menuBar.add(botonSalir);
         
+        JLabel fechaProximasTareas = new JLabel("  Tareas pendientes en los próximos: ");
+        JComboBox<Integer> fechas = new JComboBox<Integer>();
+        
+        fechas.addItem(15);
+        fechas.addItem(30);
+        fechas.addItem(60);
+        fechas.addItem(90);
+        
+        JLabel dias = new JLabel(" días.                                                                                                              ");
+        
+        menuBar.add(fechaProximasTareas);
+        menuBar.add(fechas);
+        menuBar.add(dias);
         menuBar.setBackground(new Color(0, 247, 255));
-        
-		JPanel panelPrincipal = new JPanel(new BorderLayout());
-		JPanel panelInterno = new JPanel();
-		JPanel panelTareas = new JPanel();
-
-		panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-		panelPrincipal.setBackground(new Color(88, 187, 240));
-		panelInterno.setBackground(new Color(88, 214, 240));
-		panelInterno.add(table, BorderLayout.CENTER);
-		panelInterno.add(scrollPane, BorderLayout.CENTER);
-		panelPrincipal.add(panelInterno, BorderLayout.CENTER);
 
 		/*
 		 * / ZonedDateTime now = ZonedDateTime.now(); DateTimeFormatter formatter =
 		 * DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); JLabel etiquetaFechaHora
 		 * = new JLabel(formatter.format(now)); /
 		 */
-
-		panelInterno.add(panelTareas);
 		
 		botonCalendario.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
 			}
 		});
 
@@ -384,6 +355,42 @@ public class VentanaEstudiante extends JFrame {
 
 			}
 		});
+
+		// datos de la tabla
+		
+		List<Tarea> tareas = new ArrayList<>();
+		
+		for (Grupo grupo : academy.getGrupos()) {
+			if (grupo.getEstudiantes().contains(estudiante)){
+				for (Tarea tarea : grupo.getTareas()) {
+		            tareas.add(tarea);
+		        }
+			}
+		}
+
+        // se crea el modelo de la tabla con los datos
+        //MyTableModel tableModel = new MyTableModel(Arrays.asList(persons));
+		
+		MyTableModel tableModel = new MyTableModel(tareas);
+
+        // se crea la tabla y se asigna el modelo/datos
+        JTable table = new JTable(tableModel);
+
+        //TableColumn birthdateColumn = table.getColumnModel().getColumn(2);
+        //birthdateColumn.setCellRenderer(new DateCellRenderer());
+        
+        //birthdateColumn.setCellEditor(new DateCellEditor());
+
+        // la tabla se añade en un scroll pane para poder
+        // navegar por las filas
+        JScrollPane scrollPane = new JScrollPane(table);
+        
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+		panelPrincipal.setBackground(new Color(88, 187, 240));
+		panelInterno.setBackground(new Color(88, 214, 240));
+		panelInterno.add(table, BorderLayout.CENTER);
+		panelInterno.add(scrollPane, BorderLayout.CENTER);
+		panelPrincipal.add(panelInterno, BorderLayout.CENTER);
 
 		ventana.add(panelPrincipal);
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
