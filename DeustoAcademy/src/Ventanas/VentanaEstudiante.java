@@ -363,5 +363,4 @@ public class VentanaEstudiante extends JFrame {
 		ventana.setLocationRelativeTo(null);
 
 	}
-
 }
