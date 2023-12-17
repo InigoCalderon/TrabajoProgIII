@@ -16,8 +16,11 @@ import javax.swing.*;
 import DeustoAcademy.*;
 
 public class VentanaDocente extends JFrame {
-    protected JButton botonClases;
-    protected JButton botonCalificaciones;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected JButton botonClases;
     protected JButton botonInfoD;
     protected JButton botonSalir;
 
@@ -37,13 +40,9 @@ public class VentanaDocente extends JFrame {
         JPanel panelBotones = new JPanel((LayoutManager) new FlowLayout(FlowLayout.CENTER, 10, 10));
         JPanel panelInformacion = new JPanel(new GridLayout(6, 2, 10, 10));
 
-        ZonedDateTime now = ZonedDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        JLabel etiquetaFechaHora = new JLabel(formatter.format(now));
-        
+       
         // Crea iconos para cada botón
         Icon iconoClases = new ImageIcon("res/Clase.png");
-        Icon iconoCalificaciones = new ImageIcon("res/notas_academy.png");
         Icon iconoInfoD = new ImageIcon("res/prof.png");
         Icon iconoGuardar = new ImageIcon("res/settings.png");
         Icon iconoSalir = new ImageIcon("res/exit.png");
@@ -52,14 +51,12 @@ public class VentanaDocente extends JFrame {
         int anchoDeseado =  100;
 
         botonClases = new JButton();
-        botonCalificaciones = new JButton();
         botonInfoD = new JButton();
         botonSalir = new JButton();
         botonGuardarInformacion = new JButton();
 
         /*
         botonClases.setPreferredSize(new Dimension(150, 30));
-        botonCalificaciones.setPreferredSize(new Dimension(150, 30));
         botonInfoD.setPreferredSize(new Dimension(150, 30));
         botonSalir.setPreferredSize(new Dimension(150, 30));
         botonGuardarInformacion.setPreferredSize(new Dimension(150, 30));
@@ -68,21 +65,17 @@ public class VentanaDocente extends JFrame {
         // Ajustar el tamaño de la fuente de los botones
         float fontSize = 20.0f;
         botonClases.setFont(botonClases.getFont().deriveFont(fontSize));
-        botonCalificaciones.setFont(botonCalificaciones.getFont().deriveFont(fontSize));
         botonInfoD.setFont(botonInfoD.getFont().deriveFont(fontSize));
         botonSalir.setFont(botonSalir.getFont().deriveFont(fontSize));
         botonGuardarInformacion.setFont(botonGuardarInformacion.getFont().deriveFont(fontSize));
         
      // Asigna iconos a los botones
         botonClases.setIcon(iconoClases);
-        botonCalificaciones.setIcon(iconoCalificaciones);
         botonInfoD.setIcon(iconoInfoD);
         botonGuardarInformacion.setIcon(iconoGuardar);
         botonSalir.setIcon(iconoSalir);
 
         Image image1 = ((ImageIcon) iconoClases).getImage().getScaledInstance(anchoDeseado, altoDeseado,
-				Image.SCALE_SMOOTH);
-		Image image2 = ((ImageIcon) iconoCalificaciones).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
 		Image image3 = ((ImageIcon) iconoInfoD).getImage().getScaledInstance(anchoDeseado, altoDeseado,
 				Image.SCALE_SMOOTH);
@@ -93,19 +86,16 @@ public class VentanaDocente extends JFrame {
 		
 		// Crea un nuevo icono con la imagen escalada
 		botonClases = new JButton(new ImageIcon(image1));
-		botonCalificaciones = new JButton(new ImageIcon(image2));
 		botonInfoD = new JButton(new ImageIcon(image3));
 		botonGuardarInformacion = new JButton(new ImageIcon(image4));
 		botonSalir = new JButton(new ImageIcon(image5));
 
 		botonClases.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
-		botonCalificaciones.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonInfoD.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonGuardarInformacion.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 		botonSalir.setPreferredSize(new Dimension(anchoDeseado, altoDeseado));
 
 		botonClases.setBackground(new Color(0, 247, 255));
-		botonCalificaciones.setBackground(new Color(0, 247, 255));
 		botonInfoD.setBackground(new Color(0, 247, 255));
 		botonGuardarInformacion.setBackground(new Color(0, 247, 255));
 		botonSalir.setBackground(new Color(0, 247, 255));
@@ -123,14 +113,6 @@ public class VentanaDocente extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 VentanaClases ventanaClases = new VentanaClases();
                 VentanaClases.createAndShowGUI();
-                ventana.dispose();
-            }
-        });
-
-        botonCalificaciones.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones(idioma);
                 ventana.dispose();
             }
         });
@@ -153,7 +135,6 @@ public class VentanaDocente extends JFrame {
 
         // Agregar componentes a los paneles
         panelBotones.add(botonClases);
-        panelBotones.add(botonCalificaciones);
         panelBotones.add(botonInfoD);
         panelBotones.add(botonGuardarInformacion);
         panelBotones.add(botonSalir);

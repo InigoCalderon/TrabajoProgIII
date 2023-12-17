@@ -3,6 +3,7 @@ package Ventanas;
 import javax.swing.*;
 import DeustoAcademy.Academy;
 import DeustoAcademy.Docente;
+import DeustoAcademy.Grupo;
 import DeustoAcademy.Rols;
 
 import java.awt.event.ActionEvent;
@@ -34,8 +35,8 @@ public class VentanaClases extends JFrame {
 
         // Crear la primera JComboBox
         JComboBox<String> comboBox1 = new JComboBox<>();
-        comboBox1.addItem("Clase 1");
-        comboBox1.addItem("Clase 2");
+        comboBox1.addItem("Grupo 1");
+        comboBox1.addItem("Grupo 2");
 
         // Crear la segunda JComboBox (se llenará dinámicamente)
         JComboBox<String> comboBox2 = new JComboBox<>();
@@ -54,13 +55,10 @@ public class VentanaClases extends JFrame {
                 // Llenar la segunda JComboBox dinámicamente
                 fillSecondComboBox(comboBox2, seleccion);
 
-                // Lógica condicional para abrir diferentes ventanas según la selección
-                if (seleccion.equals("Clase 1")) {
-                    // Abre una ventana específica para Clase 1
-                    //new VentanaClase1();
-                } else if (seleccion.equals("Clase 2")) {
-                    // Abre una ventana específica para Clase 2
-                    //new VentanaClase2();
+                // Lógica para abrir la ventana de notas
+                if (!seleccion.isEmpty()) {
+                    // Crear e mostrar la ventana de notas
+                    new VentanaNotas();
                 }
             }
         });
@@ -107,7 +105,7 @@ public class VentanaClases extends JFrame {
         comboBox.removeAllItems();
 
         // Agregar elementos según la categoría seleccionada
-        if (category.equals("Clase 1")) {
+        if (category.equals("Grupo 1")) {
             comboBox.addItem("Datos de estudiantes para Clase 1");
         } else if (category.equals("Aqui apareceran los datos de la primera clase")) {
             comboBox.addItem("Aqui apareceran los datos de la segunda clase");
