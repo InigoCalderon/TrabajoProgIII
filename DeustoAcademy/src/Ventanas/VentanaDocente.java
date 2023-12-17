@@ -117,6 +117,17 @@ public class VentanaDocente extends JFrame {
             }
         });
 
+<<<<<<< HEAD
+=======
+        botonCalificaciones.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //VentanaCalificaciones ventanaCalificaciones = new VentanaCalificaciones(idioma, estudiante);
+                ventana.dispose();
+            }
+        });
+
+>>>>>>> branch 'master' of https://github.com/InigoCalderon/TrabajoProgIII
         botonInfoD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

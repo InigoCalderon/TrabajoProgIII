@@ -2,6 +2,7 @@ package DeustoAcademy;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Grupo implements Serializable {
 	/**
@@ -13,6 +14,9 @@ public class Grupo implements Serializable {
 	protected Docente docente;
 	protected ArrayList<Estudiante> estudiantes;
 	protected ArrayList<Tarea> tareas;
+	
+	// AÑADIR
+	protected HashMap<Estudiante, HashMap<Tarea, Integer>> notaTareas = new HashMap<>();
 	
 	public int capacidad_estudiantes = 0;
 

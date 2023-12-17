@@ -1,7 +1,5 @@
 package Ventanas;
 
-import DeustoAcademy.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -9,14 +7,17 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Temario extends JFrame{
+import DeustoAcademy.*;
+
+public class VentanaCalificaciones extends JFrame{
 
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 
-	public Temario(Idioma idioma, Estudiante estudiante) {
+	public VentanaCalificaciones(Idioma idioma, Estudiante estudiante) {
 		
 		JFrame ventana = new JFrame(String.format(" Calificaciones de %s %s ", estudiante.getNombre(), estudiante.getApellido()));
 		
@@ -27,7 +28,7 @@ public class Temario extends JFrame{
 		panelPrincipal.setBackground(new Color(88, 187, 240));
 		panelInterno.setBackground(new Color(88, 214, 240));
 		
-		// metemos tabla para ver el temario y metemos buscador si podemos
+		// metemos tabla para ver la nota final y la nota de las tareas
 		
 		panelPrincipal.add(panelInterno, BorderLayout.CENTER);
 		
@@ -38,5 +39,5 @@ public class Temario extends JFrame{
 		ventana.setLocationRelativeTo(null);
 		
 	}
-	
+
 }

@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.BorderFactory;
@@ -44,7 +45,7 @@ public class DatosPersonales {
 	protected JLabel dni = new JLabel("Dni: ");
 	protected JLabel idioma = new JLabel("Idioma: ");
 	protected Set<Idioma> setIdiomas = new HashSet<>();
-
+	
 	public DatosPersonales(Academy academy, Rols rol, String nuevo_user, String nueva_passw) {
 
 		SwingUtilities.invokeLater(() -> {
@@ -141,8 +142,9 @@ public class DatosPersonales {
 							|| !(textoApellido.getText().equalsIgnoreCase(""))
 							|| !(textoDni.getText().equalsIgnoreCase(""))
 							|| !(textoCorreo.getText().equalsIgnoreCase(""))
-							|| !(textoTelefono.getText().equalsIgnoreCase("")))
-					
+							|| !(textoTelefono.getText().equalsIgnoreCase(""))
+							
+						)
 					{
 						
 						try {
@@ -172,6 +174,19 @@ public class DatosPersonales {
 										textoContrasena.getText(), 
 										idiomas_demandados
 								);
+								
+								HashMap<Idioma, Boolean> nuevo_hashMap1 = new HashMap<>();
+								HashMap<Idioma, String> nuevo_hashMap2 = new HashMap<>();
+								
+								for (Idioma idioma : nuevo_estudiante.getIdiomas()) {
+
+									nuevo_hashMap1.put(idioma, false);
+									nuevo_hashMap2.put(idioma, "Examen no realizado aún");
+									
+								}
+								
+								academy.inscritosExamenFinal.put(nuevo_estudiante, nuevo_hashMap1);
+								academy.notasExamenFinal.put(nuevo_estudiante, nuevo_hashMap2);
 								
 								// SI HAY GRUPOS DISPONIBLES TE METE EN ELLOS
 								for (Idioma idioma : idiomas_demandados) {
@@ -253,8 +268,8 @@ public class DatosPersonales {
 							}
 
 							// AQUÍ HABRÁ QUE ACTUALIZAR LA BASE DE DATOS CON LOS NUEVOS DATOS INSERTADOS
-
-							academy.actualizar_datos();
+							
+							academy.actualizar_datos(null);
 							academy.actualizar_claves();
 							ventana.dispose();
 							new Login(academy, rol);

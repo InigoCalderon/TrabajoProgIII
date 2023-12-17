@@ -2,6 +2,7 @@ package Ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -9,8 +10,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,40 +22,51 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import DeustoAcademy.*;
+import Ventanas.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
 
 public class VentanaAdministradorAccesoDocente {
 
-    protected DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
-    protected JList<Docente> listaDocente;
-    protected TextField textoNombre;
-    protected TextField textoApellido;
-    protected TextField textoDni;
-    protected TextField textoCorreo;
-    protected TextField textoTelefono;
-    protected TextField textoUsuario;
-    protected TextField textoContraseña;
-    protected Academy datos;
+    public DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
+    public JList<Docente> listaDocente;
+    public TextField textoNombre;
+    public TextField textoApellido;
+    public TextField textoDni;
+    public TextField textoCorreo;
+    public TextField textoTelefono;
+    public TextField textoUsuario;
+    public TextField textoContraseña;
+    public Academy datos;
 
     protected JTextArea textoDocente;
     protected JButton botonModificar;
     protected JButton botonEliminar;
     protected JButton botonAñadir;
-
+    
+    protected JCheckBox checkCastellano;
+    protected JCheckBox checkIngles;
+    protected JCheckBox checkEuskera;
+    protected JCheckBox checkFrances;
+    
     public VentanaAdministradorAccesoDocente(Academy datos) {
 
         listaDocente = new JList<Docente>(modeloLista);
         JScrollPane scrollPlantilla = new JScrollPane(listaDocente);
         actualizarCombos(datos);
         JLabel etiquetaDocente = new JLabel("Docentes");
-
+        JTextField textoBusqueda = new JTextField(20);
         botonModificar = new JButton("Modificar");
         botonEliminar = new JButton("Eliminar");
         botonAñadir = new JButton("Añadir");
+       
         textoNombre = new TextField(20);
         textoApellido = new TextField(20);
         textoDni = new TextField(20);
@@ -60,10 +74,23 @@ public class VentanaAdministradorAccesoDocente {
         textoTelefono = new TextField(20);
         textoUsuario = new TextField(20);
         textoContraseña = new TextField(20);
+       
+        
+        checkCastellano = new JCheckBox("Castellano");
+        checkIngles = new JCheckBox("Ingles");
+        checkEuskera = new JCheckBox("Euskera");
+        checkFrances = new JCheckBox("Frances");
+        
+        ButtonGroup grupoBotones = new ButtonGroup();
+        grupoBotones.add(checkCastellano);
+        grupoBotones.add(checkIngles);
+        grupoBotones.add(checkCastellano);
+        grupoBotones.add(checkFrances);
 
         listaDocente.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
+            	limpiarCampos();
                 Docente docente = listaDocente.getSelectedValue();
                 if (docente != null) {
                     textoNombre.setText(docente.getNombre());
@@ -73,8 +100,31 @@ public class VentanaAdministradorAccesoDocente {
                     textoCorreo.setText(docente.getCorreo());
                     textoUsuario.setText(docente.getUsuario());
                     textoContraseña.setText(docente.getContraseña());
+                    
+                    if (docente.getIdioma().equals(Idioma.Castellano)) {
+              		   checkCastellano.setSelected(true);
+              	   } else {
+              		 checkCastellano.setSelected(false);
+              	   }
+                    if(docente.getIdioma().equals(Idioma.Ingles)) {
+              		   checkIngles.setSelected(true);
+              	   }else {
+              		 checkIngles.setSelected(false);
+              	   }
+                    if(docente.getIdioma().equals(Idioma.Euskera)) {
+              		   checkEuskera.setSelected(true);
+              	   }else {
+              		 checkEuskera.setSelected(false);
+              	   }
+                    if(docente.getIdioma().equals(Idioma.Frances)) {
+              		   checkFrances.setSelected(true);
+              	   }else {
+              		 checkFrances.setSelected(false);
+              	   }
+                  
+                    }
                 }
-            }
+            
         });
 
         botonModificar.addActionListener(new ActionListener() {
@@ -85,6 +135,8 @@ public class VentanaAdministradorAccesoDocente {
                     actualizarDocente(docente);
                     listaDocente.clearSelection();
                     actualizarCombos(datos);
+                    JOptionPane.showMessageDialog(null, "Docente modificado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -100,6 +152,8 @@ public class VentanaAdministradorAccesoDocente {
                     datos.getDocentes().remove(docente);
                     actualizarCombos(datos);
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Docente eliminado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -116,10 +170,28 @@ public class VentanaAdministradorAccesoDocente {
                     datos.getDocentes().add(nuevo);
                     actualizarCombos(datos);
                     limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Docente añadido", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+        textoBusqueda.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            	listaDocente.repaint();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            	listaDocente.repaint();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                
             }
         });
 
@@ -131,7 +203,7 @@ public class VentanaAdministradorAccesoDocente {
         panelBotones.add(botonModificar);
         panelBotones.add(botonEliminar);
 
-        panelModificarDatos.setLayout(new GridLayout(4, 30));
+        panelModificarDatos.setLayout(new GridLayout(6, 30));
 
         panelModificarDatos.add(new JLabel("Nombre: "));
         panelModificarDatos.add(textoNombre);
@@ -147,14 +219,33 @@ public class VentanaAdministradorAccesoDocente {
         panelModificarDatos.add(textoUsuario);
         panelModificarDatos.add(new JLabel("Contraseña: "));
         panelModificarDatos.add(textoContraseña);
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        ////////////////////////
+        panelModificarDatos.add(new JLabel("Idiomas: "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(new JLabel(" "));
+        panelModificarDatos.add(checkCastellano);
+        panelModificarDatos.add(checkIngles);
+        panelModificarDatos.add(checkEuskera);
+        panelModificarDatos.add(checkFrances);
+        
 
         panelIzquierda.add(panelModificarDatos, BorderLayout.CENTER);
 
         JFrame ventana = new JFrame("Ventana Administrador acceso docentes");
-
+        JLabel panelBusqueda = new JLabel("Buscar docente: ");
+        
+        panelBotones.add(panelBusqueda);
+        panelBotones.add(textoBusqueda);
+        
+        listaDocente.setCellRenderer(new MyCellRenderer(textoBusqueda));							// Render de la lista
+        
         ventana.add(scrollPlantilla, BorderLayout.SOUTH);
         ventana.add(panelIzquierda, BorderLayout.WEST);
         ventana.add(panelBotones, BorderLayout.SOUTH);
+        ventana.add(scrollPlantilla, BorderLayout.CENTER);
 
         // Color de fondo
         Color colorFondo = new Color(88, 187, 240);
@@ -182,6 +273,15 @@ public class VentanaAdministradorAccesoDocente {
         docente.setTelefono(Integer.parseInt(textoTelefono.getText()));
         docente.setUsuario(textoUsuario.getText());
         docente.setContraseña(textoContraseña.getText());
+        if (checkCastellano.isSelected() == true) {
+        	docente.setIdioma(Idioma.Castellano);
+        }else if(checkIngles.isSelected() == true) {
+        	docente.setIdioma(Idioma.Ingles);
+        }else if(checkEuskera.isSelected() == true) {
+        	docente.setIdioma(Idioma.Euskera);
+        }else if(checkFrances.isSelected() == true) {
+        	docente.setIdioma(Idioma.Frances);
+        }
     }
 
     public void actualizarCombos(Academy datos) {
@@ -202,6 +302,10 @@ public class VentanaAdministradorAccesoDocente {
         textoCorreo.setText("");
         textoUsuario.setText("");
         textoContraseña.setText("");
+        checkCastellano.setSelected(false);
+        checkIngles.setSelected(false);
+        checkEuskera.setSelected(false);
+        checkFrances.setSelected(false);
     }
 
     public boolean camposRellenos() {
@@ -210,4 +314,28 @@ public class VentanaAdministradorAccesoDocente {
                 && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank()
                 && !textoCorreo.getText().isBlank();
     }
+    class MyCellRenderer extends JLabel implements ListCellRenderer<Docente> {
+   	 private JTextField textoBusqueda; 
+
+   	    public MyCellRenderer(JTextField textoBusqueda) {
+   	        this.textoBusqueda = textoBusqueda;
+   	        setOpaque(true); 
+   	    }
+		@Override
+		public Component getListCellRendererComponent(JList<? extends Docente> list, Docente value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			// TODO Auto-generated method stub
+			Docente docente =  value;
+			if (!textoBusqueda.getText().isBlank() && textoBusqueda.getText() != null &&docente.getNombre().startsWith(textoBusqueda.getText()) ) {
+				setForeground(Color.RED);
+				setOpaque(true);
+			}else {
+				setForeground(Color.BLACK);
+				setOpaque(true);
+			}
+			 setText("Docente: " + docente.getNombre()+ " "+docente.getApellido() );
+			return this;
+		}
+		
+   }
 }

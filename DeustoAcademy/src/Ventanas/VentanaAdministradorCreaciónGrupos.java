@@ -1,6 +1,7 @@
 package Ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ import DeustoAcademy.Docente;
 import DeustoAcademy.Estudiante;
 import DeustoAcademy.Grupo;
 import DeustoAcademy.Idioma;
+import DeustoAcademy.Tarea;
 
 public class VentanaAdministradorCreaciónGrupos {
 	
@@ -82,6 +84,8 @@ public class VentanaAdministradorCreaciónGrupos {
 
 					listaGrupo.clearSelection();
 					actualizarCombos(datos);
+					JOptionPane.showMessageDialog(null, "Grupo modificado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún grupo", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -98,7 +102,8 @@ public class VentanaAdministradorCreaciónGrupos {
 					actualizarCombos(datos);
 					textoNombre.setText("");
 					textoIdioma.setText("");
-
+					JOptionPane.showMessageDialog(null, "Grupo eliminado", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún grupo", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -112,13 +117,14 @@ public class VentanaAdministradorCreaciónGrupos {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				if (!textoNombre.getText().isBlank() && comboIdioma.getSelectedItem() != null) {
-					Grupo nuevo = new Grupo((Idioma) comboIdioma.getSelectedItem(), textoNombre.getText(), null, new ArrayList<Estudiante>());
+					Grupo nuevo = new Grupo((Idioma) comboIdioma.getSelectedItem(), textoNombre.getText(), null, new ArrayList<Estudiante>(), new ArrayList<Tarea>());
 			/*		actualizarGrupo(nuevo);		*/
 					datos.getGrupos().add(nuevo);
 					actualizarCombos(datos);
 					textoNombre.setText("");
 					comboIdioma.setSelectedIndex(0);
-					
+					JOptionPane.showMessageDialog(null, "Grupo añadido", "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
 							JOptionPane.ERROR_MESSAGE);
@@ -158,6 +164,13 @@ public class VentanaAdministradorCreaciónGrupos {
 
 		ventana.add(scrollPlantilla, BorderLayout.CENTER);
 
+		// Color de fondo
+        Color colorFondo = new Color(88, 187, 240);
+		panelBotones.setBackground(colorFondo);
+		panelIzquierda.setBackground(colorFondo);
+		panelModificarDatos.setBackground(colorFondo);
+		
+		ventana.getContentPane().setBackground(colorFondo);
 		
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamañAo pequeño 720*480
 		ventana.setVisible(true);
