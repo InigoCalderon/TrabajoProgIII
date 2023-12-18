@@ -771,7 +771,7 @@ public class Academy {
 	}
 	
 
-	private static Logger logger = Logger.getLogger(Academy.class.getName());
+	public static Logger logger = Logger.getLogger(Academy.class.getName());
 
 	public static void main(String[] args) {
 

@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -115,9 +116,11 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     listaEstudiante.clearSelection();
                     JOptionPane.showMessageDialog(null, "Estudiante modificado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                   
                 }
             }
         });
