@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.System.Logger;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -29,17 +28,18 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.Logger; // te faltaba este import que no te salía automático
 
 import DeustoAcademy.*;
 
 
 
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
-	
-	private static Logger logger = Logger.getLogger(Academy.class.getName()); // PROBLEMA
    
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
+	
 	private static final long serialVersionUID = 1L;
     public DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
     public JList<Estudiante> listaEstudiante;
@@ -88,6 +88,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         listaEstudiante.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
+            	logger.log(Level.FINE, "INICIA EL PROGRAMA");
             	 limpiarCampos();
                 Estudiante estudiante = listaEstudiante.getSelectedValue();
                 if (estudiante != null) {
