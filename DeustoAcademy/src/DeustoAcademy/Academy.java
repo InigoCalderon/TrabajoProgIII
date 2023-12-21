@@ -836,7 +836,7 @@ public class Academy {
 	
 	
 	
-	public static Logger logger = Logger.getLogger(Academy.class.getName());
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
 
 	public static void main(String[] args) {
 

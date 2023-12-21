@@ -2,6 +2,9 @@ package Ventanas;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.*;
 
 import DeustoAcademy.*;
@@ -11,7 +14,7 @@ public class SelectRol extends JFrame {
 	/**
 	 * 
 	 */
-
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	protected JComboBox<Rols> comboRol;
@@ -36,18 +39,21 @@ public class SelectRol extends JFrame {
 
 				if (comboRol.getSelectedItem() == Rols.ADMINISTRADOR) {
 
+					logger.log(Level.FINE, "SE ABRE UN NUEVO LOGIN");
 					new Login(academy, (Rols) comboRol.getSelectedItem());
 					ventana.dispose();
 
 				}
 				if (comboRol.getSelectedItem() == Rols.ESTUDIANTE) {
 
+					logger.log(Level.FINE, "SE ABRE UN NUEVO LOGIN");
 					new Login(academy, (Rols) comboRol.getSelectedItem());
 					ventana.dispose();
 
 				}
 				if (comboRol.getSelectedItem() == Rols.DOCENTE) {
 
+					logger.log(Level.FINE, "SE ABRE UN NUEVO LOGIN");
 					new Login(academy, (Rols) comboRol.getSelectedItem());
 					ventana.dispose();
 				}
