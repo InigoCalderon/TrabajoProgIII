@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.KeyStore.Entry;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -770,7 +771,17 @@ public class Academy {
 		
 	}
 	
-
+	public void baseDatos() throws SQLException {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("mensaje de error");
+		}
+		
+		
+		
+	}
 	public static Logger logger = Logger.getLogger(Academy.class.getName());
 
 	public static void main(String[] args) {
