@@ -29,12 +29,18 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import DeustoAcademy.*;
 
 
 
 public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
-    private static final long serialVersionUID = 1L;
+	
+	private static Logger logger = Logger.getLogger(Academy.class.getName()); // PROBLEMA
+   
+	private static final long serialVersionUID = 1L;
     public DefaultListModel<Estudiante> modeloLista = new DefaultListModel<>();
     public JList<Estudiante> listaEstudiante;
     public TextField textoNombre;
@@ -54,6 +60,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
    protected JCheckBox checkFrances;
    
     public VentanaAdiministradorAccesoEstudiantes(Academy datos) {
+    	
         modeloLista = new DefaultListModel<>();
         listaEstudiante = new JList<Estudiante>(modeloLista);
         listaEstudiante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
