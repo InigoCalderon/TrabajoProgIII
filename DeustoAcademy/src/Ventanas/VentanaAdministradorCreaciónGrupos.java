@@ -29,9 +29,11 @@ import DeustoAcademy.Estudiante;
 import DeustoAcademy.Grupo;
 import DeustoAcademy.Idioma;
 import DeustoAcademy.Tarea;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VentanaAdministradorCreaciónGrupos {
-	
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	protected JTextField textoNombre;
 	protected JTextField textoIdioma;
 	protected JButton botonAñadir;
@@ -70,6 +72,9 @@ public class VentanaAdministradorCreaciónGrupos {
 					textoNombre.setText(grupo.getNombre());
 			
 					comboIdioma.getModel().setSelectedItem(grupo.getIdioma());
+				}else {
+					logger.log(Level.SEVERE, "No has seleccionado ningún grupo");
+
 				}
 			}
 		});
@@ -86,9 +91,12 @@ public class VentanaAdministradorCreaciónGrupos {
 					actualizarCombos(datos);
 					JOptionPane.showMessageDialog(null, "Grupo modificado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+					 logger.log(Level.FINE, "Grupo modificado"); 
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún grupo", "Error",
 							JOptionPane.ERROR_MESSAGE);
+					logger.log(Level.SEVERE, "No has seleccionado ningún grupo");
+
 				}
 			}
 		});
@@ -104,9 +112,11 @@ public class VentanaAdministradorCreaciónGrupos {
 					textoIdioma.setText("");
 					JOptionPane.showMessageDialog(null, "Grupo eliminado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+					logger.log(Level.FINE, "Grupo eliminado"); 
 				} else {
 					JOptionPane.showMessageDialog(null, "No has seleccionado ningún grupo", "Error",
 							JOptionPane.ERROR_MESSAGE);
+					logger.log(Level.SEVERE, "No has seleccionado ningún grupo");
 				}
 				
 			}
@@ -125,17 +135,17 @@ public class VentanaAdministradorCreaciónGrupos {
 					comboIdioma.setSelectedIndex(0);
 					JOptionPane.showMessageDialog(null, "Grupo añadido", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+					logger.log(Level.FINE, "Grupo añadido");
 				}else {
 					JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
 							JOptionPane.ERROR_MESSAGE);
+					logger.log(Level.SEVERE, "No has rellenado todos los campos correctamente");
 				}
 				
 			}
 		});
 		
 		
-		
-		// FALTA AÑADIR TODO A PANELES, (campos de texto, botones, combos, lista)
 
 		JFrame ventana = new JFrame("Ventana Administrador acceso docentes");
 

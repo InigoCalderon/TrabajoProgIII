@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,7 +23,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import DeustoAcademy.Academy;
 import DeustoAcademy.Docente;
 import DeustoAcademy.Estudiante;
@@ -31,7 +33,7 @@ import Ventanas.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
 
 
 public class VentanaAdministradorAccesoCuentas {
-	 
+	    private static Logger logger = Logger.getLogger(Academy.class.getName());
 	    public Academy datos;
 
 	   
@@ -81,6 +83,10 @@ public class VentanaAdministradorAccesoCuentas {
 							
 	                		textoCuentas.append("Estudiante " + estudiante.getNombre() + " , Dni: "+ estudiante.getDni()+ " , Tarifa mensual: " + datos.mapaTarifaEstudiante(datos).get(estudiante) + " €"+"\n");
 						}
+	                }else {
+	                	logger.log(Level.SEVERE, "No has seleccionado ningún estudiante");
+	                	JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
+	                            JOptionPane.ERROR_MESSAGE);
 	                }
 				}
 			});
@@ -97,6 +103,10 @@ public class VentanaAdministradorAccesoCuentas {
 		                	if(datos.mapaSueldoDocente(datos).containsKey(docente)) {
 		                		textoCuentas.append("Docente " + docente.getNombre()+ " , Dni: "+ docente.getDni() + " , Sueldo mensual: " + datos.mapaSueldoDocente(datos).get(docente)+ " €" + "\n");
 		                	}
+		                }else {
+		                	logger.log(Level.SEVERE, "No has seleccionado ningún docente");
+		                	JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
+		                            JOptionPane.ERROR_MESSAGE);
 		                }
 				}
 			});
@@ -160,6 +170,7 @@ public class VentanaAdministradorAccesoCuentas {
 	        try {
 	            datos.getEstudiantes().sort(null);
 	        } catch (ClassCastException ignored) {
+	        	logger.log(Level.SEVERE, "Lista vacia");
 	        }
 	        for (Estudiante estudiante : datos.getEstudiantes()) {
 	            modeloLista1.addElement(estudiante);

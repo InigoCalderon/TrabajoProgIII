@@ -27,13 +27,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import DeustoAcademy.*;
 
 
 
 
 	public class VentanaAdministradorAccesoGrupos {
-
+		private static Logger logger = Logger.getLogger(Academy.class.getName());
 		public JComboBox<Grupo> comboGrupos1;
 		public JComboBox<Grupo> comboGrupos2;
 		public JComboBox<Docente> comboDocentes;
@@ -86,6 +88,7 @@ import DeustoAcademy.*;
 						comboDocentes.removeItem(docente);
 						actualizarCombos(datos);
 						JOptionPane.showMessageDialog(null, "Asignación realizada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						 logger.log(Level.FINE, "Asignación realizada"); 
 						Thread hilo = new Thread() {					
 							public void run() {
 								textoAsignacion1.append("Asignando docente " + docente.getNombre() + "al grupo " + grupo.getNombre() + "de idioma " + grupo.getIdioma()+ "el proceso se realizará en: ");
@@ -120,7 +123,8 @@ import DeustoAcademy.*;
 						hilo.start();
 					} else {
 						JOptionPane.showMessageDialog(null, "No se ha podido realizar la asignación, revisa que el grupo y docente comparten idioma", "Error", JOptionPane.ERROR_MESSAGE);
-						
+						logger.log(Level.SEVERE, "No se ha podido realizar la asignación");
+
 					}
 					
 					
@@ -140,7 +144,7 @@ import DeustoAcademy.*;
 						grupo.getEstudiantes().add(estudiante);
 						actualizarCombos(datos);
 						JOptionPane.showMessageDialog(null, "Asignación realizada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-						
+						  logger.log(Level.FINE, "Asignación realizada"); 
 						Thread hilo = new Thread() {
 							
 							public void run() {
@@ -183,7 +187,7 @@ import DeustoAcademy.*;
 						
 					} else {
 						JOptionPane.showMessageDialog(null, "No se ha podido realizar la asignación, revisa que el grupo y estudiante comparten idioma, o que el estudiante ya es parte del grupo", "Error", JOptionPane.ERROR_MESSAGE);
-						
+						logger.log(Level.SEVERE, "No se ha podido realizar la asignación");
 						
 					}
 					
@@ -198,7 +202,14 @@ import DeustoAcademy.*;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					new VentanaAdministradorCreaciónGrupos(datos);
+					try {
+						new VentanaAdministradorCreaciónGrupos(datos);
+					} catch (Exception e2) {
+						// TODO: handle exception
+						logger.log(Level.SEVERE, "No se ha podido abrir la ventana");
+
+					}
+					
 				}
 			});
 			

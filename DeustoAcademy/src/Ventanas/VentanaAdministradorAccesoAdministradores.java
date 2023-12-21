@@ -25,7 +25,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import DeustoAcademy.Academy;
 import DeustoAcademy.Administrador;
 
@@ -33,7 +34,7 @@ import DeustoAcademy.Administrador;
 
 public class VentanaAdministradorAccesoAdministradores {
 	
-	
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	 public DefaultListModel<Administrador> modeloLista = new DefaultListModel<>();
 	    public JList<Administrador> listaAdministrador;
 	    public TextField textoNombre;
@@ -55,7 +56,7 @@ public class VentanaAdministradorAccesoAdministradores {
 	    	listaAdministrador = new JList<Administrador>(modeloLista);
 	        JScrollPane scrollPlantilla = new JScrollPane(listaAdministrador);
 	        actualizarCombos(datos);
-	        JLabel etiquetaAdministrador = new JLabel("Administradores");
+	        
 	        JTextField textoBusqueda = new JTextField(20);
 	        botonModificar = new JButton("Modificar");
 	        botonEliminar = new JButton("Eliminar");
@@ -81,6 +82,10 @@ public class VentanaAdministradorAccesoAdministradores {
 	                    textoCorreo.setText(admin.getCorreo());
 	                    textoUsuario.setText(admin.getUsuario());
 	                    textoContraseña.setText(admin.getContraseña());
+	                }else {
+	                	logger.log(Level.SEVERE, "No has seleccionado ningún administrador");
+	                	JOptionPane.showMessageDialog(null, "No has seleccionado ningún administrador", "Error",
+	                            JOptionPane.ERROR_MESSAGE);
 	                }
 	            }
 	        });
@@ -93,9 +98,12 @@ public class VentanaAdministradorAccesoAdministradores {
 	                    actualizarAdministrador(admin);
 	                    listaAdministrador.clearSelection();
 	                    actualizarCombos(datos);
+	                    JOptionPane.showMessageDialog(null, "Administrador modificado", "Aviso",
+	                            JOptionPane.INFORMATION_MESSAGE);
 	                } else {
 	                    JOptionPane.showMessageDialog(null, "No has seleccionado ningún administrador", "Error",
 	                            JOptionPane.ERROR_MESSAGE);
+	                    logger.log(Level.SEVERE, "No has seleccionado ningún administrador");
 	                }
 	            }
 	        });
@@ -108,9 +116,12 @@ public class VentanaAdministradorAccesoAdministradores {
 	                    datos.getAdministradores().remove(admin);
 	                    actualizarCombos(datos);
 	                    limpiarCampos();
+	                    JOptionPane.showMessageDialog(null, "Administrador eliminado", "Aviso",
+	                            JOptionPane.INFORMATION_MESSAGE);
 	                } else {
 	                    JOptionPane.showMessageDialog(null, "No has seleccionado ningún administrador", "Error",
 	                            JOptionPane.ERROR_MESSAGE);
+	                    logger.log(Level.SEVERE, "No has seleccionado ningún administrador");
 	                }
 	            }
 	        });
@@ -124,9 +135,12 @@ public class VentanaAdministradorAccesoAdministradores {
 	                    datos.getAdministradores().add(admin);
 	                    actualizarCombos(datos);
 	                    limpiarCampos();
+	                    JOptionPane.showMessageDialog(null, "Administrador añadido", "Aviso",
+	                            JOptionPane.INFORMATION_MESSAGE);
 	                } else {
 	                    JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
 	                            JOptionPane.ERROR_MESSAGE);
+	                    logger.log(Level.SEVERE, "No has rellenado todos los campos correctamente");
 	                }
 	            }
 	        });

@@ -15,12 +15,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import DeustoAcademy.*;
 
 public class VentanaAdministrador extends JFrame {
     /**
      * 
      */
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
     private static final long serialVersionUID = 1L;
     protected JRadioButton radioEstudiante;
     protected JRadioButton radioDocente;
@@ -75,6 +78,7 @@ public class VentanaAdministrador extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Has de seleccionar algún apartado ", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    logger.log(Level.SEVERE, "Has de seleccionar algún apartado ");
                 }
             }
         });

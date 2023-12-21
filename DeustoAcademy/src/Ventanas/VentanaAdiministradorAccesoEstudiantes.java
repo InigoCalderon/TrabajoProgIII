@@ -124,11 +124,12 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     listaEstudiante.clearSelection();
                     JOptionPane.showMessageDialog(null, "Estudiante modificado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
-                    
+                   
+                    logger.log(Level.FINE, "Estudiante modificado"); 
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
                             JOptionPane.ERROR_MESSAGE);
-                   
+                    logger.log(Level.SEVERE, "No has seleccionado ningún estudiante");
                 }
             }
         });
@@ -143,9 +144,12 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     limpiarCampos();
                     JOptionPane.showMessageDialog(null, "Estudiante eliminado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    
+                    logger.log(Level.FINE, "Estudiante eliminado"); 
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún estudiante", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    logger.log(Level.SEVERE, "No has seleccionado ningún estudiante");
                 }
             }
         });
@@ -161,9 +165,12 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     limpiarCampos();
                     JOptionPane.showMessageDialog(null, "Estudiante añadido", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    
+                    logger.log(Level.FINE, "Estudiante añadido"); 
                 } else {
                     JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    logger.log(Level.SEVERE, "No has rellenado todos los campos correctamente");
                 }
             }
         });
@@ -259,6 +266,8 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         try {
             datos.getEstudiantes().sort(null);
         } catch (ClassCastException ignored) {
+        	logger.log(Level.SEVERE, "No hay datos");
+            
         }
         for (Estudiante estudiante : datos.getEstudiantes()) {
             modeloLista.addElement(estudiante);

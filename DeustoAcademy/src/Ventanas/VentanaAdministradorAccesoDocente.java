@@ -30,11 +30,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import DeustoAcademy.*;
 import Ventanas.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
 
 public class VentanaAdministradorAccesoDocente {
-
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
     public DefaultListModel<Docente> modeloLista = new DefaultListModel<>();
     public JList<Docente> listaDocente;
     public TextField textoNombre;
@@ -122,6 +124,10 @@ public class VentanaAdministradorAccesoDocente {
               		 checkFrances.setSelected(false);
               	   }
                   
+                    }else {
+                    	logger.log(Level.SEVERE, "No has seleccionado ningún docente");
+                    	JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             
@@ -137,7 +143,9 @@ public class VentanaAdministradorAccesoDocente {
                     actualizarCombos(datos);
                     JOptionPane.showMessageDialog(null, "Docente modificado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    logger.log(Level.FINE, "Docente modificado"); 
                 } else {
+                	logger.log(Level.SEVERE, "No has seleccionado ningún docente");
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -154,9 +162,11 @@ public class VentanaAdministradorAccesoDocente {
                     limpiarCampos();
                     JOptionPane.showMessageDialog(null, "Docente eliminado", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    logger.log(Level.FINE, "Docente eliminado"); 
                 } else {
                     JOptionPane.showMessageDialog(null, "No has seleccionado ningún docente", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    logger.log(Level.SEVERE, "No has seleccionado ningún docente");
                 }
             }
         });
@@ -172,9 +182,11 @@ public class VentanaAdministradorAccesoDocente {
                     limpiarCampos();
                     JOptionPane.showMessageDialog(null, "Docente añadido", "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
+                    logger.log(Level.FINE, "Docente añadido"); 
                 } else {
                     JOptionPane.showMessageDialog(null, "No has rellenado todos los campos correctamente", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                    logger.log(Level.SEVERE, "No has rellenado todos los campos correctamente");
                 }
             }
         });
