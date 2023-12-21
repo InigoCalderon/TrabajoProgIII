@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.KeyStore.Entry;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -771,6 +775,10 @@ public class Academy {
 		
 	}
 	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BD EN PRUEBAS
 	public void baseDatos() throws SQLException {
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -778,10 +786,56 @@ public class Academy {
 			// TODO Auto-generated catch block
 			System.out.println("mensaje de error");
 		}
-		
-		
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:sqlite:academy.db");
+			
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Administrador;");
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				String nombre = rs.getString("nombre");
+				String apellido = rs.getString("apellido");
+				String dni = rs.getString("dni");
+				String correo = rs.getString("correo");
+				int telefono = rs.getInt("telefono");
+				String usuario = rs.getString("usuario");
+				String contraseña = rs.getString("contrasena");  // Nada de "ñ" !!!
+				
+				Administrador administrador = new Administrador(nombre, apellido, dni, correo, telefono, usuario, contraseña);
+				this.administradores.add(administrador);
+			}
+			
+			rs.close();
+			
+			for (Administrador administrador : this.administradores) {
+				
+				String plantilla = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement prepStmt = conn.prepareStatement(plantilla);
+				
+				prepStmt.setString(1, administrador.getNombre());
+				prepStmt.setString(2, administrador.getApellido());
+				prepStmt.setString(3, administrador.getDni());
+				prepStmt.setString(4, administrador.getCorreo());
+				prepStmt.setInt(5, administrador.getTelefono());
+				prepStmt.setString(6, administrador.getUsuario());
+				prepStmt.setString(7, administrador.getContraseña());
+				prepStmt.executeUpdate();
+			}
+			
+			stmt.close();
+			conn.close(); 
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			}
 		
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BD EN PRUEBAS
+	
+	
+	
+	
 	public static Logger logger = Logger.getLogger(Academy.class.getName());
 
 	public static void main(String[] args) {
