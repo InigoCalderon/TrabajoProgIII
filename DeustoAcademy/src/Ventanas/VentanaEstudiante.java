@@ -224,9 +224,6 @@ public class VentanaEstudiante extends JFrame {
 			JMenuItem nuevo_menu1 = new JMenuItem("Temario");
 			nuevo_menu1.setIcon(new ImageIcon(image4));
 			
-			JMenuItem nuevo_menu2 = new JMenuItem("Calificaciones");
-			nuevo_menu2.setIcon(new ImageIcon(image3));
-			
 			JCheckBox botonInscribirse = new JCheckBox("Inscrito para realizar el examen Final");	
 			
 			JLabel itemNotaFinal = new JLabel(String.format("      Calificación Final: %s", academy.getNotasExamenFinal().get(estudiante).get(idioma)));
@@ -236,9 +233,10 @@ public class VentanaEstudiante extends JFrame {
 			botonInscribirse.setSelected(academy.getInscritosExamenFinal().get(estudiante).get(idioma));
 			
 			menuIdioma.add(nuevo_menu1);
-			menuIdioma.add(nuevo_menu2);
+			menuIdioma.addSeparator();
 			menuIdioma.add(botonInscribirse);
 			menuIdioma.add(itemNotaFinal);
+			menuIdioma.addSeparator();
 			menuIdioma.add(menuTareas);
 			
 			for (Grupo grupo :  academy.getGrupos()) {
@@ -268,19 +266,9 @@ public class VentanaEstudiante extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					new Temario(idioma, estudiante);
-					System.out.println("ENTRARIAMOS AL TEMARIO");
+					new TemarioVentana(idioma, estudiante, academy);
 					
-				}
-			});
-        	
-        	nuevo_menu2.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					new VentanaCalificaciones(idioma, estudiante);
-					System.out.println("ENTRARIAMOS A LAS CALIFICACIONES");
+					System.out.println("ENTRARIAMOS AL TEMARIO");
 					
 				}
 			});
@@ -341,7 +329,7 @@ public class VentanaEstudiante extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				// hay que repintar la tabla con los cambios nuevos
 			}
 		});
 
@@ -397,6 +385,6 @@ public class VentanaEstudiante extends JFrame {
 		ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		ventana.setLocationRelativeTo(null);
-
+		
 	}
 }
