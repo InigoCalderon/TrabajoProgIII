@@ -56,6 +56,7 @@ public class VentanaAdministradorAccesoCuentas {
 	        
 	        modeloLista2 = new DefaultListModel<>();
 	        listaDocente = new JList<Docente>(modeloLista2);
+	        listaDocente.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	        JScrollPane scrollPlantilla2 = new JScrollPane(listaDocente);
 	        actualizarCombos(datos);
 	        
@@ -78,7 +79,7 @@ public class VentanaAdministradorAccesoCuentas {
 					// TODO Auto-generated method stub
 					Estudiante estudiante = listaEstudiante.getSelectedValue();
 	                if (estudiante != null) {
-	        //        	textoCuentas.setText("");
+	        //        	textoCuentas.setText("");   Esto hace que el texto no salga repetido, pero elimina el historial anterior ...
 	                	if (datos.mapaTarifaEstudiante(datos).containsKey(estudiante)) {
 							
 	                		textoCuentas.append("Estudiante " + estudiante.getNombre() + " , Dni: "+ estudiante.getDni()+ " , Tarifa mensual: " + datos.mapaTarifaEstudiante(datos).get(estudiante) + " €"+"\n");
@@ -99,7 +100,7 @@ public class VentanaAdministradorAccesoCuentas {
 					// TODO Auto-generated method stub
 					 Docente docente = listaDocente.getSelectedValue();
 		                if (docente != null) {
-		      //          	textoCuentas.setText("");
+		      //          	textoCuentas.setText("");   
 		                	if(datos.mapaSueldoDocente(datos).containsKey(docente)) {
 		                		textoCuentas.append("Docente " + docente.getNombre()+ " , Dni: "+ docente.getDni() + " , Sueldo mensual: " + datos.mapaSueldoDocente(datos).get(docente)+ " €" + "\n");
 		                	}
@@ -190,7 +191,10 @@ public class VentanaAdministradorAccesoCuentas {
 				if (datos.mapaTarifaEstudiante(datos).containsKey(estudiante)) {
 					setText("Estudiante: " +estudiante.getNombre()+ " "+estudiante.getApellido());
 					setOpaque(true);
-				}
+				} else {
+		            setText("Datos no disponibles para " + estudiante.getNombre() + " " + estudiante.getApellido());
+		            setOpaque(true);
+		        }
 				 
 				return this;
 			}
@@ -210,7 +214,10 @@ public class VentanaAdministradorAccesoCuentas {
 				if (datos.mapaSueldoDocente(datos).containsKey(docente)) {
 					setText("Docente: " +docente.getNombre()+ " "+docente.getApellido() );
 					setOpaque(true);
-				}
+				} else {
+		            setText("Datos no disponibles para " + docente.getNombre() + " " + docente.getApellido());
+		            setOpaque(true);
+		        }
 				 
 				return this;
 			}

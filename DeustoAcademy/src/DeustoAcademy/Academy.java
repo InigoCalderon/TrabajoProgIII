@@ -614,29 +614,34 @@ public class Academy {
 
 	}
 	public Float metodoActivoAcadaemia(Academy datos) {
-		Float activo = 0f;
-		
+		Float tarifa = 0f;
+		Float sueldo = 0f;
 		for (Estudiante estudiante : mapaTarifaEstudiante(datos).keySet()) {
-			activo += mapaTarifaEstudiante(datos).get(estudiante);
+			tarifa += mapaTarifaEstudiante(datos).get(estudiante);
+			
 		}
 		for (Docente docente : mapaSueldoDocente(datos).keySet()) {
-			activo -= mapaSueldoDocente(datos).get(docente);
+			sueldo += mapaSueldoDocente(datos).get(docente);
+			
 		}	
-		return activo;
+		return tarifa - sueldo;
 		
 	}
 	public TreeMap<Estudiante, Float> mapaTarifaEstudiante(Academy datos){
 		TreeMap<Estudiante, Float> mapa = new TreeMap<Estudiante, Float>();
-		Float tarifaMensual = 0f;
+		
 		for (Estudiante estudiante : datos.getEstudiantes()) {
-			
+			Float tarifaMensual = 0f;
 			if (estudiante.getIdiomas().contains(Idioma.Castellano)) {
 				tarifaMensual += 125f;
-			}else if(estudiante.getIdiomas().contains(Idioma.Euskera)) {
+			}
+			if(estudiante.getIdiomas().contains(Idioma.Euskera)) {
 				tarifaMensual += 130f;
-			}else if(estudiante.getIdiomas().contains(Idioma.Ingles)) {
+			}
+			if(estudiante.getIdiomas().contains(Idioma.Ingles)) {
 				tarifaMensual += 140f;
-			}else if(estudiante.getIdiomas().contains(Idioma.Frances)) {
+			}
+			if(estudiante.getIdiomas().contains(Idioma.Frances)) {
 				tarifaMensual += 135f;
 			}
 			
@@ -648,11 +653,9 @@ public class Academy {
 	
 	public TreeMap<Docente, Float> mapaSueldoDocente(Academy datos){
 		TreeMap<Docente, Float> mapa = new TreeMap<Docente, Float>();
-		Float sueldoMensual = 0f;
+		
 		for (Docente docente : datos.getDocentes()) {
-			
-			for (Grupo grupo : datos.getGrupos()) {
-			
+			Float sueldoMensual = 0f;
 			if (docente.getIdioma().equals(Idioma.Castellano)) {
 				sueldoMensual += 150f;
 			} else if(docente.getIdioma().equals(Idioma.Euskera)) {
@@ -663,13 +666,14 @@ public class Academy {
 				sueldoMensual += 155f;
 			}
 			
-			if(grupo.getDocente().equals(docente)) {
+			for (Grupo grupo : datos.getGrupos()) {
+			
+				if(grupo.getDocente().equals(docente)) {
 					sueldoMensual += 900f;
+				}
 			}
 			mapa.put(docente, sueldoMensual);
 			}
-		
-		}
 		return mapa;
 		
 	}
