@@ -134,6 +134,7 @@ public class DatosPersonales {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					
 					if (!(textoUsuario.getText().equalsIgnoreCase(""))
 							
 							|| !(textoContrasena.getText().equalsIgnoreCase(""))
@@ -193,13 +194,15 @@ public class DatosPersonales {
 									
 									for (Grupo grupo : academy.getGrupos()) {
 										
-										if (grupo.getIdioma() == idioma && grupo.capacidad_estudiantes < 20) {
+										if (grupo.getIdioma() == idioma && grupo.getCapacidad_estudiantes() < 20) {
 											
 											// añadimos estudiante al grupo
 											grupo.getEstudiantes().add(nuevo_estudiante);
-											grupo.capacidad_estudiantes += 1;
+											grupo.setCapacidad_estudiantes(grupo.getCapacidad_estudiantes() + 1);
 											idiomas_asignados.add(idioma);
+											System.out.println("Se ha asignado a un grupo el alumno.");
 											break;
+											
 										}
 										
 									}
@@ -215,7 +218,9 @@ public class DatosPersonales {
 									lista.add(nuevo_estudiante);
 									
 									for (Idioma idioma : idiomas_demandados) {
-										new Grupo(idioma, String.format("GRUPO[%n]-(Docente Sin Asignar)", idioma), null, lista, new ArrayList<Tarea>());
+										Grupo nuevo_grupo = new Grupo(idioma, String.format("GRUPO[%s]-(Docente Sin Asignar)", idioma), null, lista, new ArrayList<Tarea>());
+										academy.getGrupos().add(nuevo_grupo);
+										System.out.println("Se ha creado un grupo y se le ha asignado a él, dicho alumno.");
 									}
 								}
 								
@@ -241,7 +246,7 @@ public class DatosPersonales {
 									if (grupo.getIdioma() == (Idioma) spinner.getValue() && grupo.getDocente() == null) {
 										
 										grupo.setDocente(nuevo_docente);
-										grupo.setNombre(String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()));
+										grupo.setNombre(String.format("GRUPO[%s]-(%s %s)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()));
 										asignado = true;
 										break;
 										
@@ -253,7 +258,7 @@ public class DatosPersonales {
 
 									Grupo nuevo_grupo = new Grupo(
 											(Idioma) spinner.getValue(), 
-											String.format("GRUPO[%n]-(%n %n)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()), 
+											String.format("GRUPO[%s]-(%s %s)", (Idioma) spinner.getValue(), nuevo_docente.getNombre(), nuevo_docente.getApellido()), 
 											nuevo_docente,
 											new ArrayList<>(),
 											new ArrayList<>()

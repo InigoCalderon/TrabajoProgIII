@@ -51,8 +51,9 @@ public class VentanaEstudiante extends JFrame {
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		JPanel panelInterno = new JPanel();
 		
-		for (Grupo grupo :  academy.getGrupos()) {
+		for (Grupo grupo : academy.getGrupos()) {
 			
+			System.out.println(grupo);
 			if (grupo.getEstudiantes().contains(estudiante)) {
 				
 				gruposAlumno.add(grupo);
@@ -60,6 +61,7 @@ public class VentanaEstudiante extends JFrame {
 			}
 			
 		}
+		
 		
 		class MyTableModel extends AbstractTableModel {
 
@@ -256,13 +258,19 @@ public class VentanaEstudiante extends JFrame {
 					
 					JMenu menuGrupo = new JMenu(grupo.getNombre());
 					
-					for (Tarea tarea : grupo.getTareas()) {
+					try {
 						
-						menuGrupo.add(new JLabel(String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea))));
+						for (Tarea tarea : grupo.getTareas()) {
+							
+							menuGrupo.add(new JLabel(String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea))));
+							
+						}
 						
+						menuTareas.add(menuGrupo);
+						
+					} catch (Exception e) {
+						System.out.println("Hay algún parámetro que es nulo sobre una tarea.");
 					}
-					
-					menuTareas.add(menuGrupo);
 					
 				}
 				
