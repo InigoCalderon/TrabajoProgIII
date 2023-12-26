@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Grupo implements Serializable {
+public class Grupo implements Serializable, Comparable<Grupo> {
 	/**
 	 * 
 	 */
@@ -145,5 +145,15 @@ public class Grupo implements Serializable {
 		return "Grupo [" + idioma + ", " + nombre + ", " + docente + ", "
 				+ estudiantes + ", " + tareas + ", " + capacidad_estudiantes + "]";
 	}
+
+	@Override
+	public int compareTo(Grupo o) {
+		
+		// LOS GRUPOS DEBEN TENER NOMBRES DISTINTOS PORQUE FUNCIONAN COMO UN IDENTIFICADOR PARA PODER COMPARARLOS
+		return this.nombre.compareToIgnoreCase(o.nombre);
+		
+	}
+	
+	
 
 }

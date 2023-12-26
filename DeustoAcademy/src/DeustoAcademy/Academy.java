@@ -37,6 +37,7 @@ public class Academy {
 	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
 	protected HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<>();
+	protected ArrayList<Temario> temarioDATA = new ArrayList<>();
 
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes, ArrayList<Grupo> grupos) {
@@ -81,6 +82,14 @@ public class Academy {
 		this.grupos.clear();
 	}
 	
+	public ArrayList<Temario> getTemarioDATA() {
+		return temarioDATA;
+	}
+
+	public void setTemarioDATA(ArrayList<Temario> temarioDATA) {
+		this.temarioDATA = temarioDATA;
+	}
+
 	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> getNotasTareas() {
 		return notasTareas;
 	}
@@ -153,7 +162,8 @@ public class Academy {
 	public String toString() {
 		return "Academy [" + administradores + ", " + estudiantes + ", " + docentes
 				+ ", " + grupos + ", " + inscritosExamenFinal + ", "
-				+ notasExamenFinal + ", " + claves + ", " + notasTareas + "]";
+				+ notasExamenFinal + ", " + claves + ", " + notasTareas + ", "
+				+ temarioDATA + "]";
 	}
 
 	public HashMap<Rols, HashMap<String, String>> getClaves() {
@@ -170,6 +180,24 @@ public class Academy {
 
 		// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS
 
+		try {
+
+			FileInputStream fis = new FileInputStream("res/temario.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+
+			this.temarioDATA = (ArrayList<Temario>) ois.readObject();
+
+			ois.close();
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			System.err.println("Error al encontrar el archivo.");
+		} catch (IOException e) {
+			System.err.println("Error al cargar los datos.");
+		} catch (ClassNotFoundException e) {
+			System.err.println("Error al cargar los datos, formato de fichero incorrecto.");
+		}
+		
 		try {
 
 			FileInputStream fis = new FileInputStream("res/estudiantes.dat");
@@ -451,6 +479,23 @@ public class Academy {
 			}
 			
 		} else {
+			
+			try {
+
+				FileOutputStream fos = new FileOutputStream("res/temario.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+				oos.writeObject(this.temarioDATA);
+
+				oos.close();
+				fos.close();
+
+			} catch (IOException e) {
+
+				System.err.println("Error guardando datos en " + "res/temario.dat");
+
+				e.printStackTrace();
+			}
 			
 			try {
 

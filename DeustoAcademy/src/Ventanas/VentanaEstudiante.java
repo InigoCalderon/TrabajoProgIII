@@ -36,6 +36,7 @@ public class VentanaEstudiante extends JFrame {
 	protected JButton botonCalendario;
 	protected JMenu menuIdiomas;
 	protected JMenuItem menuNotas;
+	protected ArrayList<Grupo> gruposAlumno = new ArrayList<>();
 	
 	protected Icon idiomasIcon = new ImageIcon("res/idiomas.png");
 	protected Icon exitIcon = new ImageIcon("res/exit.png");
@@ -49,6 +50,16 @@ public class VentanaEstudiante extends JFrame {
 		
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
 		JPanel panelInterno = new JPanel();
+		
+		for (Grupo grupo :  academy.getGrupos()) {
+			
+			if (grupo.getEstudiantes().contains(estudiante)) {
+				
+				gruposAlumno.add(grupo);
+				
+			}
+			
+		}
 		
 		class MyTableModel extends AbstractTableModel {
 
@@ -266,9 +277,38 @@ public class VentanaEstudiante extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					new TemarioVentana(idioma, estudiante, academy);
-					
-					System.out.println("ENTRARIAMOS AL TEMARIO");
+					for (Grupo grupo : gruposAlumno) {
+						
+						if (grupo.getIdioma() == idioma) {
+							
+							for (Temario temario : academy.getTemarioDATA()) {
+								
+								if (temario.getGrupo() == grupo) {
+									
+									for (String unit : temario.getData().keySet()) {
+									
+										if (unit == null) {
+											
+											JOptionPane.showMessageDialog(VentanaEstudiante.this, String.format("No hay temario disponible en el Grupo: %s", grupo.getNombre()), "Información", JOptionPane.INFORMATION_MESSAGE);
+											System.out.println("hola");
+										} else {
+											
+											new TemarioVentana(grupo, academy.getTemarioDATA());
+											System.out.println("ENTRARIAMOS AL TEMARIO");
+											
+										}
+										
+										break;
+
+									}
+									
+								}
+								
+							}
+							
+						}
+						
+					}
 					
 				}
 			});
