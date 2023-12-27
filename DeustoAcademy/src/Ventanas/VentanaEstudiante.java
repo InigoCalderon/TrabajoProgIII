@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -280,38 +280,33 @@ public class VentanaEstudiante extends JFrame {
 			
 			menuIdioma.setBackground(new Color(0, 247, 255));
 			
-			nuevo_menu1.addActionListener(new ActionListener() {
+			// CREO TEMARIO DE PRUEBA
+			for (Grupo grupo2 : academy.getGrupos()) {
+				HashMap<String, ArrayList<String>> mapa = new HashMap<>();
+				ArrayList<String> lista = new ArrayList<>();
+				lista.add("https://www.youtube.com");
+				lista.add("https://www.twitch.tv");
+				mapa.put("Unit1", lista);
+				mapa.put("Unit69", lista);
 				
+				academy.getTemarioDATA().add(new Temario(grupo2, mapa));
+			}
+			
+			
+			nuevo_menu1.addActionListener(new ActionListener() {
+					
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
 					for (Grupo grupo : gruposAlumno) {
 						
 						if (grupo.getIdioma() == idioma) {
-							
-							for (Temario temario : academy.getTemarioDATA()) {
-								
-								if (temario.getGrupo() == grupo) {
-									
-									for (String unit : temario.getData().keySet()) {
-									
-										if (unit == null) {
-											
-											JOptionPane.showMessageDialog(VentanaEstudiante.this, String.format("No hay temario disponible en el Grupo: %s", grupo.getNombre()), "Información", JOptionPane.INFORMATION_MESSAGE);
-											System.out.println("hola");
-										} else {
-											
-											new TemarioVentana(grupo, academy.getTemarioDATA());
-											System.out.println("ENTRARIAMOS AL TEMARIO");
-											
-										}
-										
-										break;
 
-									}
-									
-								}
-								
+							if (academy.getTemarioDATA().size() == 0) {
+								JOptionPane.showMessageDialog(VentanaEstudiante.this, "No hay temario disponible.", "Información", JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								new TemarioVentana(grupo, academy.getTemarioDATA());
+								System.out.println("ENTRARIAMOS AL TEMARIO");
 							}
 							
 						}
