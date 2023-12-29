@@ -21,17 +21,16 @@ public class VentanaDocente extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected JButton botonClases;
-    protected JButton botonInfoD;
+    protected JButton botonGuardarInfo;
     protected JButton botonSalir;
-
     protected JButton botonGuardarInformacion;
 
-    protected JTextField textoNombre;
-    protected JTextField textoApellido;
-    protected JTextField textoTitulacion;
-    protected JTextField textoTelefono;
-    protected JTextField textoCorreo;
-    protected JTextField textoDni;
+    private JTextField textoNombre;
+    private JTextField textoApellido;
+    private JTextField textoTitulacion;
+    private JTextField textoTelefono;
+    private JTextField textoCorreo;
+    private JTextField textoDni;
 
     public VentanaDocente(Academy academy, Rols Rol, Docente docente) {
 
@@ -53,13 +52,6 @@ public class VentanaDocente extends JFrame {
         botonSalir = new JButton();
         botonGuardarInformacion = new JButton();
 
-        /*
-        botonClases.setPreferredSize(new Dimension(150, 30));
-        botonInfoD.setPreferredSize(new Dimension(150, 30));
-        botonSalir.setPreferredSize(new Dimension(150, 30));
-        botonGuardarInformacion.setPreferredSize(new Dimension(150, 30));
-        */
-        
         // Ajustar el tamaño de la fuente de los botones
         float fontSize = 20.0f;
         botonClases.setFont(botonClases.getFont().deriveFont(fontSize));
@@ -93,11 +85,38 @@ public class VentanaDocente extends JFrame {
         
         // Agregar ActionListener para los botones
         botonGuardarInformacion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO: Lógica para guardar la información
-            }
-        });
+        	 @Override
+        	    public void actionPerformed(ActionEvent e) {
+        	        // Obtener los datos de los JTextField
+        	        String nombre = textoNombre.getText();
+        	        String apellido = textoApellido.getText();
+        	        String telefonoStr = textoTelefono.getText();
+        	        String correo = textoCorreo.getText();
+        	        String dni = textoDni.getText();
+
+        	        // Validar y convertir el teléfono a entero
+        	        int telefono = 0;
+        	        try {
+        	            telefono = Integer.parseInt(telefonoStr);
+        	        } catch (NumberFormatException ex) {
+        	            JOptionPane.showMessageDialog(null, "Error en el formato del teléfono", "Error", JOptionPane.ERROR_MESSAGE);
+        	            return; // Salir del ActionListener si hay un error
+        	        }
+
+        	        // Actualizar los datos del objeto docente
+        	        docente.setNombre(nombre);
+        	        docente.setApellido(apellido);
+        	        docente.setTelefono(telefono);
+        	        docente.setCorreo(correo);
+        	        docente.setDni(dni);
+
+        	        // TODO: Realizar la lógica adicional si es necesario
+        	        // Por ejemplo, podrías guardar el objeto docente actualizado en algún lugar.
+
+        	        // Informar al usuario que los cambios se han guardado
+        	        JOptionPane.showMessageDialog(null, "Información guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        	    }
+        	});
 
         botonClases.addActionListener(new ActionListener() {
             @Override
@@ -107,6 +126,7 @@ public class VentanaDocente extends JFrame {
                 ventana.dispose();
             }
         });
+
 
         botonSalir.addActionListener(new ActionListener() {
             @Override
@@ -122,15 +142,25 @@ public class VentanaDocente extends JFrame {
         panelBotones.add(botonSalir);
 
         panelInformacion.add(new JLabel("Nombre:"));
-        panelInformacion.add(new JTextField(docente.getNombre()));
+        textoNombre = new JTextField(docente.getNombre());
+        panelInformacion.add(textoNombre);
+
         panelInformacion.add(new JLabel("Apellido:"));
-        panelInformacion.add(new JTextField(docente.getApellido()));
+        textoApellido = new JTextField(docente.getApellido());
+        panelInformacion.add(textoApellido);
+
         panelInformacion.add(new JLabel("Teléfono:"));
-        panelInformacion.add(new JTextField(String.valueOf(docente.getTelefono())));
+        textoTelefono = new JTextField(String.valueOf(docente.getTelefono()));
+        panelInformacion.add(textoTelefono);
+
         panelInformacion.add(new JLabel("Correo:"));
-        panelInformacion.add(new JTextField(docente.getCorreo()));
+        textoCorreo = new JTextField(docente.getCorreo());
+        panelInformacion.add(textoCorreo);
+
         panelInformacion.add(new JLabel("DNI:"));
-        panelInformacion.add(new JTextField(docente.getDni()));
+        textoDni = new JTextField(docente.getDni());
+        panelInformacion.add(textoDni);
+
         
         panelBotones.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		panelBotones.setBackground(new Color(88, 187, 240));
