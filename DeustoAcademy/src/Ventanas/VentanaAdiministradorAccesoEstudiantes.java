@@ -94,7 +94,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
                     textoTelefono.setText(estudiante.getTelefono() + "");
                     textoCorreo.setText(estudiante.getCorreo());
                     textoUsuario.setText(estudiante.getUsuario());
-                    textoContraseña.setText(estudiante.getContraseña());
+                    textoContraseña.setText(estudiante.getContrasena());
                    for (Idioma idioma : estudiante.getIdiomas()) {
                 	   if (idioma.equals(Idioma.Castellano)) {
                 		   checkCastellano.setSelected(true);
@@ -277,7 +277,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
         estudiante.setCorreo(textoCorreo.getText());
         estudiante.setTelefono(Integer.parseInt(textoTelefono.getText()));
         estudiante.setUsuario(textoUsuario.getText());
-        estudiante.setContraseña(textoContraseña.getText());
+        estudiante.setContrasena(textoContraseña.getText());
         estudiante.getIdiomas().clear();
         if (checkCastellano.isSelected() == true) {
         	estudiante.getIdiomas().add(Idioma.Castellano);

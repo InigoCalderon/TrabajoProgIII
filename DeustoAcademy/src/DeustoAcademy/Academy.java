@@ -626,7 +626,7 @@ public class Academy {
 
 		for (Estudiante estudiante : this.getEstudiantes()) {
 
-			claves_primarias.put(estudiante.getUsuario(), estudiante.getContraseña());
+			claves_primarias.put(estudiante.getUsuario(), estudiante.getContrasena());
 
 		}
 

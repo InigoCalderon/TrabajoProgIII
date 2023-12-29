@@ -3,6 +3,7 @@ package DeustoAcademy;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Grupo implements Serializable, Comparable<Grupo> {
 	/**
@@ -133,7 +134,25 @@ public class Grupo implements Serializable, Comparable<Grupo> {
 	public void setCapacidad_estudiantes(int capacidad_estudiantes) {
 		this.capacidad_estudiantes = capacidad_estudiantes;
 	}
-	
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(capacidad_estudiantes, docente, estudiantes, idioma, nombre, notaTareas, tareas);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Grupo other = (Grupo) obj;
+		return capacidad_estudiantes == other.capacidad_estudiantes && Objects.equals(docente, other.docente)
+				&& Objects.equals(estudiantes, other.estudiantes) && idioma == other.idioma
+				&& Objects.equals(nombre, other.nombre) && Objects.equals(notaTareas, other.notaTareas)
+				&& Objects.equals(tareas, other.tareas);
+	}
 
 }

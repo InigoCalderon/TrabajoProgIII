@@ -1,8 +1,9 @@
 package DeustoAcademy;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class Docente implements Serializable , Comparable<Docente>{
+public class Docente implements Serializable {
 
 	/**
 	 * 
@@ -108,9 +109,23 @@ public class Docente implements Serializable , Comparable<Docente>{
 	}
 
 	@Override
-	public int compareTo(Docente o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int hashCode() {
+		return Objects.hash(apellido, contraseña, correo, dni, idioma, nombre, telefono, usuario);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Docente other = (Docente) obj;
+		return Objects.equals(apellido, other.apellido) && Objects.equals(contraseña, other.contraseña)
+				&& Objects.equals(correo, other.correo) && Objects.equals(dni, other.dni) && idioma == other.idioma
+				&& Objects.equals(nombre, other.nombre) && telefono == other.telefono
+				&& Objects.equals(usuario, other.usuario);
 	}
 
 }
