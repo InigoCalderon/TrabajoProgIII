@@ -9,9 +9,10 @@ import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import javax.swing.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import DeustoAcademy.*;
 
@@ -110,12 +111,14 @@ public class VentanaDocente extends JFrame {
         	        docente.setCorreo(correo);
         	        docente.setDni(dni);
 
-        	        // TODO: Realizar la lógica adicional si es necesario
-        	        // Por ejemplo, podrías guardar el objeto docente actualizado en algún lugar.
-
-        	        // Informar al usuario que los cambios se han guardado
-        	        JOptionPane.showMessageDialog(null, "Información guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        	    }
+          	        // Guardar los cambios
+        	        try (BufferedWriter writer = new BufferedWriter(new FileWriter("docente.txt"))) {
+        	            writer.write(String.format("%s,%s,%d,%s,%s", nombre, apellido, telefono, correo, dni));
+        	            JOptionPane.showMessageDialog(null, "Información guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        	        } catch (IOException ex) {
+        	            JOptionPane.showMessageDialog(null, "Error al guardar la información", "Error", JOptionPane.ERROR_MESSAGE);
+        	        }
+        	 }
         	});
 
         botonClases.addActionListener(new ActionListener() {
