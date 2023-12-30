@@ -85,6 +85,7 @@ public class VentanaEstudiante extends JFrame {
 	        public MyTableModel(List<Tarea> tareas, String[] headers) {
 	            this.tareas = tareas;
 	            this.headers = headers;
+	            fireTableStructureChanged();
 	        }
 
 	        // este método es usado por la tabla para obtener los nombres
