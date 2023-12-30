@@ -6,16 +6,18 @@ package Ventanas;
 import javax.swing.*;
 //import javax.swing.border.EmptyBorder;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import javax.swing.table.AbstractTableModel;
-
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -37,6 +39,9 @@ public class VentanaEstudiante extends JFrame {
 	protected JMenu menuIdiomas;
 	protected JMenuItem menuNotas;
 	protected ArrayList<Grupo> gruposAlumno = new ArrayList<>();
+	protected JTable table;
+	protected List<Tarea> tareas;
+	protected String[] headers = { "Fecha de Subida", "Fecha de Entrega", "Título", "Comentario"};
 	
 	protected Icon idiomasIcon = new ImageIcon("res/idiomas.png");
 	protected Icon exitIcon = new ImageIcon("res/exit.png");
@@ -72,13 +77,14 @@ public class VentanaEstudiante extends JFrame {
 	        private static final long serialVersionUID = 1L;
 
 	        // array con los nombres de las columnas
-	        private String[] headers = { "Fecha de Subida", "Fecha de Entrega", "Título", "Comentario"};
+	        private String[] headers;
 	        private List<Tarea> tareas;
 
 	        // Este constructor recibe una lista con los objetos Persona
 	        // que van a ser mostrados en la tabla
-	        public MyTableModel(List<Tarea> tareas) {
+	        public MyTableModel(List<Tarea> tareas, String[] headers) {
 	            this.tareas = tareas;
+	            this.headers = headers;
 	        }
 
 	        // este método es usado por la tabla para obtener los nombres
@@ -168,10 +174,10 @@ public class VentanaEstudiante extends JFrame {
 	            // teniendo en cuenta el tipo concreto de dato
 	            switch (column) {
 	                case 0:
-	                    t.setFecha_creacion((String) value);
+	                    t.setFecha_creacion((LocalDate) value);
 	                    break;
 	                case 1:
-	                	t.setFecha_entrega((String) value);
+	                	t.setFecha_entrega((LocalDate) value);
 	                    break;
 	                case 2:
 	                	t.setTitulo((String) value);
@@ -186,21 +192,48 @@ public class VentanaEstudiante extends JFrame {
 	            fireTableCellUpdated(row, column);
 	        }
 
+			public void setTareas(List<Tarea> tareas2) {
+				
+				this.tareas = tareas2;
+				this.fireTableDataChanged(); // Notifica a la tabla que los datos han cambiado
+				
+			}
+
 	    }
 		
 		// ME INVENTO TAREAS
+		/*/
 		System.out.println();
 		for (Grupo grupo : academy.getGrupos()) {
 			if (grupo.getEstudiantes().contains(estudiante)){
 				grupo.getTareas().add(
 					new Tarea(
-							"26/11/23",
+							// ASÍ SE METEN DATOS EN FECHAS
+							// Año, mes, día
+							LocalDate.of(2024, 1, 10),
+							"PRÁCTICA 69",
+							"Esta práctica no es teórica"
+					)
+				);
+				grupo.getTareas().add(
+					new Tarea(
+							// ASÍ SE METEN DATOS EN FECHAS
+							LocalDate.of(2024, 2, 28),
+							"PRÁCTICA 69",
+							"Esta práctica no es teórica"
+					)
+				);
+				grupo.getTareas().add(
+					new Tarea(
+							// ASÍ SE METEN DATOS EN FECHAS
+							LocalDate.of(2024, 2, 15),
 							"PRÁCTICA 69",
 							"Esta práctica no es teórica"
 					)
 				);
 			}
 		}
+		/*/
 		
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);  
@@ -213,8 +246,8 @@ public class VentanaEstudiante extends JFrame {
 		
 		Image image2 = ((ImageIcon) exitIcon).getImage().getScaledInstance(anchoDeseado1, altoDeseado1,
 				Image.SCALE_SMOOTH);
-		Image image3 = ((ImageIcon) marksIcon).getImage().getScaledInstance(anchoDeseado2, altoDeseado2,
-				Image.SCALE_SMOOTH);
+		//Image image3 = ((ImageIcon) marksIcon).getImage().getScaledInstance(anchoDeseado2, altoDeseado2,
+				//Image.SCALE_SMOOTH);
 		Image image4 = ((ImageIcon) bookIcon).getImage().getScaledInstance(anchoDeseado2, altoDeseado2,
 				Image.SCALE_SMOOTH);
 		Image image5 = ((ImageIcon) calendarIcon).getImage().getScaledInstance(anchoDeseado1, altoDeseado1,
@@ -281,6 +314,7 @@ public class VentanaEstudiante extends JFrame {
 			menuIdioma.setBackground(new Color(0, 247, 255));
 			
 			// CREO TEMARIO DE PRUEBA
+			/*/
 			for (Grupo grupo2 : academy.getGrupos()) {
 				HashMap<String, ArrayList<String>> mapa = new HashMap<>();
 				ArrayList<String> lista = new ArrayList<>();
@@ -291,7 +325,7 @@ public class VentanaEstudiante extends JFrame {
 				
 				academy.getTemarioDATA().add(new Temario(grupo2, mapa));
 			}
-			
+			/*/
 			
 			nuevo_menu1.addActionListener(new ActionListener() {
 					
@@ -342,54 +376,36 @@ public class VentanaEstudiante extends JFrame {
 		menuIdiomas.setBorder(null);
 		botonSalir.setBorder(null);
 		botonCalendario.setBorder(null);
-
+	
 		menuBar.add(botonSalir);
 		menuBar.add(menuIdiomas);
-        menuBar.add(botonCalendario);
-        
-        JLabel fechaProximasTareas = new JLabel("  Tareas pendientes en los próximos: ");
-        JComboBox<Integer> fechas = new JComboBox<Integer>();
-        
-        fechas.addItem(15);
-        fechas.addItem(30);
-        fechas.addItem(60);
-        fechas.addItem(90);
-        
-        JLabel dias = new JLabel(" días.                                                                                                              ");
-        
-        menuBar.add(fechaProximasTareas);
-        menuBar.add(fechas);
-        menuBar.add(dias);
-        menuBar.setBackground(new Color(0, 247, 255));
-
+	    menuBar.add(botonCalendario);
+	    
+	    JLabel fechaProximasTareas = new JLabel("  Tareas pendientes en los próximos: ");
+	    JComboBox<String> fechas = new JComboBox<String>();
+	    
+	    fechas.addItem("15");
+	    fechas.addItem("30");
+	    fechas.addItem("60");
+	    fechas.addItem("90");
+	    fechas.addItem("resto de");
+	    
+	    JLabel dias = new JLabel(" días.                                                                                                              ");
+	    
+	    menuBar.add(fechaProximasTareas);
+	    menuBar.add(fechas);
+	    menuBar.add(dias);
+	    menuBar.setBackground(new Color(0, 247, 255));
+	
 		/*
 		 * / ZonedDateTime now = ZonedDateTime.now(); DateTimeFormatter formatter =
 		 * DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); JLabel etiquetaFechaHora
 		 * = new JLabel(formatter.format(now)); /
 		 */
 		
-		botonCalendario.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// hay que repintar la tabla con los cambios nuevos
-			}
-		});
-
-		botonSalir.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				new Login(academy, rol);
-				ventana.dispose();
-
-			}
-		});
-
-		// datos de la tabla
+	    // datos de la tabla
 		
-		List<Tarea> tareas = new ArrayList<>();
+		tareas = new ArrayList<>();
 		
 		for (Grupo grupo : academy.getGrupos()) {
 			if (grupo.getEstudiantes().contains(estudiante)){
@@ -398,31 +414,93 @@ public class VentanaEstudiante extends JFrame {
 		        }
 			}
 		}
-
-        // se crea el modelo de la tabla con los datos
-        //MyTableModel tableModel = new MyTableModel(Arrays.asList(persons));
+	    
+		botonCalendario.addActionListener(new ActionListener() {
+	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				LocalDate fecha1 = LocalDate.now();
+				tareas = new ArrayList<>();
+				
+				try {
+					
+					int dato = Integer.parseInt((String) fechas.getSelectedItem());
+					
+					for (Grupo grupo : academy.getGrupos()) {
+						
+						if (grupo.getEstudiantes().contains(estudiante)){
+							
+							for (Tarea tarea : grupo.getTareas()) {
+								
+								if (ChronoUnit.DAYS.between(fecha1, tarea.getFecha_entrega()) <= dato) {
+									
+									tareas.add(tarea);
+									
+								}
+					        }
+							
+						}
+						
+					}
+					
+				} catch (Exception e2) {
+					
+					for (Grupo grupo : academy.getGrupos()) {
+						if (grupo.getEstudiantes().contains(estudiante)){
+							for (Tarea tarea : grupo.getTareas()) {
+					            tareas.add(tarea);
+					        }
+						}
+					}
+					
+				}
+					
+				((MyTableModel) table.getModel()).setTareas(tareas);
+				
+				table.repaint();
+			
+			}
+		});
+	
+		botonSalir.addActionListener(new ActionListener() {
+	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+	
+				new Login(academy, rol);
+				ventana.dispose();
+	
+			}
+		});
+	
+	    // se crea el modelo de la tabla con los datos
+	    //MyTableModel tableModel = new MyTableModel(Arrays.asList(persons));
 		
-		MyTableModel tableModel = new MyTableModel(tareas);
-
-        // se crea la tabla y se asigna el modelo/datos
-        JTable table = new JTable(tableModel);
-
-        //TableColumn birthdateColumn = table.getColumnModel().getColumn(2);
-        //birthdateColumn.setCellRenderer(new DateCellRenderer());
-        
-        //birthdateColumn.setCellEditor(new DateCellEditor());
-
-        // la tabla se añade en un scroll pane para poder
-        // navegar por las filas
-        JScrollPane scrollPane = new JScrollPane(table);
-        
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+		MyTableModel tableModel = new MyTableModel(tareas, headers);
+	
+	    // se crea la tabla y se asigna el modelo/datos
+	    table = new JTable(tableModel);
+	
+	    table.getColumnModel().getColumn(2).setPreferredWidth(200);
+		table.getColumnModel().getColumn(3).setPreferredWidth(300);
+		
+	    //TableColumn birthdateColumn = table.getColumnModel().getColumn(2);
+	    //birthdateColumn.setCellRenderer(new DateCellRenderer());
+	    
+	    //birthdateColumn.setCellEditor(new DateCellEditor());
+	
+	    // la tabla se añade en un scroll pane para poder
+	    // navegar por las filas
+	    JScrollPane scrollPane = new JScrollPane(table);
+	    
+	    panelPrincipal.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 		panelPrincipal.setBackground(new Color(88, 187, 240));
 		panelInterno.setBackground(new Color(88, 214, 240));
 		panelInterno.add(table, BorderLayout.CENTER);
 		panelInterno.add(scrollPane, BorderLayout.CENTER);
 		panelPrincipal.add(panelInterno, BorderLayout.CENTER);
-
+	
 		ventana.add(panelPrincipal);
 		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
 		ventana.setVisible(true);
