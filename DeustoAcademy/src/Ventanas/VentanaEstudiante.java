@@ -32,8 +32,11 @@ public class VentanaEstudiante extends JFrame {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
+	
 	//protected JButton botonModificar;
+	
 	protected JButton botonSalir;
 	protected JButton botonCalendario;
 	protected JMenu menuIdiomas;
@@ -66,7 +69,6 @@ public class VentanaEstudiante extends JFrame {
 			}
 			
 		}
-		
 		
 		class MyTableModel extends AbstractTableModel {
 
@@ -290,7 +292,7 @@ public class VentanaEstudiante extends JFrame {
 				
 				if (grupo.getEstudiantes().contains(estudiante)) {
 					
-					JMenu menuGrupo = new JMenu(grupo.getNombre());
+					JMenu menuGrupo = new JMenu();
 					
 					try {
 						

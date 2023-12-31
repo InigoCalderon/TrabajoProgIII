@@ -3,7 +3,7 @@ package DeustoAcademy;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Docente implements Serializable {
+public class Docente implements Serializable, Comparable<Docente> {
 
 	/**
 	 * 
@@ -126,6 +126,12 @@ public class Docente implements Serializable {
 				&& Objects.equals(correo, other.correo) && Objects.equals(dni, other.dni) && idioma == other.idioma
 				&& Objects.equals(nombre, other.nombre) && telefono == other.telefono
 				&& Objects.equals(usuario, other.usuario);
+	}
+
+	@Override
+	public int compareTo(Docente o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
