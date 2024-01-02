@@ -112,7 +112,7 @@ public class VentanaDocente extends JFrame {
         	        docente.setDni(dni);
 
           	        // Guardar los cambios
-        	        try (BufferedWriter writer = new BufferedWriter(new FileWriter("docente.txt"))) {
+        	        try (BufferedWriter writer = new BufferedWriter(new FileWriter("docentes.txt"))) {
         	            writer.write(String.format("%s,%s,%d,%s,%s", nombre, apellido, telefono, correo, dni));
         	            JOptionPane.showMessageDialog(null, "Información guardada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         	        } catch (IOException ex) {
