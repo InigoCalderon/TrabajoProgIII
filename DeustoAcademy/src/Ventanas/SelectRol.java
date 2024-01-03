@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import org.junit.validator.PublicClassValidator;
+
 import DeustoAcademy.*;
 
 public class SelectRol extends JFrame {
@@ -78,6 +80,8 @@ public class SelectRol extends JFrame {
 		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		ventana.pack();
 
+
+		
 	}
 
 }
