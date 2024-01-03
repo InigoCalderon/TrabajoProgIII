@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.sql.Array;
 import java.sql.Clob;
@@ -22,6 +23,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -645,7 +648,7 @@ public class Academy {
 
 		for (Administrador admin : this.getAdministradores()) {
 
-			claves_primarias.put(admin.getUsuario(), admin.getContraseña());
+			claves_primarias.put(admin.getUsuario(), admin.getContrasena());
 
 		}
 
@@ -1233,6 +1236,163 @@ e.printStackTrace();
 		return listafinal;
 	}
 	
+	/// GUARDADO
+	
+	public void guardarAdministrador(Connection conn, Administrador administrador) throws SQLException {
+        try {
+            String insertQuery = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, administrador.getNombre());
+                preparedStatement.setString(2, administrador.getApellido());
+                preparedStatement.setString(3, administrador.getDni());
+                preparedStatement.setString(4, administrador.getCorreo());
+                preparedStatement.setInt(5, administrador.getTelefono());
+                preparedStatement.setString(6, administrador.getUsuario());
+                preparedStatement.setString(7, administrador.getContrasena());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void guardarEstudiante(Connection conn, Estudiante estudiante) throws SQLException {
+        try {
+            String insertQuery = "INSERT INTO Estudiante (nombre, apellido, dni, correo, telefono, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, estudiante.getNombre());
+                preparedStatement.setString(2, estudiante.getApellido());
+                preparedStatement.setString(3, estudiante.getDni());
+                preparedStatement.setString(4, estudiante.getCorreo());
+                preparedStatement.setInt(5, estudiante.getTelefono());
+                preparedStatement.setString(6, estudiante.getUsuario());
+                preparedStatement.setString(7, estudiante.getContrasena());
+                preparedStatement.setArray(8, convertirListaAArray(conn, estudiante.getIdiomas()));
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void guardarDocente(Connection conn, Docente docente) throws SQLException {
+        try {
+            String insertQuery = "INSERT INTO Docente (nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, docente.getNombre());
+                preparedStatement.setString(2, docente.getApellido());
+                preparedStatement.setString(3, docente.getDni());
+                preparedStatement.setString(4, docente.getCorreo());
+                preparedStatement.setInt(5, docente.getTelefono());
+                preparedStatement.setString(6, docente.getUsuario());
+                preparedStatement.setString(7, docente.getContraseña());
+                preparedStatement.setString(8, docente.getIdioma().toString());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void guardarGrupo(Connection conn, Grupo grupo) throws SQLException {
+        try {
+            String insertQuery = "INSERT INTO Grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, grupo.getIdioma().toString());
+                preparedStatement.setString(2, grupo.getNombre());
+                preparedStatement.setString(3, convertirObjetoAString(grupo.getDocente()));
+                preparedStatement.setArray(4, convertirListaAArray(conn, grupo.getEstudiantes()));
+                preparedStatement.setArray(5, convertirListaAArray(conn, grupo.getTareas()));
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void guardarNotasExamenFinal(Connection conn, HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal) throws SQLException {
+        String sql = "INSERT INTO notasExamenFinal (estudiante, idioma, nota) VALUES (?, ?, ?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            for (Entry<Estudiante, HashMap<Idioma, String>> entry : notasExamenFinal.entrySet()) {
+                Estudiante estudiante = entry.getKey();
+                HashMap<Idioma, String> notasPorIdioma = entry.getValue();
+
+                for (Map.Entry<Idioma, String> notaEntry : notasPorIdioma.entrySet()) {
+                    Idioma idioma = notaEntry.getKey();
+                    String nota = notaEntry.getValue();
+
+                    // Convertir el objeto Estudiante a CLOB
+                    Clob estudianteClob = convertirObjetoAClob(conn, estudiante);
+
+                    // Establecer los parámetros en el PreparedStatement
+                    pstmt.setClob(1, estudianteClob);
+                    pstmt.setString(2, idioma.name());
+                    pstmt.setString(3, nota);
+
+                    // Ejecutar la inserción
+                    pstmt.executeUpdate();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void guardarInscritosExamenFinal(Connection conn, HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal) throws SQLException {
+        try {
+            String insertQuery = "INSERT INTO inscritosExamenFinal (estudiante, idioma, boolean) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+                for (Map.Entry<Estudiante, HashMap<Idioma, Boolean>> entry : inscritosExamenFinal.entrySet()) {
+                    Estudiante estudiante = entry.getKey();
+                    HashMap<Idioma, Boolean> idiomasBooleanMap = entry.getValue();
+                    for (Map.Entry<Idioma, Boolean> idiomaBooleanEntry : idiomasBooleanMap.entrySet()) {
+                        preparedStatement.setClob(1, convertirObjetoAClob(conn, estudiante));
+                        preparedStatement.setString(2, idiomaBooleanEntry.getKey().toString());
+                        preparedStatement.setBoolean(3, idiomaBooleanEntry.getValue());
+                        preparedStatement.executeUpdate();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private Clob convertirObjetoAClob(Connection conn, Object objeto) throws SQLException {
+        
+        String objetoString = objeto.toString();
+
+        try (StringReader reader = new StringReader(objetoString)) {
+            // Crear un Clob y escribir el contenido del StringReader en el Clob
+            Clob clob = conn.createClob();
+            try (PreparedStatement pstmt = conn.prepareStatement("SELECT ?")) {
+                pstmt.setClob(1, reader);
+                pstmt.execute();
+                return clob;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    private Array convertirListaAArray(Connection conn, List<?> lista) throws SQLException {
+        return conn.createArrayOf("VARCHAR", lista.toArray());
+    }
+	
+    private String convertirObjetoAString(Object objeto) {
+        try (StringWriter writer = new StringWriter()) {
+
+            writer.write(objeto.toString());
+            return writer.toString();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	
 	public static void main(String[] args) {

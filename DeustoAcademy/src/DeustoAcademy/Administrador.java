@@ -15,10 +15,10 @@ public class Administrador implements Serializable {
 	protected String correo;
 	protected int telefono;
 	protected String usuario;
-	protected String contraseña;
+	protected String contrasena;
 
 	public Administrador(String nombre, String apellido, String dni, String correo, int telefono, String usuario,
-			String contraseña) {
+			String contrasena) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -26,7 +26,7 @@ public class Administrador implements Serializable {
 		this.correo = correo;
 		this.telefono = telefono;
 		this.usuario = usuario;
-		this.contraseña = contraseña;
+		this.contrasena = contrasena;
 	}
 
 	public Administrador() {
@@ -81,18 +81,18 @@ public class Administrador implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasena() {
+		return contrasena;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
 	}
 
 	@Override
 	public String toString() {
 		return "Administrador [" + nombre + ", " + apellido + ", " + dni + "," + correo
-				+ ", " + telefono + ", " + usuario + ", " + contraseña + "]";
+				+ ", " + telefono + ", " + usuario + ", " + contrasena + "]";
 	}
 
 }

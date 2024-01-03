@@ -51,7 +51,7 @@ public class AdministradorTest {
 	@Test
 	public void TestGetContraseña() {
 		
-		assertEquals("contraseña",nueva.getContraseña() );
+		assertEquals("contraseña",nueva.getContrasena() );
 	}
 	
 }
