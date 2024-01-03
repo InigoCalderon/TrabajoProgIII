@@ -6,21 +6,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.sql.Array;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import Ventanas.*;
 
@@ -826,93 +836,427 @@ public class Academy {
 	
 	
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BD EN PRUEBAS
-	public void baseDatos() throws SQLException {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("mensaje de error");
-		}
-		try {
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:academy.db");
-			
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Administrador;");
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				String nombre = rs.getString("nombre");
-				String apellido = rs.getString("apellido");
-				String dni = rs.getString("dni");
-				String correo = rs.getString("correo");
-				int telefono = rs.getInt("telefono");
-				String usuario = rs.getString("usuario");
-				String contraseña = rs.getString("contrasena");  // Nada de "ñ" !!!
-				
-				Administrador administrador = new Administrador(nombre, apellido, dni, correo, telefono, usuario, contraseña);
-				this.administradores.add(administrador);
-			}
-			
-			rs.close();
-			
-			for (Administrador administrador : this.administradores) {
-				
-				String plantilla = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
-				PreparedStatement prepStmt = conn.prepareStatement(plantilla);
-				
-				prepStmt.setString(1, administrador.getNombre());
-				prepStmt.setString(2, administrador.getApellido());
-				prepStmt.setString(3, administrador.getDni());
-				prepStmt.setString(4, administrador.getCorreo());
-				prepStmt.setInt(5, administrador.getTelefono());
-				prepStmt.setString(6, administrador.getUsuario());
-				prepStmt.setString(7, administrador.getContraseña());
-				prepStmt.executeUpdate();
-			}
-			
-			stmt.close();
-			conn.close(); 
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			}
-		
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BD EN PRUEBAS
-	
-	
-	
-	
-	private static Logger logger = Logger.getLogger(Academy.class.getName());
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////BD EN PRUEBAS
+/*/
+public void baseDatos() throws SQLException {
+try {
+Class.forName("org.sqlite.JDBC");
+} catch (ClassNotFoundException e) {
+// TODO Auto-generated catch block
+System.out.println("mensaje de error");
+}
+try {
+Connection conn = DriverManager.getConnection("jdbc:sqlite:academy.db");
 
-	public static void main(String[] args) {
+PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Administrador;");
 
-		SwingUtilities.invokeLater(new Runnable() {
+ResultSet rs = stmt.executeQuery();
 
-            @Override
-            public void run() {
-		
-			try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
-	            LogManager.getLogManager().readConfiguration(fis);
-	        } catch (IOException e) {
-	            logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
-	        }
-			
-			logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
-	
-			Academy A1 = new Academy();
-	
-			A1.cargar_datos();
-	
-			A1.actualizar_claves();
-			
-			new SelectRol(A1);
-		
-            }
+while (rs.next()) {
+String nombre = rs.getString("nombre");
+String apellido = rs.getString("apellido");
+String dni = rs.getString("dni");
+String correo = rs.getString("correo");
+int telefono = rs.getInt("telefono");
+String usuario = rs.getString("usuario");
+String contrasena = rs.getString("contrasena");  // Nada de "ñ" !!!
 
-        });
+Administrador administrador = new Administrador(nombre, apellido, dni, correo, telefono, usuario, contrasena);
+this.administradores.add(administrador);
+}
 
-	}
-	
+rs.close();
+
+for (Administrador administrador : this.administradores) {
+
+String plantilla = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
+PreparedStatement prepStmt = conn.prepareStatement(plantilla);
+
+prepStmt.setString(1, administrador.getNombre());
+prepStmt.setString(2, administrador.getApellido());
+prepStmt.setString(3, administrador.getDni());
+prepStmt.setString(4, administrador.getCorreo());
+prepStmt.setInt(5, administrador.getTelefono());
+prepStmt.setString(6, administrador.getUsuario());
+prepStmt.setString(7, administrador.getContrasena());
+prepStmt.executeUpdate();
+}
+
+stmt.close();
+
+PreparedStatement stmtEstudiante = conn.prepareStatement("SELECT * FROM Estudiante;");
+ResultSet rsEstudianteRecursos = stmtEstudiante.executeQuery();
+
+while (rsEstudianteRecursos.next()) {
+String nombre = rsEstudianteRecursos.getString("nombre");
+String apellido = rsEstudianteRecursos.getString("apellido");
+String dni = rsEstudianteRecursos.getString("dni");
+String correo = rsEstudianteRecursos.getString("correo");
+int telefono = rsEstudianteRecursos.getInt("telefono");
+String usuario = rsEstudianteRecursos.getString("usuario");
+String contrasena = rsEstudianteRecursos.getString("contrasena");
+ArrayList<Idioma> idiomas = (ArrayList<Idioma>) rsEstudianteRecursos.getArray("idiomas");
+
+Estudiante estudiante = new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas);
+this.estudiantes.add(estudiante);
+}
+
+rsEstudianteRecursos.close();
+
+for (Estudiante estudiante : this.estudiantes) {
+
+String plantilla = "INSERT INTO Estudiante (nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+PreparedStatement preprsEstudianteRecursos = conn.prepareStatement(plantilla);
+
+preprsEstudianteRecursos.setString(1, estudiante.getNombre());
+preprsEstudianteRecursos.setString(2, estudiante.getApellido());
+preprsEstudianteRecursos.setInt(3, estudiante.getTelefono());
+preprsEstudianteRecursos.setString(4, estudiante.getCorreo());
+preprsEstudianteRecursos.setString(5, estudiante.getDni());
+preprsEstudianteRecursos.setString(6, estudiante.getUsuario());
+preprsEstudianteRecursos.setString(7, estudiante.getContrasena());
+preprsEstudianteRecursos.setArray(8, (Array) estudiante.getIdiomas());
+preprsEstudianteRecursos.executeUpdate();
+}
+
+stmtEstudiante.close();
+
+PreparedStatement stmtGrupo = conn.prepareStatement("SELECT * FROM Grupo;");
+ResultSet rsGrupo = stmtGrupo.executeQuery();
+
+while (rsGrupo.next()) {
+Idioma idioma = Idioma.valueOf(rsGrupo.getString("idioma"));
+String nombre = rsGrupo.getString("nombre");
+Clob docente = rsGrupo.getClob("docente");
+ArrayList<Estudiante> estudiantes = (ArrayList<Estudiante>) rsGrupo.getArray("estudiantes");
+ArrayList<Tarea> tareas = (ArrayList<Tarea>) rsGrupo.getArray("tareas");
+
+Grupo grupo = new Grupo((Idioma) idioma, nombre, (Docente) docente, estudiantes, tareas);
+this.grupos.add(grupo);
+}
+
+rsGrupo.close();
+
+for (Grupo grupo : this.grupos) {
+
+String plantilla = "INSERT INTO Estudiante (nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+PreparedStatement preprsGrupo = conn.prepareStatement(plantilla);
+
+preprsGrupo.setBlob(1, (Idioma) grupo.getIdioma());
+preprsGrupo.setString(2, grupo.getNombre());
+preprsGrupo.setClob(3, (Clob) grupo.getDocente());
+preprsGrupo.setArray(4, (Array) grupo.getEstudiantes());
+preprsGrupo.setArray(5, (Array) grupo.getTareas());
+preprsGrupo.executeUpdate();
+}
+
+stmtGrupo.close();
+
+conn.close(); 
+
+} catch (SQLException e) {
+e.printStackTrace();
+}
+
+}
+/*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+public void cargarEnBD() {
+try {
+Class.forName("org.sqlite.JDBC");
+String url = "jdbc:sqlite:academy.db";
+
+try (Connection conn = DriverManager.getConnection(url)) {
+cargarAdministradores(conn);
+cargarEstudiantes(conn);
+cargarDocentes(conn);
+cargarGrupos(conn);
+cargarInscritosExamenFinal(conn);
+}
+} catch (ClassNotFoundException | SQLException e) {
+e.printStackTrace();
+}
+}
+
+private void cargarAdministradores(Connection conn) throws SQLException {
+try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Administrador");
+ResultSet rs = stmt.executeQuery()) {
+
+while (rs.next()) {
+String nombre = rs.getString("nombre");
+String apellido = rs.getString("apellido");
+String dni = rs.getString("dni");
+String correo = rs.getString("correo");
+int telefono = rs.getInt("telefono");
+String usuario = rs.getString("usuario");
+String contrasena = rs.getString("contrasena");  // Nada de "ñ" !!!
+this.administradores.add(new Administrador(nombre, apellido, dni, correo, telefono, usuario, contrasena));
+}
+}
+}
+
+private void cargarEstudiantes(Connection conn) throws SQLException {
+try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Estudiante");
+ResultSet rs = stmt.executeQuery()) {
+
+while (rs.next()) {
+String nombre = rs.getString("nombre");
+String apellido = rs.getString("apellido");
+String dni = rs.getString("dni");
+String correo = rs.getString("correo");
+int telefono = rs.getInt("telefono");
+String usuario = rs.getString("usuario");
+String contrasena = rs.getString("contrasena");
+ArrayList<Idioma> idiomas = (ArrayList<Idioma>) rs.getArray("idiomas");
+this.estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas));
+}
+}
+}
+
+private void cargarDocentes(Connection conn) throws SQLException {
+try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Docente");
+ResultSet rs = stmt.executeQuery()) {
+
+while (rs.next()) {
+String nombre = rs.getString("nombre");
+String apellido = rs.getString("apellido");
+String dni = rs.getString("dni");
+String correo = rs.getString("correo");
+int telefono = rs.getInt("telefono");
+String usuario = rs.getString("usuario");
+String contrasena = rs.getString("contrasena");
+Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+this.docentes.add(new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma));
+}
+}
+}
+
+private void cargarInscritosExamenFinal(Connection conn) throws SQLException {
+try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM inscritosExamenFinal");
+ResultSet rs = stmt.executeQuery()) {
+
+this.inscritosExamenFinal.clear();
+
+while (rs.next()) {
+
+// Obtener Clob para Estudiante
+Clob estudianteClob = rs.getClob("estudiante");
+Estudiante estudiante = clobToEstudiante(estudianteClob);
+
+Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+
+HashMap<Idioma, Boolean> nuevo_mapa = new HashMap<>();
+nuevo_mapa.put(idioma, rs.getBoolean("boolean"));
+
+this.inscritosExamenFinal.put(estudiante, nuevo_mapa);
+
+}
+}
+}
+
+private void cargarNotasExamenFinal(Connection conn) throws SQLException {
+try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM notasExamenFinal");
+ResultSet rs = stmt.executeQuery()) {
+
+this.notasExamenFinal.clear();
+
+while (rs.next()) {
+
+// Obtener Clob para Estudiante
+Clob estudianteClob = rs.getClob("estudiante");
+Estudiante estudiante = clobToEstudiante(estudianteClob);
+
+Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+
+HashMap<Idioma, String> nuevo_mapa = new HashMap<>();
+nuevo_mapa.put(idioma, rs.getString("nota"));
+
+this.notasExamenFinal.put(estudiante, nuevo_mapa);
+
+}
+}
+}
+
+private void cargarGrupos(Connection conn) throws SQLException {
+try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Grupo");
+ResultSet rs = stmt.executeQuery()) {
+
+while (rs.next()) {
+Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+String nombre = rs.getString("nombre");
+
+// Obtener Clob para docente
+Clob docenteClob = rs.getClob("docente");
+Docente docente = clobToDocente(docenteClob);
+
+// Obtener Array para estudiantes
+Array estudiantesArray = rs.getArray("estudiantes");
+ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray); // Ajusta según tu implementación real de conversión
+
+// Obtener Array para tareas
+Array tareasArray = rs.getArray("tareas");
+ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray); // Ajusta según tu implementación real de conversión
+
+this.grupos.add(new Grupo(idioma, nombre, docente, estudiantes, tareas));
+}
+}
+}
+
+private Docente clobToDocente(Clob clob) throws SQLException {
+try (Reader reader = clob.getCharacterStream();
+StringWriter writer = new StringWriter()) {
+char[] buffer = new char[8192];
+int bytesRead;
+while ((bytesRead = reader.read(buffer)) != -1) {
+writer.write(buffer, 0, bytesRead);
+}
+String docenteString = writer.toString();
+
+// Conversión de cadena JSON a objeto Docente sin Gson
+JSONObject jsonDocente = new JSONObject(docenteString);
+
+// Ajusta la lógica para extraer valores específicos del objeto JSON y construir un objeto Docente.
+String nombre = jsonDocente.getString("nombre");
+String apellido = jsonDocente.getString("apellido");
+String dni = jsonDocente.getString("dni");
+String correo = jsonDocente.getString("correo");
+int telefono = jsonDocente.getInt("telefono");
+String usuario = jsonDocente.getString("usuario");
+String contrasena = jsonDocente.getString("contrasena");
+Idioma idioma = Idioma.valueOf(jsonDocente.getString("idioma"));
+
+return new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma);
+
+} catch (IOException e) {
+e.printStackTrace();
+}
+System.out.println("No se ha podido cargar corrctamente el DOcente");
+return null;
+}
+
+private Estudiante clobToEstudiante(Clob clob) throws SQLException {
+try (Reader reader = clob.getCharacterStream();
+StringWriter writer = new StringWriter()) {
+char[] buffer = new char[8192];
+int bytesRead;
+while ((bytesRead = reader.read(buffer)) != -1) {
+writer.write(buffer, 0, bytesRead);
+}
+String estudianteString = writer.toString();
+
+// Conversión de cadena JSON a objeto Estudiante sin Gson
+JSONObject jsonEstudiante = new JSONObject(estudianteString);
+
+// Ajusta la lógica para extraer valores específicos del objeto JSON y construir un objeto Docente.
+String nombre = jsonEstudiante.getString("nombre");
+String apellido = jsonEstudiante.getString("apellido");
+String dni = jsonEstudiante.getString("dni");
+String correo = jsonEstudiante.getString("correo");
+int telefono = jsonEstudiante.getInt("telefono");
+String usuario = jsonEstudiante.getString("usuario");
+String contrasena = jsonEstudiante.getString("contrasena");
+ArrayList<Idioma> idiomas = convertirJSONArrayALista(jsonEstudiante.getJSONArray("idiomas"));
+
+return new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas);
+
+} catch (IOException e) {
+e.printStackTrace();
+}
+System.out.println("No se ha podido cargar corrctamente el Estudiante");
+return null;
+}
+
+private ArrayList<Idioma> convertirJSONArrayALista(JSONArray jsonArray) {
+ArrayList<Idioma> listaIdiomas = new ArrayList<>();
+
+for (int i = 0; i < jsonArray.length(); i++) {            
+try {
+String idiomaStr = jsonArray.getString(i);
+Idioma idioma = Idioma.valueOf(idiomaStr);
+listaIdiomas.add(idioma);
+} catch (Exception e) {
+// TODO: handle exception
+}
+}
+
+return listaIdiomas;
+}
+
+// Método para convertir Array a Lista de Tipo Estudiante
+private ArrayList<Estudiante> arrayToListaTipoEstudiante(Array array) throws SQLException {
+ArrayList<Estudiante> listafinal = new ArrayList<>();
+try (ResultSet rs = array.getResultSet()) {
+while (rs.next()) {
+// Aquí necesitas crear instancias de la clase Estudiante
+Estudiante estudiante = new Estudiante();
+estudiante.setNombre(rs.getString("nombre"));
+estudiante.setApellido(rs.getString("apellido"));
+estudiante.setTelefono(rs.getInt("telefono"));
+estudiante.setCorreo(rs.getString("correo"));
+estudiante.setDni(rs.getString("dni"));
+estudiante.setUsuario(rs.getString("usuario"));
+estudiante.setContrasena(rs.getString("contraseña"));
+Array idiomasArray = rs.getArray("idiomas");
+List<Idioma> lista = new ArrayList<Idioma>();
+if (idiomasArray != null) {
+Object[] idiomasObjArray = (Object[]) idiomasArray.getArray();
+for (Object idiomaObj : idiomasObjArray) {
+lista.add(Idioma.valueOf((String) idiomaObj));
+}
+}
+estudiante.setIdiomas((ArrayList<Idioma>) lista);
+listafinal.add(estudiante);
+}
+}
+return listafinal;
+}
+
+// Método para convertir Array a Lista de Tipo Tarea
+private ArrayList<Tarea> arrayToListaTipoTarea(Array array) throws SQLException {
+ArrayList<Tarea> listafinal = new ArrayList<>();
+try (ResultSet rs = array.getResultSet()) {
+while (rs.next()) {
+// Aquí necesitas crear instancias de la clase Tarea
+Tarea tarea = new Tarea();
+tarea.setFecha_entrega(LocalDate.parse(rs.getString("fechaEntrega"), DateTimeFormatter.ofPattern("yyyy-MM-dd")));  //LocalDate.of(2024, 1, 27)  --> en string 2024-01-27
+tarea.setTitulo(rs.getString("titulo"));
+tarea.setComentario(rs.getString("comentario"));
+listafinal.add(tarea);
+}
+}
+return listafinal;
+}
+
+private static Logger logger = Logger.getLogger(Academy.class.getName());
+
+public static void main(String[] args) {
+
+SwingUtilities.invokeLater(new Runnable() {
+
+@Override
+public void run() {
+
+try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
+LogManager.getLogManager().readConfiguration(fis);
+} catch (IOException e) {
+logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
+}
+
+logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
+
+Academy A1 = new Academy();
+
+A1.cargar_datos();
+
+A1.actualizar_claves();
+
+new SelectRol(A1);
+
+}
+
+});
+
+}
+
 }
