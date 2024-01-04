@@ -1,5 +1,6 @@
 package DeustoAcademy;
 
+import java.awt.BorderLayout;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -30,12 +31,15 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import Ventanas.*;
+
 
 public class Academy {
 
@@ -190,9 +194,7 @@ public class Academy {
 	}
 	
 	public void cargar_datos() {
-
-		// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS
-
+		
 		try {
 
 			FileInputStream fis = new FileInputStream("res/temario.dat");
@@ -348,11 +350,20 @@ public class Academy {
 	public void actualizar_datos(Rols rol) {
 
 		// AQUÍ SE SUBIRÁN A LA BD, pero mientras tanto usamos ficheros
-
+		
+		BaseDeDatos bd = new BaseDeDatos();
+		try {
+			bd.connect();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		if (rol == Rols.ESTUDIANTE) {
 			
 			try {
-
+				
 				FileOutputStream fos = new FileOutputStream("res/estudiantes.dat");
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -836,7 +847,94 @@ public class Academy {
 		
 	}
 	
-    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	public void cargarEnBaseDeDatos() {
+		
+		BaseDeDatos bd = new BaseDeDatos();
+		try {
+			bd.connect();
+			bd.cargarEnBD();
+			bd.disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	}
+	public void actuarlizarDatosEnBaseDeDatos(Rols rol) {		// Basado en "actualizarDatos" 
+		BaseDeDatos bd = new BaseDeDatos();
+		try {
+			bd.connect();
+			
+			if (rol == Rols.ESTUDIANTE) {
+				for (Estudiante estudiante : this.estudiantes) {
+					bd.guardarEstudiante(estudiante);
+				}
+				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
+				bd.guardarNotasExamenFinal(this.notasExamenFinal);
+			//	bd.guardarNotasTareas(this.notasTareas);																¡ NO EXISTE !
+				for (Grupo grupo :this.grupos) {
+					bd.guardarGrupo(grupo);
+				}
+			}else if (rol == Rols.DOCENTE) {
+				for (Docente docente : this.docentes) {
+					bd.guardarDocente(docente);
+				}
+				for (Grupo grupo :this.grupos) {
+					bd.guardarGrupo(grupo);
+				}
+			}else if (rol == Rols.ADMINISTRADOR) {
+				for (Administrador administrador : this.administradores) {
+					bd.guardarAdministrador(administrador);
+				}
+			}else {
+				// TEMARIO !!! NO EXISTE
+				for (Administrador administrador : this.administradores) {
+					bd.guardarAdministrador(administrador);
+				}
+				for (Docente docente : this.docentes) {
+					bd.guardarDocente(docente);
+				}
+				for (Estudiante estudiante : this.estudiantes) {
+					bd.guardarEstudiante(estudiante);
+				}
+				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
+				bd.guardarNotasExamenFinal(this.notasExamenFinal);
+//				bd.guardarNotasTareas(this.notasTareas);																¡ NO EXISTE !
+				for (Grupo grupo :this.grupos) {
+					bd.guardarGrupo(grupo);
+				}
+				
+			}
+			
+			bd.disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	
 	public static void main(String[] args) {
@@ -861,7 +959,16 @@ public class Academy {
 				A1.actualizar_claves();
 				
 				new SelectRol(A1);
-	
+				
+				
+				BaseDeDatos bd = new BaseDeDatos();
+				try {
+					bd.connect();
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 	
 		});
