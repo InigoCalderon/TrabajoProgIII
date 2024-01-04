@@ -18,20 +18,22 @@ import DeustoAcademy.Tarea;
 
 public class AcademyTest {
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		Academy datos = new Academy();
-		Estudiante prueba = new Estudiante("prueba", "apellido", 634440245, "@opendeusto.es", "16023431P", "user", "pass", new ArrayList<Idioma>());
+	protected Academy datos;
+	protected Estudiante prueba;
+	
+	@Before
+	public  void setUp() throws Exception {
+		 datos = new Academy();
+		 prueba = new Estudiante("prueba", "apellido", 634440245, "@opendeusto.es", "16023431P", "user", "pass", new ArrayList<Idioma>());
 		prueba.getIdiomas().add(Idioma.Castellano);
 		datos.getEstudiantes().add(prueba);
 	}
 	
 	@Test
 	public void TestmetodoActivoAcadaemia(){
-		Academy datos = new Academy();
-		Estudiante prueba = new Estudiante("prueba", "apellido", 634440245, "@opendeusto.es", "16023431P", "user", "pass", new ArrayList<Idioma>());
-		prueba.getIdiomas().add(Idioma.Castellano);
-		datos.getEstudiantes().add(prueba);
+		
+		
+		
 		Float numero = datos.metodoActivoAcadaemia(datos);
 		assertTrue(numero > 0); // Caso de solo haber ingresos (tarifas)
 		
@@ -46,10 +48,8 @@ public class AcademyTest {
 	
 	@Test
 	public void TestmapaTarifaEstudiante() {
-		Academy datos = new Academy();
-		Estudiante prueba = new Estudiante("prueba", "apellido", 634440245, "@opendeusto.es", "16023431P", "user", "pass", new ArrayList<Idioma>());
-		prueba.getIdiomas().add(Idioma.Castellano);
-		datos.getEstudiantes().add(prueba);
+		
+		
 		TreeMap<Estudiante, Float> mapa = datos.mapaTarifaEstudiante(datos);
 		 // Caso de solo estudiar castellano
 		assertTrue(mapa.get(prueba) ==125f );
@@ -68,7 +68,7 @@ public class AcademyTest {
 	
 	@Test
 	public void TestmapaSueldoDocente() {
-		Academy datos = new Academy();
+		
 		
 		Docente docente2 = new Docente("nombre", "apellido", "16044524P", "@opendeusto.es", 634488235, "user", "pass", Idioma.Castellano);
 		datos.getDocentes().add(docente2);
@@ -81,10 +81,7 @@ public class AcademyTest {
 	
 	@Test
 	public void TestactualizarMapaEstudiante() {
-		Academy datos = new Academy();
-		Estudiante prueba = new Estudiante("prueba", "apellido", 634440245, "@opendeusto.es", "16023431P", "user", "pass", new ArrayList<Idioma>());
-		prueba.getIdiomas().add(Idioma.Castellano);
-		datos.getEstudiantes().add(prueba);
+		
 		Docente docente2 = new Docente("nombre", "apellido", "16044524P", "@opendeusto.es", 634488235, "user", "pass", Idioma.Castellano);
 		datos.getDocentes().add(docente2);
 		ArrayList<Estudiante> lista = new ArrayList<Estudiante>();

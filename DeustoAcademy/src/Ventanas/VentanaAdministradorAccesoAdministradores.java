@@ -81,7 +81,7 @@ public class VentanaAdministradorAccesoAdministradores {
 	                    textoTelefono.setText(admin.getTelefono() + "");
 	                    textoCorreo.setText(admin.getCorreo());
 	                    textoUsuario.setText(admin.getUsuario());
-	                    textoContraseña.setText(admin.getContraseña());
+	                    textoContraseña.setText(admin.getContrasena());
 	                }else {
 	                	logger.log(Level.SEVERE, "No has seleccionado ningún administrador");
 	                	JOptionPane.showMessageDialog(null, "No has seleccionado ningún administrador", "Error",
@@ -226,7 +226,7 @@ public class VentanaAdministradorAccesoAdministradores {
 	    	admin.setCorreo(textoCorreo.getText());
 	    	admin.setTelefono(Integer.parseInt(textoTelefono.getText()));
 	    	admin.setUsuario(textoUsuario.getText());
-	    	admin.setContraseña(textoContraseña.getText());
+	    	admin.setContrasena(textoContraseña.getText());
 	    }
 
 	    public void actualizarCombos(Academy datos) {

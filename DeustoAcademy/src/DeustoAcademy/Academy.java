@@ -6,21 +6,34 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.sql.Array;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import Ventanas.*;
 
@@ -635,7 +648,7 @@ public class Academy {
 
 		for (Administrador admin : this.getAdministradores()) {
 
-			claves_primarias.put(admin.getUsuario(), admin.getContraseña());
+			claves_primarias.put(admin.getUsuario(), admin.getContrasena());
 
 		}
 
@@ -823,96 +836,36 @@ public class Academy {
 		
 	}
 	
-	
-	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BD EN PRUEBAS
-	public void baseDatos() throws SQLException {
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("mensaje de error");
-		}
-		try {
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:academy.db");
-			
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Administrador;");
-			
-			ResultSet rs = stmt.executeQuery();
-			
-			while (rs.next()) {
-				String nombre = rs.getString("nombre");
-				String apellido = rs.getString("apellido");
-				String dni = rs.getString("dni");
-				String correo = rs.getString("correo");
-				int telefono = rs.getInt("telefono");
-				String usuario = rs.getString("usuario");
-				String contraseña = rs.getString("contrasena");  // Nada de "ñ" !!!
-				
-				Administrador administrador = new Administrador(nombre, apellido, dni, correo, telefono, usuario, contraseña);
-				this.administradores.add(administrador);
-			}
-			
-			rs.close();
-			
-			for (Administrador administrador : this.administradores) {
-				
-				String plantilla = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
-				PreparedStatement prepStmt = conn.prepareStatement(plantilla);
-				
-				prepStmt.setString(1, administrador.getNombre());
-				prepStmt.setString(2, administrador.getApellido());
-				prepStmt.setString(3, administrador.getDni());
-				prepStmt.setString(4, administrador.getCorreo());
-				prepStmt.setInt(5, administrador.getTelefono());
-				prepStmt.setString(6, administrador.getUsuario());
-				prepStmt.setString(7, administrador.getContraseña());
-				prepStmt.executeUpdate();
-			}
-			
-			stmt.close();
-			conn.close(); 
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			}
-		
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BD EN PRUEBAS
-	
-	
-	
-	
+    
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
-
+	
 	public static void main(String[] args) {
-
+	
 		SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-		
-			try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
-	            LogManager.getLogManager().readConfiguration(fis);
-	        } catch (IOException e) {
-	            logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
-	        }
-			
-			logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
 	
-			Academy A1 = new Academy();
+			@Override
+			public void run() {
 	
-			A1.cargar_datos();
+				try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
+				LogManager.getLogManager().readConfiguration(fis);
+				} catch (IOException e) {
+				logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
+				}
+				
+				logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
+				
+				Academy A1 = new Academy();
+				
+				A1.cargar_datos();
+				
+				A1.actualizar_claves();
+				
+				new SelectRol(A1);
 	
-			A1.actualizar_claves();
-			
-			new SelectRol(A1);
-		
-            }
-
-        });
-
+			}
+	
+		});
+	
 	}
-	
+
 }
