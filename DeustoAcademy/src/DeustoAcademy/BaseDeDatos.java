@@ -48,12 +48,12 @@ public class BaseDeDatos {
 			String url = "jdbc:sqlite:academy.db";
 			
 			try (Connection conn = DriverManager.getConnection(url)) {
-				cargarAdministradores(conn);
-				cargarEstudiantes(conn);
-				cargarDocentes(conn);
-				cargarGrupos(conn);
-				cargarInscritosExamenFinal(conn);
-				cargarNotasExamenFinal(conn);
+				cargarAdministradores();
+				cargarEstudiantes();
+				cargarDocentes();
+				cargarGrupos();
+				cargarInscritosExamenFinal();
+				cargarNotasExamenFinal();
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -61,8 +61,8 @@ public class BaseDeDatos {
 		}
 	}
 	
-	private void cargarAdministradores(Connection conn) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Administrador");
+	private void cargarAdministradores() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Administrador");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -78,8 +78,8 @@ public class BaseDeDatos {
 		}
 	}
 	
-	private void cargarEstudiantes(Connection conn) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Estudiante");
+	private void cargarEstudiantes() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Estudiante");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -96,8 +96,8 @@ public class BaseDeDatos {
 		}
 	}
 	
-	private void cargarDocentes(Connection conn) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Docente");
+	private void cargarDocentes() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Docente");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -114,8 +114,8 @@ public class BaseDeDatos {
 		}
 	}
 	
-	private void cargarInscritosExamenFinal(Connection conn) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM inscritosExamenFinal");
+	private void cargarInscritosExamenFinal() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM inscritosExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			academy.inscritosExamenFinal.clear();
@@ -137,8 +137,8 @@ public class BaseDeDatos {
 		}
 	}
 	
-	private void cargarNotasExamenFinal(Connection conn) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM notasExamenFinal");
+	private void cargarNotasExamenFinal() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			academy.notasExamenFinal.clear();
@@ -160,8 +160,8 @@ public class BaseDeDatos {
 		}
 	}
 	
-	private void cargarGrupos(Connection conn) throws SQLException {
-		try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Grupo");
+	private void cargarGrupos() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -313,10 +313,10 @@ public class BaseDeDatos {
 	
 	/// GUARDADO
 	
-	public void guardarAdministrador(Connection conn, Administrador administrador) throws SQLException {
+	public void guardarAdministrador( Administrador administrador) throws SQLException {
         try {
             String insertQuery = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, administrador.getNombre());
                 preparedStatement.setString(2, administrador.getApellido());
                 preparedStatement.setString(3, administrador.getDni());
@@ -331,10 +331,10 @@ public class BaseDeDatos {
         }
     }
 
-    public void guardarEstudiante(Connection conn, Estudiante estudiante) throws SQLException {
+    public void guardarEstudiante(Estudiante estudiante) throws SQLException {
         try {
             String insertQuery = "INSERT INTO Estudiante (nombre, apellido, dni, correo, telefono, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, estudiante.getNombre());
                 preparedStatement.setString(2, estudiante.getApellido());
                 preparedStatement.setString(3, estudiante.getDni());
@@ -342,7 +342,7 @@ public class BaseDeDatos {
                 preparedStatement.setInt(5, estudiante.getTelefono());
                 preparedStatement.setString(6, estudiante.getUsuario());
                 preparedStatement.setString(7, estudiante.getContrasena());
-                preparedStatement.setArray(8, convertirListaAArray(conn, estudiante.getIdiomas()));
+                preparedStatement.setArray(8, convertirListaAArray(estudiante.getIdiomas()));
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -350,10 +350,10 @@ public class BaseDeDatos {
         }
     }
 
-    public void guardarDocente(Connection conn, Docente docente) throws SQLException {
+    public void guardarDocente(Docente docente) throws SQLException {
         try {
             String insertQuery = "INSERT INTO Docente (nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, docente.getNombre());
                 preparedStatement.setString(2, docente.getApellido());
                 preparedStatement.setString(3, docente.getDni());
@@ -369,15 +369,15 @@ public class BaseDeDatos {
         }
     }
 
-    public void guardarGrupo(Connection conn, Grupo grupo) throws SQLException {
+    public void guardarGrupo(Grupo grupo) throws SQLException {
         try {
             String insertQuery = "INSERT INTO Grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, grupo.getIdioma().toString());
                 preparedStatement.setString(2, grupo.getNombre());
                 preparedStatement.setString(3, convertirObjetoAString(grupo.getDocente()));
-                preparedStatement.setArray(4, convertirListaAArray(conn, grupo.getEstudiantes()));
-                preparedStatement.setArray(5, convertirListaAArray(conn, grupo.getTareas()));
+                preparedStatement.setArray(4, convertirListaAArray(grupo.getEstudiantes()));
+                preparedStatement.setArray(5, convertirListaAArray(grupo.getTareas()));
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -385,10 +385,10 @@ public class BaseDeDatos {
         }
     }
 
-    private void guardarNotasExamenFinal(Connection conn, HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal) throws SQLException {
+    public void guardarNotasExamenFinal(HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal) throws SQLException {
         String sql = "INSERT INTO notasExamenFinal (estudiante, idioma, nota) VALUES (?, ?, ?)";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conexion.prepareStatement(sql)) {
             for (Entry<Estudiante, HashMap<Idioma, String>> entry : notasExamenFinal.entrySet()) {
                 Estudiante estudiante = entry.getKey();
                 HashMap<Idioma, String> notasPorIdioma = entry.getValue();
@@ -398,7 +398,7 @@ public class BaseDeDatos {
                     String nota = notaEntry.getValue();
 
                     // Convertir el objeto Estudiante a CLOB
-                    Clob estudianteClob = convertirObjetoAClob(conn, estudiante);
+                    Clob estudianteClob = convertirObjetoAClob(estudiante);
 
                     // Establecer los parámetros en el PreparedStatement
                     pstmt.setClob(1, estudianteClob);
@@ -414,15 +414,15 @@ public class BaseDeDatos {
         }
     }
     
-    public void guardarInscritosExamenFinal(Connection conn, HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal) throws SQLException {
+    public void guardarInscritosExamenFinal(HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal) throws SQLException {
         try {
             String insertQuery = "INSERT INTO inscritosExamenFinal (estudiante, idioma, boolean) VALUES (?, ?, ?)";
-            try (PreparedStatement preparedStatement = conn.prepareStatement(insertQuery)) {
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 for (Map.Entry<Estudiante, HashMap<Idioma, Boolean>> entry : inscritosExamenFinal.entrySet()) {
                     Estudiante estudiante = entry.getKey();
                     HashMap<Idioma, Boolean> idiomasBooleanMap = entry.getValue();
                     for (Map.Entry<Idioma, Boolean> idiomaBooleanEntry : idiomasBooleanMap.entrySet()) {
-                        preparedStatement.setClob(1, convertirObjetoAClob(conn, estudiante));
+                        preparedStatement.setClob(1, convertirObjetoAClob(estudiante));
                         preparedStatement.setString(2, idiomaBooleanEntry.getKey().toString());
                         preparedStatement.setBoolean(3, idiomaBooleanEntry.getValue());
                         preparedStatement.executeUpdate();
@@ -434,14 +434,14 @@ public class BaseDeDatos {
         }
     }
     
-    private Clob convertirObjetoAClob(Connection conn, Object objeto) throws SQLException {
+    private Clob convertirObjetoAClob(Object objeto) throws SQLException {
         
         String objetoString = objeto.toString();
 
         try (StringReader reader = new StringReader(objetoString)) {
             // Crear un Clob y escribir el contenido del StringReader en el Clob
-            Clob clob = conn.createClob();
-            try (PreparedStatement pstmt = conn.prepareStatement("SELECT ?")) {
+            Clob clob = conexion.createClob();
+            try (PreparedStatement pstmt = conexion.prepareStatement("SELECT ?")) {
                 pstmt.setClob(1, reader);
                 pstmt.execute();
                 return clob;
@@ -452,8 +452,8 @@ public class BaseDeDatos {
         }
     }
     
-    private Array convertirListaAArray(Connection conn, List<?> lista) throws SQLException {
-        return conn.createArrayOf("VARCHAR", lista.toArray());
+    private Array convertirListaAArray(List<?> lista) throws SQLException {
+        return conexion.createArrayOf("VARCHAR", lista.toArray());
     }
 	
     private String convertirObjetoAString(Object objeto) {
