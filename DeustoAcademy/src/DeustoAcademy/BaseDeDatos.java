@@ -41,27 +41,17 @@ public class BaseDeDatos {
 		conexion.close();
 	}
 	
-	public void cargarBDalPrograma() {
+	public void cargarBDalPrograma() throws SQLException {
 		
-		try {
-			
-			Class.forName("org.sqlite.JDBC");
-			String url = "jdbc:sqlite:academy.db";
-			
-			try (Connection conn = DriverManager.getConnection(url)) {
-				cargarAdministradores();
-				cargarEstudiantes();
-				cargarDocentes();
-				cargarGrupos();
-				cargarInscritosExamenFinal();
-				cargarNotasExamenFinal();
-				cargarNotasTareas();
-				cargarTemarioData();
-			}
-			
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+		cargarAdministradores();
+		cargarEstudiantes();
+		cargarDocentes();
+		cargarGrupos();
+		cargarInscritosExamenFinal();
+		cargarNotasExamenFinal();
+		cargarNotasTareas();
+		cargarTemarioData();
+
 	}
 	
 	private void cargarAdministradores() throws SQLException {
