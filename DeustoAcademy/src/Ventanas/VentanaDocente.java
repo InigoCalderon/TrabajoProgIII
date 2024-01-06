@@ -28,7 +28,6 @@ public class VentanaDocente extends JFrame {
 
     private JTextField textoNombre;
     private JTextField textoApellido;
-    private JTextField textoTitulacion;
     private JTextField textoTelefono;
     private JTextField textoCorreo;
     private JTextField textoDni;
@@ -124,7 +123,7 @@ public class VentanaDocente extends JFrame {
         botonClases.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaClases ventanaClases = new VentanaClases();
+                VentanaClases ventanaClases = new VentanaClases(academy);
                 VentanaClases.createAndShowGUI();
                 ventana.dispose();
             }
