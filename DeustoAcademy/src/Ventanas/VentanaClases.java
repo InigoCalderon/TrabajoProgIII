@@ -32,7 +32,7 @@ public class VentanaClases extends JFrame {
 				String seleccion = (String) comboGrupos.getSelectedItem();
 				
 				if (!((String) seleccion).isEmpty()) {
-					new VentanaNotas();
+					new VentanaNotas(datos);
 				}
 			}
 		

@@ -2,15 +2,30 @@ package Ventanas;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import DeustoAcademy.Academy;
+import DeustoAcademy.Estudiante;
+import DeustoAcademy.Grupo;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VentanaNotas extends JFrame {
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private DefaultTableModel modeloTabla;
+	public JComboBox<Estudiante> comboEstudiantes;
+	public JComboBox<Grupo> comboGrupo;
+	protected Academy datos;
 
-    private DefaultTableModel modeloTabla;
 
-    public VentanaNotas() {
+
+    public VentanaNotas(Academy datos) {
         // Configuración de la ventana
         setTitle("Registro de Notas");
         setSize(700, 300);
@@ -26,13 +41,30 @@ public class VentanaNotas extends JFrame {
 
         // Crear la tabla con el modelo
         JTable tabla = new JTable(modeloTabla);
+        
+		comboEstudiantes = new JComboBox<Estudiante>();
+		comboGrupo = new JComboBox<Grupo>();
 
+		
+		actualizarCombos(datos);
+
+        
+        
         // Crear botón para agregar una nueva fila
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                modeloTabla.addRow(new Object[]{"Nuevo Alumno", "", "", "", ""});
+    			Estudiante estudiante = (Estudiante) comboEstudiantes.getSelectedItem();
+				Grupo grupo = (Grupo) comboGrupo.getSelectedItem();
+
+    			if (estudiante != null && grupo!= null) {
+    				grupo.getEstudiantes().add(estudiante);
+    				modeloTabla.addRow(new Object[]{estudiante.getNombre(), "", "", "", ""});
+    				actualizarCombos(datos);
+
+    			}
             }
         });
 
@@ -73,8 +105,20 @@ public class VentanaNotas extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new VentanaNotas().setVisible(true);
+                VentanaNotas ventanaNotas = new VentanaNotas(null);
+				ventanaNotas.setVisible(true);
             }
         });
     }
+    public void actualizarCombos(Academy datos) {
+		comboEstudiantes.removeAllItems();
+		for (Estudiante estudiante : datos.getEstudiantes()) {
+			comboEstudiantes.addItem(estudiante);
+		}
+		comboGrupo.removeAllItems();
+		for(Grupo grupo: datos.getGrupos()) {
+			comboGrupo.addItem(grupo);
+		}
+	}
+
 }
