@@ -966,6 +966,8 @@ public class Academy {
 				BaseDeDatos bd = new BaseDeDatos();
 				try {
 					bd.connect();
+					bd.cargarBDalPrograma();
+					bd.disconnect();
 				} catch (ClassNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
