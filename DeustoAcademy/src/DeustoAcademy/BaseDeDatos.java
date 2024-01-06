@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class BaseDeDatos {
 		conexion.close();
 	}
 	
-	public void cargarEnBD() {
+	public void cargarBDalPrograma() {
 		
 		try {
 			
@@ -54,6 +55,8 @@ public class BaseDeDatos {
 				cargarGrupos();
 				cargarInscritosExamenFinal();
 				cargarNotasExamenFinal();
+				cargarNotasTareas();
+				cargarTemarioData();
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
@@ -114,6 +117,28 @@ public class BaseDeDatos {
 		}
 	}
 	
+	private void cargarGrupos() throws SQLException {
+	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+	            String nombre = rs.getString("nombre");
+
+	            Clob docenteClob = rs.getClob("docente");
+	            Docente docente = clobToDocente(docenteClob);
+
+	            Array estudiantesArray = rs.getArray("estudiantes");
+	            ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray);
+
+	            Array tareasArray = rs.getArray("tareas");
+	            ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray);
+
+	            academy.grupos.add(new Grupo(idioma, nombre, docente, estudiantes, tareas));
+	        }
+	    }
+	}
+	
 	private void cargarInscritosExamenFinal() throws SQLException {
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM inscritosExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
@@ -122,16 +147,46 @@ public class BaseDeDatos {
 		
 			while (rs.next()) {
 			
-			// Obtener Clob para Estudiante
-			Clob estudianteClob = rs.getClob("estudiante");
-			Estudiante estudiante = clobToEstudiante(estudianteClob);
+				// Obtener Clob para Estudiante
+				Clob estudianteClob = rs.getClob("estudiante");
+				Estudiante estudiante = clobToEstudiante(estudianteClob);
+				
+				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+				
+				HashMap<Idioma, Boolean> nuevo_mapa = new HashMap<>();
+				nuevo_mapa.put(idioma, rs.getBoolean("boolean"));
+				
+				academy.inscritosExamenFinal.put(estudiante, nuevo_mapa);
 			
-			Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+			}
+		}
+	}
+	
+	private void cargarNotasTareas() throws SQLException {
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasTareas");
+		ResultSet rs = stmt.executeQuery()) {
+		
+			academy.notasTareas.clear();
+		
+			while (rs.next()) {
 			
-			HashMap<Idioma, Boolean> nuevo_mapa = new HashMap<>();
-			nuevo_mapa.put(idioma, rs.getBoolean("boolean"));
-			
-			academy.inscritosExamenFinal.put(estudiante, nuevo_mapa);
+				Clob estudianteClob = rs.getClob("estudiante");
+				Estudiante estudiante = clobToEstudiante(estudianteClob);
+				
+				Clob grupoClob = rs.getClob("grupo");
+				Grupo grupo = clobToGrupo(grupoClob);
+				
+				Clob tareaClob = rs.getClob("tarea");
+				Tarea tarea = clobToTarea(tareaClob);
+				
+	            String nota = rs.getString("nota");
+				
+	            HashMap<Grupo, HashMap<Tarea, String>> ordenGrupos = new HashMap<>();
+	            HashMap<Tarea, String> ordenTareas = new HashMap<>();
+	            
+	            ordenGrupos.put(grupo, ordenTareas);
+	            ordenTareas.put(tarea, nota);
+	            academy.notasTareas.put(estudiante, ordenGrupos);
 			
 			}
 		}
@@ -145,45 +200,142 @@ public class BaseDeDatos {
 			
 			while (rs.next()) {
 			
-			// Obtener Clob para Estudiante
-			Clob estudianteClob = rs.getClob("estudiante");
-			Estudiante estudiante = clobToEstudiante(estudianteClob);
-			
-			Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
-			
-			HashMap<Idioma, String> nuevo_mapa = new HashMap<>();
-			nuevo_mapa.put(idioma, rs.getString("nota"));
-			
-			academy.notasExamenFinal.put(estudiante, nuevo_mapa);
+				// Obtener Clob para Estudiante
+				Clob estudianteClob = rs.getClob("estudiante");
+				Estudiante estudiante = clobToEstudiante(estudianteClob);
+				
+				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+				
+				HashMap<Idioma, String> nuevo_mapa = new HashMap<>();
+				nuevo_mapa.put(idioma, rs.getString("nota"));
+				
+				academy.notasExamenFinal.put(estudiante, nuevo_mapa);
 			
 			}
 		}
 	}
 	
-	private void cargarGrupos() throws SQLException {
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
-		ResultSet rs = stmt.executeQuery()) {
+	private void cargarTemarioData() throws SQLException {
 		
-			while (rs.next()) {
-			Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
-			String nombre = rs.getString("nombre");
-			
-			// Obtener Clob para docente
-			Clob docenteClob = rs.getClob("docente");
-			Docente docente = clobToDocente(docenteClob);
-			
-			// Obtener Array para estudiantes
-			Array estudiantesArray = rs.getArray("estudiantes");
-			ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray); // Ajusta según tu implementación real de conversión
-			
-			// Obtener Array para tareas
-			Array tareasArray = rs.getArray("tareas");
-			ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray); // Ajusta según tu implementación real de conversión
-			
-			academy.grupos.add(new Grupo(idioma, nombre, docente, estudiantes, tareas));
-			
-			}
-		}
+		academy.getTemarioDATA().clear();
+		
+	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM temarioData");
+	         ResultSet rs = stmt.executeQuery()) {
+	    	
+	    	ArrayList<Temario> gruposConTemario = new ArrayList<>();
+	    	String ultimaUnidad = null;
+	    	String ultimoGrupo = null;
+	    	Temario ultimoTemario = null;
+	    	
+	        while (rs.next()) {
+
+	        	Clob grupoClob = rs.getClob("grupo");
+				Grupo grupo = clobToGrupo(grupoClob);
+				
+	            String unidad = rs.getString("unidad");
+	            
+	            String contenido = rs.getString("contenido");                
+	                  
+	            if (unidad.equalsIgnoreCase(ultimaUnidad) && grupo.getNombre().equalsIgnoreCase(ultimoGrupo)) {
+	            	
+	            	gruposConTemario.get(gruposConTemario.indexOf(ultimoTemario)).getData().get(unidad).add(contenido);
+	            	academy.getTemarioDATA().get(gruposConTemario.indexOf(ultimoTemario)).getData().get(unidad).add(contenido);
+	            	
+	            } else if (grupo.getNombre().equalsIgnoreCase(ultimoGrupo)) {
+					
+	            	ArrayList<String> nuevaLista = new ArrayList<>();
+		            nuevaLista.add(contenido);
+					gruposConTemario.get(gruposConTemario.indexOf(ultimoTemario)).getData().put(unidad, nuevaLista);
+					academy.getTemarioDATA().get(gruposConTemario.indexOf(ultimoTemario)).getData().put(unidad, nuevaLista);
+					ultimaUnidad = unidad;
+					
+	            } else if (grupo != null && buscarGrupo(grupo)) {
+					
+	            	Temario temario = new Temario(grupo, new HashMap<>());
+	                ArrayList<String> nuevaLista = new ArrayList<>();
+	                nuevaLista.add(contenido);
+	                temario.getData().put(unidad, nuevaLista);
+	                academy.getTemarioDATA().add(temario);
+	                gruposConTemario.add(temario);
+	                ultimoTemario = temario;
+	                ultimaUnidad = unidad;
+	                ultimoGrupo = grupo.getNombre();
+					
+				}
+	        }
+	    }
+	}
+
+	private Boolean buscarGrupo(Grupo grupoBuscado) {
+	    for (Grupo grupo : academy.grupos) {
+	        if (grupo.getNombre().equalsIgnoreCase(grupoBuscado.getNombre())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	private Grupo clobToGrupo(Clob clob) throws SQLException {
+        try (Reader reader = clob.getCharacterStream();
+             StringWriter writer = new StringWriter()) {
+            char[] buffer = new char[8192];
+            int bytesRead;
+            while ((bytesRead = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, bytesRead);
+            }
+            String grupoString = writer.toString();
+
+            // Conversión de cadena JSON a objeto Grupo usando JSON-java
+
+            JSONObject jsonGrupo = new JSONObject(grupoString);
+
+            Idioma idioma = Idioma.valueOf(jsonGrupo.getString("idioma"));
+            String nombre = jsonGrupo.getString("nombre");
+
+            Clob docenteClob = ((ResultSet) jsonGrupo).getClob("docente");
+            Docente docente = clobToDocente(docenteClob);
+
+            Array estudiantesArray = (Array) jsonGrupo.getJSONArray("estudiantes");
+            ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray);
+
+            Array tareasArray = (Array) jsonGrupo.getJSONArray("tareas");
+            ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray);
+
+            Grupo grupo = new Grupo(idioma, nombre, docente, estudiantes, tareas);
+
+            return grupo;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("No se ha podido cargar correctamente el Grupo");
+        return null;
+    }
+	
+	private Tarea clobToTarea(Clob clob) throws SQLException {
+	    try (Reader reader = clob.getCharacterStream();
+	         StringWriter writer = new StringWriter()) {
+	        char[] buffer = new char[8192];
+	        int bytesRead;
+	        while ((bytesRead = reader.read(buffer)) != -1) {
+	            writer.write(buffer, 0, bytesRead);
+	        }
+	        String tareaString = writer.toString();
+
+	        // Conversión de cadena JSON a objeto Tarea usando JSON-java
+	        JSONObject jsonTarea = new JSONObject(tareaString);
+
+	        // Extraer valores específicos del objeto JSON y construir un objeto Tarea
+	        LocalDate fechaEntrega = LocalDate.parse(jsonTarea.getString("fechaEntrega"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	        String titulo = jsonTarea.getString("titulo");
+	        String comentario = jsonTarea.getString("comentario");
+
+	        return new Tarea(fechaEntrega, titulo, comentario);
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    System.out.println("No se ha podido cargar correctamente la Tarea");
+	    return null;
 	}
 	
 	private Docente clobToDocente(Clob clob) throws SQLException {
@@ -432,6 +584,67 @@ public class BaseDeDatos {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void guardarNotasTareas(HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas) throws SQLException {
+
+    	try {
+	        String insertNotasTareasSQL = "INSERT INTO notasTareas (estudiante, grupo, tarea, nota) VALUES (?, ?, ?, ?)";
+	        try (PreparedStatement preparedStatement = conexion.prepareStatement(insertNotasTareasSQL)) {
+	
+	            for (Estudiante estudiante : academy.notasTareas.keySet()) {
+	                HashMap<Grupo, HashMap<Tarea, String>> ordenGrupos = notasTareas.get(estudiante);
+	
+	                for (Grupo grupo : ordenGrupos.keySet()) {
+	                    HashMap<Tarea, String> ordenTareas = ordenGrupos.get(grupo);
+	
+	                    for (Tarea tarea : ordenTareas.keySet()) {
+	                        String nota = ordenTareas.get(tarea);
+	
+	                        // Convertir objetos a Clob
+	                        Clob estudianteClob = convertirObjetoAClob(estudiante);
+	                        Clob grupoClob = convertirObjetoAClob(grupo);
+	                        Clob tareaClob = convertirObjetoAClob(tarea);
+	
+	                        // Establecer valores en la declaración preparada
+	                        preparedStatement.setClob(1, estudianteClob);
+	                        preparedStatement.setClob(2, grupoClob);
+	                        preparedStatement.setClob(3, tareaClob);
+	                        preparedStatement.setString(4, nota);
+	
+	                        // Ejecutar la inserción
+	                        preparedStatement.executeUpdate();
+	                    }
+	                }
+	            }
+         	}
+        } catch (SQLException e) {
+        	e.printStackTrace();
+        }
+    }
+    
+    public void guardarTemarioDATA(Temario temario) {
+
+            // Guardar información detallada del Temario (unidad y contenidos)
+            String insertDetalleSQL = "INSERT INTO temarioData (grupo, unidad, contenido) VALUES (?, ?, ?)";
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertDetalleSQL)) {
+        		
+            	preparedStatement.setClob(1, convertirObjetoAClob(temario.getGrupo()));
+            	
+            	for (String unidad : temario.getData().keySet()) {
+            		
+                    ArrayList<String> contenidos = temario.getData().get(unidad);
+
+                    for (String contenido : contenidos) {
+                    	preparedStatement.setString(2, unidad);
+                        preparedStatement.setString(3, contenido);
+                        preparedStatement.executeUpdate();
+                    }
+                }
+               
+            } catch (SQLException e) {
+            	e.printStackTrace();
+			}
     }
     
     private Clob convertirObjetoAClob(Object objeto) throws SQLException {

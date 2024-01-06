@@ -50,14 +50,15 @@ public class Academy {
 	protected ArrayList<Grupo> grupos = new ArrayList<Grupo>();
 	public HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = new HashMap<>();
 	public HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal = new HashMap<>();
+	protected ArrayList<Temario> temarioDATA = new ArrayList<>();
+	protected HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<>();
 	
 	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
-	protected HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<>();
-	protected ArrayList<Temario> temarioDATA = new ArrayList<>();
+	
 
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
-			ArrayList<Docente> docentes, ArrayList<Grupo> grupos) {
+			ArrayList<Docente> docentes, ArrayList<Grupo> grupos, ArrayList<Temario> temarioDATA) {
 		super();
 		for (Docente docente : docentes) {
 			this.docentes.add(docente);
@@ -89,6 +90,10 @@ public class Academy {
 			this.grupos.add(grupo);
 		}
 		
+		for (Temario temario : temarioDATA) {
+			this.temarioDATA.add(temario);
+		}
+		
 	}
 
 	public Academy() {
@@ -97,6 +102,7 @@ public class Academy {
 		this.estudiantes.clear();
 		this.docentes.clear();
 		this.grupos.clear();
+		this.temarioDATA.clear();
 	}
 	
 	public ArrayList<Temario> getTemarioDATA() {
@@ -104,7 +110,10 @@ public class Academy {
 	}
 
 	public void setTemarioDATA(ArrayList<Temario> temarioDATA) {
-		this.temarioDATA = temarioDATA;
+		this.temarioDATA.clear();
+		for (Temario temario : temarioDATA) {
+			this.temarioDATA.add(temario);
+		}
 	}
 
 	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> getNotasTareas() {
@@ -682,6 +691,7 @@ public class Academy {
 		 */
 
 	}
+	
 	public Float metodoActivoAcadaemia(Academy datos) {
 		Float tarifa = 0f;
 		Float sueldo = 0f;
@@ -696,6 +706,7 @@ public class Academy {
 		return tarifa - sueldo;
 		
 	}
+	
 	public TreeMap<Estudiante, Float> mapaTarifaEstudiante(Academy datos){
 		TreeMap<Estudiante, Float> mapa = new TreeMap<Estudiante, Float>();
 		
@@ -847,16 +858,6 @@ public class Academy {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -866,7 +867,7 @@ public class Academy {
 		BaseDeDatos bd = new BaseDeDatos();
 		try {
 			bd.connect();
-			bd.cargarEnBD();
+			bd.cargarBDalPrograma();
 			bd.disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -886,9 +887,8 @@ public class Academy {
 				}
 				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
-			//	bd.guardarNotasTareas(this.notasTareas);																¡ NO EXISTE !
-				for (Grupo grupo :this.grupos) {
-					bd.guardarGrupo(grupo);
+				bd.guardarNotasTareas(this.notasTareas);																			for (Grupo grupo :this.grupos) {
+				bd.guardarGrupo(grupo);
 				}
 			}else if (rol == Rols.DOCENTE) {
 				for (Docente docente : this.docentes) {
@@ -902,7 +902,6 @@ public class Academy {
 					bd.guardarAdministrador(administrador);
 				}
 			}else {
-				// TEMARIO !!! NO EXISTE
 				for (Administrador administrador : this.administradores) {
 					bd.guardarAdministrador(administrador);
 				}
@@ -914,9 +913,12 @@ public class Academy {
 				}
 				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
-//				bd.guardarNotasTareas(this.notasTareas);																¡ NO EXISTE !
+				bd.guardarNotasTareas(this.notasTareas);																
 				for (Grupo grupo :this.grupos) {
 					bd.guardarGrupo(grupo);
+				}
+				for (Temario temario : temarioDATA) {
+					bd.guardarTemarioDATA(temario);
 				}
 				
 			}
