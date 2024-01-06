@@ -43,10 +43,10 @@ public class BaseDeDatos {
 	public void disconnect() throws  SQLException{				// Cerrar conexion de la BD
 		conexion.close();
 	}
-	
+	/*
 	public void cargarBDalPrograma() throws SQLException {
-		
-		cargarAdministradores();
+			
+		cargarAdministradores();																		NO sirve de nada con lo nuevo que se llama a cada carga desde Academy
 		cargarEstudiantes();
 		cargarDocentes();
 		cargarGrupos();
@@ -56,8 +56,9 @@ public class BaseDeDatos {
 		cargarTemarioData();
 
 	}
-	
-	private void cargarAdministradores() throws SQLException {
+	*/
+	public ArrayList<Administrador> cargarAdministradores() throws SQLException {
+		ArrayList<Administrador> administradores = new ArrayList<Administrador>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Administrador");
 		ResultSet rs = stmt.executeQuery()) {
 		
@@ -69,12 +70,14 @@ public class BaseDeDatos {
 				int telefono = rs.getInt("telefono");
 				String usuario = rs.getString("usuario");
 				String contrasena = rs.getString("contrasena");  // Nada de "ñ" !!!
-				academy.administradores.add(new Administrador(nombre, apellido, dni, correo, telefono, usuario, contrasena));
+				administradores.add(new Administrador(nombre, apellido, dni, correo, telefono, usuario, contrasena));
 			}
 		}
+		return administradores;
 	}
 	
-	private void cargarEstudiantes() throws SQLException {
+	public ArrayList<Estudiante> cargarEstudiantes() throws SQLException {
+		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Estudiante");
 		ResultSet rs = stmt.executeQuery()) {
 		
@@ -87,12 +90,14 @@ public class BaseDeDatos {
 			String usuario = rs.getString("usuario");
 			String contrasena = rs.getString("contrasena");
 			ArrayList<Idioma> idiomas = (ArrayList<Idioma>) rs.getArray("idiomas");
-			academy.estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas));
+			estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas));
 			}
 		}
+		return estudiantes;
 	}
 	
-	private void cargarDocentes() throws SQLException {
+	public ArrayList<Docente> cargarDocentes() throws SQLException {
+		ArrayList<Docente> docentes = new ArrayList<Docente>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Docente");
 		ResultSet rs = stmt.executeQuery()) {
 		
@@ -105,13 +110,15 @@ public class BaseDeDatos {
 			String usuario = rs.getString("usuario");
 			String contrasena = rs.getString("contrasena");
 			Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
-			academy.docentes.add(new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma));
+			docentes.add(new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma));
 			}
 		}
+		return docentes;
 	}
 	
-	private void cargarGrupos() throws SQLException {
-	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
+	public ArrayList<Grupo> cargarGrupos() throws SQLException {
+		ArrayList<Grupo> grupos = new ArrayList<Grupo>();
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
 	         ResultSet rs = stmt.executeQuery()) {
 
 	        while (rs.next()) {
@@ -127,12 +134,14 @@ public class BaseDeDatos {
 	            Array tareasArray = rs.getArray("tareas");
 	            ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray);
 
-	            academy.grupos.add(new Grupo(idioma, nombre, docente, estudiantes, tareas));
+	            grupos.add(new Grupo(idioma, nombre, docente, estudiantes, tareas));
 	        }
 	    }
+		return grupos;
 	}
 	
-	private void cargarInscritosExamenFinal() throws SQLException {
+	public HashMap<Estudiante, HashMap<Idioma, Boolean>>  cargarInscritosExamenFinal() throws SQLException {
+		HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = new HashMap<Estudiante, HashMap<Idioma,Boolean>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM inscritosExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 		
@@ -149,13 +158,15 @@ public class BaseDeDatos {
 				HashMap<Idioma, Boolean> nuevo_mapa = new HashMap<>();
 				nuevo_mapa.put(idioma, rs.getBoolean("boolean"));
 				
-				academy.inscritosExamenFinal.put(estudiante, nuevo_mapa);
+				inscritosExamenFinal.put(estudiante, nuevo_mapa);
 			
 			}
 		}
+		return inscritosExamenFinal;
 	}
 	
-	private void cargarNotasTareas() throws SQLException {
+	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> cargarNotasTareas() throws SQLException {
+		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<Estudiante, HashMap<Grupo,HashMap<Tarea,String>>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasTareas");
 		ResultSet rs = stmt.executeQuery()) {
 		
@@ -179,13 +190,15 @@ public class BaseDeDatos {
 	            
 	            ordenGrupos.put(grupo, ordenTareas);
 	            ordenTareas.put(tarea, nota);
-	            academy.notasTareas.put(estudiante, ordenGrupos);
+	            notasTareas.put(estudiante, ordenGrupos);
 			
 			}
 		}
+		return notasTareas;
 	}
 	
-	private void cargarNotasExamenFinal() throws SQLException {
+	public HashMap<Estudiante, HashMap<Idioma, String>>  cargarNotasExamenFinal() throws SQLException {
+		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = new HashMap<Estudiante, HashMap<Idioma,String>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 		
@@ -202,13 +215,14 @@ public class BaseDeDatos {
 				HashMap<Idioma, String> nuevo_mapa = new HashMap<>();
 				nuevo_mapa.put(idioma, rs.getString("nota"));
 				
-				academy.notasExamenFinal.put(estudiante, nuevo_mapa);
+				notasExamenFinal.put(estudiante, nuevo_mapa);
 			
 			}
 		}
+		return notasExamenFinal;
 	}
 	
-	private void cargarTemarioData() throws SQLException {
+	public void cargarTemarioData() throws SQLException {
 		
 		academy.getTemarioDATA().clear();
 		
@@ -259,7 +273,7 @@ public class BaseDeDatos {
 	    }
 	}
 
-	private Boolean buscarGrupo(Grupo grupoBuscado) {
+	public Boolean buscarGrupo(Grupo grupoBuscado) {
 	    for (Grupo grupo : academy.grupos) {
 	        if (grupo.getNombre().equalsIgnoreCase(grupoBuscado.getNombre())) {
 	            return true;
@@ -268,7 +282,7 @@ public class BaseDeDatos {
 	    return false;
 	}
 	
-	private Grupo clobToGrupo(Clob clob) throws SQLException {
+	public Grupo clobToGrupo(Clob clob) throws SQLException {
         try (Reader reader = clob.getCharacterStream();
              StringWriter writer = new StringWriter()) {
             char[] buffer = new char[8192];
@@ -304,7 +318,7 @@ public class BaseDeDatos {
         return null;
     }
 	
-	private Tarea clobToTarea(Clob clob) throws SQLException {
+	public Tarea clobToTarea(Clob clob) throws SQLException {
 	    try (Reader reader = clob.getCharacterStream();
 	         StringWriter writer = new StringWriter()) {
 	        char[] buffer = new char[8192];
@@ -331,7 +345,7 @@ public class BaseDeDatos {
 	    return null;
 	}
 	
-	private Docente clobToDocente(Clob clob) throws SQLException {
+	public Docente clobToDocente(Clob clob) throws SQLException {
 		try (Reader reader = clob.getCharacterStream();
 		StringWriter writer = new StringWriter()) {
 			char[] buffer = new char[8192];
@@ -363,7 +377,7 @@ public class BaseDeDatos {
 		return null;
 	}
 	
-	private Estudiante clobToEstudiante(Clob clob) throws SQLException {
+	public Estudiante clobToEstudiante(Clob clob) throws SQLException {
 		try (Reader reader = clob.getCharacterStream();
 		StringWriter writer = new StringWriter()) {
 			char[] buffer = new char[8192];
@@ -395,7 +409,7 @@ public class BaseDeDatos {
 		return null;
 	}
 	
-	private ArrayList<Idioma> convertirJSONArrayALista(JSONArray jsonArray) {
+	public ArrayList<Idioma> convertirJSONArrayALista(JSONArray jsonArray) {
 		ArrayList<Idioma> listaIdiomas = new ArrayList<>();
 		
 		for (int i = 0; i < jsonArray.length(); i++) {            
@@ -412,7 +426,7 @@ public class BaseDeDatos {
 	}
 	
 	// Método para convertir Array a Lista de Tipo Estudiante
-	private ArrayList<Estudiante> arrayToListaTipoEstudiante(Array array) throws SQLException {
+	public ArrayList<Estudiante> arrayToListaTipoEstudiante(Array array) throws SQLException {
 		ArrayList<Estudiante> listafinal = new ArrayList<>();
 		try (ResultSet rs = array.getResultSet()) {
 			while (rs.next()) {
@@ -441,7 +455,7 @@ public class BaseDeDatos {
 	}
 	
 	// Método para convertir Array a Lista de Tipo Tarea
-	private ArrayList<Tarea> arrayToListaTipoTarea(Array array) throws SQLException {
+	public ArrayList<Tarea> arrayToListaTipoTarea(Array array) throws SQLException {
 		ArrayList<Tarea> listafinal = new ArrayList<>();
 		try (ResultSet rs = array.getResultSet()) {
 			while (rs.next()) {

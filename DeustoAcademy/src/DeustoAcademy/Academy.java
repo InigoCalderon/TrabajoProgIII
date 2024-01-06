@@ -862,12 +862,22 @@ public class Academy {
 	// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	public void cargarEnBaseDeDatos() {
+	public  void cargarEnBaseDeDatos(BaseDeDatos bd) {
 		
-		BaseDeDatos bd = new BaseDeDatos();
+		
 		try {
 			bd.connect();
-			bd.cargarBDalPrograma();
+			
+			this.administradores = bd.cargarAdministradores();
+			this.estudiantes = bd.cargarEstudiantes();
+			this.docentes = bd.cargarDocentes();
+			this.grupos = bd.cargarGrupos();
+			this.inscritosExamenFinal = bd.cargarInscritosExamenFinal();
+			this.notasExamenFinal = bd.cargarNotasExamenFinal();
+			this.notasTareas = bd.cargarNotasTareas();
+			bd.cargarTemarioData();
+			
+			
 			bd.disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -965,9 +975,7 @@ public class Academy {
 				
 				BaseDeDatos bd = new BaseDeDatos();
 				try {
-					bd.connect();
-					bd.cargarBDalPrograma();
-					bd.disconnect();
+					cargarEnBaseDeDatos(bd);
 				} catch (ClassNotFoundException | SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
