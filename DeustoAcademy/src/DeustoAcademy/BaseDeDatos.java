@@ -29,11 +29,11 @@ public class BaseDeDatos {
 	protected static Connection conexion;
 	protected Academy academy;
 	
-	public void connect() throws ClassNotFoundException, SQLException {				// Conectar a la BD
+	public void connect(String base) throws ClassNotFoundException, SQLException {				// Conectar a la BD
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
-			conexion = DriverManager.getConnection("jdbc:sqlite:res.db.academy.db");
+			conexion = DriverManager.getConnection(base);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -519,7 +519,7 @@ public class BaseDeDatos {
                 preparedStatement.setString(4, docente.getCorreo());
                 preparedStatement.setInt(5, docente.getTelefono());
                 preparedStatement.setString(6, docente.getUsuario());
-                preparedStatement.setString(7, docente.getContraseña());
+                preparedStatement.setString(7, docente.getContrasena());
                 preparedStatement.setString(8, docente.getIdioma().toString());
                 preparedStatement.executeUpdate();
             }

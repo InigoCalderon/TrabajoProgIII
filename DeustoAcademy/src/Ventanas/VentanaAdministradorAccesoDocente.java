@@ -101,7 +101,7 @@ public class VentanaAdministradorAccesoDocente {
                     textoTelefono.setText(docente.getTelefono() + "");
                     textoCorreo.setText(docente.getCorreo());
                     textoUsuario.setText(docente.getUsuario());
-                    textoContraseña.setText(docente.getContraseña());
+                    textoContraseña.setText(docente.getContrasena());
                     
                     if (docente.getIdioma().equals(Idioma.Castellano)) {
               		   checkCastellano.setSelected(true);
@@ -284,7 +284,7 @@ public class VentanaAdministradorAccesoDocente {
         docente.setCorreo(textoCorreo.getText());
         docente.setTelefono(Integer.parseInt(textoTelefono.getText()));
         docente.setUsuario(textoUsuario.getText());
-        docente.setContraseña(textoContraseña.getText());
+        docente.setContrasena(textoContraseña.getText());
         if (checkCastellano.isSelected() == true) {
         	docente.setIdioma(Idioma.Castellano);
         }else if(checkIngles.isSelected() == true) {

@@ -16,7 +16,7 @@ public class Docente implements Serializable, Comparable<Docente> {
 	protected String correo;
 	protected int telefono;
 	protected String usuario;
-	protected String contraseña;
+	protected String contrasena;
 	protected Idioma idioma;
 
 	
@@ -29,7 +29,7 @@ public class Docente implements Serializable, Comparable<Docente> {
 		this.correo = correo;
 		this.telefono = telefono;
 		this.usuario = usuario;
-		this.contraseña = contraseña;
+		this.contrasena = contraseña;
 		this.idioma = idioma;
 	}
 	
@@ -93,24 +93,24 @@ public class Docente implements Serializable, Comparable<Docente> {
 		this.usuario = usuario;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasena() {
+		return contrasena;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contraseña) {
+		this.contrasena = contraseña;
 	}
 
 	@Override
 	public String toString() {
 		return "Docente " + nombre + ", " + apellido + ", " + dni + ", " + correo
-				+ ", " + telefono + ", " + usuario + ", " + contraseña + ", "
+				+ ", " + telefono + ", " + usuario + ", " + contrasena + ", "
 				+ idioma + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellido, contraseña, correo, dni, idioma, nombre, telefono, usuario);
+		return Objects.hash(apellido, contrasena, correo, dni, idioma, nombre, telefono, usuario);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class Docente implements Serializable, Comparable<Docente> {
 		if (getClass() != obj.getClass())
 			return false;
 		Docente other = (Docente) obj;
-		return Objects.equals(apellido, other.apellido) && Objects.equals(contraseña, other.contraseña)
+		return Objects.equals(apellido, other.apellido) && Objects.equals(contrasena, other.contrasena)
 				&& Objects.equals(correo, other.correo) && Objects.equals(dni, other.dni) && idioma == other.idioma
 				&& Objects.equals(nombre, other.nombre) && telefono == other.telefono
 				&& Objects.equals(usuario, other.usuario);

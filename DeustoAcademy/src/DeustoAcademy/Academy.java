@@ -362,7 +362,7 @@ public class Academy {
 		
 		BaseDeDatos bd = new BaseDeDatos();
 		try {
-			bd.connect();
+			bd.connect("jdbc:sqlite:res.db.academy.db");
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -677,7 +677,7 @@ public class Academy {
 
 		for (Docente docente : this.getDocentes()) {
 
-			claves_primarias.put(docente.getUsuario(), docente.getContraseña());
+			claves_primarias.put(docente.getUsuario(), docente.getContrasena());
 
 		}
 
@@ -866,7 +866,7 @@ public class Academy {
 		
 		
 		try {
-			bd.connect();
+			bd.connect("jdbc:sqlite:res.db.academy.db");
 			
 			this.administradores = bd.cargarAdministradores();
 			this.estudiantes = bd.cargarEstudiantes();
@@ -889,7 +889,7 @@ public class Academy {
 	public void actuarlizarDatosEnBaseDeDatos(Rols rol) {		// Basado en "actualizarDatos" 
 		BaseDeDatos bd = new BaseDeDatos();
 		try {
-			bd.connect();
+			bd.connect("jdbc:sqlite:res.db.academy.db");
 			
 			if (rol == Rols.ESTUDIANTE) {
 				for (Estudiante estudiante : this.estudiantes) {
