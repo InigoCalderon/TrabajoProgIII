@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +31,12 @@ public class BaseDeDatos {
 	
 	public void connect() throws ClassNotFoundException, SQLException {				// Conectar a la BD
 		
-		Class.forName("org.sqlite.JDBC");
-		conexion = DriverManager.getConnection("jdbc:sqlite:academy.db");
+		try {
+			Class.forName("org.sqlite.JDBC");
+			conexion = DriverManager.getConnection("jdbc:sqlite:res.db.academy.db");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

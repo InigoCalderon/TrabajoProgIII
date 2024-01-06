@@ -6,10 +6,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="res"/>
+	<classpathentry excluding="db/" kind="src" path="res"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/jdatepicker-2.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/json-20231013.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.39.4.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
