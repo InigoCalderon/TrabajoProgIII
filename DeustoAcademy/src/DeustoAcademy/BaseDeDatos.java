@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,7 +30,7 @@ public class BaseDeDatos {
 	
 	protected static Connection conexion;
 	protected Academy academy;
-	
+	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	public void connect(String base) throws ClassNotFoundException, SQLException {				// Conectar a la BD
 		
 		try {
@@ -36,6 +38,7 @@ public class BaseDeDatos {
 			conexion = DriverManager.getConnection(base);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.log(Level.SEVERE, "No se logra conectar con la BD");
 		}
 	}
 	
@@ -312,9 +315,11 @@ public class BaseDeDatos {
 
             return grupo;
         } catch (IOException e) {
+        	 logger.log(Level.SEVERE, "No se ha podido cargar correctamente el Grupo");
             e.printStackTrace();
         }
-        System.out.println("No se ha podido cargar correctamente el Grupo");
+       
+        
         return null;
     }
 	
@@ -339,9 +344,11 @@ public class BaseDeDatos {
 	        return new Tarea(fechaEntrega, titulo, comentario);
 	        
 	    } catch (IOException e) {
+	    	logger.log(Level.SEVERE, "No se ha podido cargar correctamente la Tarea");
 	        e.printStackTrace();
 	    }
-	    System.out.println("No se ha podido cargar correctamente la Tarea");
+	    
+	    
 	    return null;
 	}
 	
@@ -371,9 +378,10 @@ public class BaseDeDatos {
 			return new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma);
 			
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "No se ha podido cargar corrctamente el DOcente");
 			e.printStackTrace();
 		}
-		System.out.println("No se ha podido cargar corrctamente el DOcente");
+		
 		return null;
 	}
 	
@@ -403,9 +411,10 @@ public class BaseDeDatos {
 			return new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas);
 			
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "No se ha podido cargar corrctamente el Estudiante");
 			e.printStackTrace();
 		}
-		System.out.println("No se ha podido cargar corrctamente el Estudiante");
+		
 		return null;
 	}
 	
