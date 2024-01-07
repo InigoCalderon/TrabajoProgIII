@@ -48,6 +48,6 @@ public class DocenteTest {
 	@Test
 	public void TestGetContraseña() {
 		Docente nueva = new Docente("nombre", "apellido", "dni", "correo", 123, "usuario", "contraseña", null);
-		assertEquals("contraseña",nueva.getContraseña() );
+		assertEquals("contraseña",nueva.getContrasena() );
 	}
 }

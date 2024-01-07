@@ -862,20 +862,20 @@ public class Academy {
 	// DE AQUÍ SE SACARÁN LOS DATOS DE LA BASE DE DATOS/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	public  void cargarEnBaseDeDatos(BaseDeDatos bd) {
+	public static  void cargarEnBaseDeDatos(BaseDeDatos bd, Academy academy) {
 		
 		
 		try {
 			bd.connect("jdbc:sqlite:res.db.academy.db");
 			
-			this.administradores = bd.cargarAdministradores();
-			this.estudiantes = bd.cargarEstudiantes();
-			this.docentes = bd.cargarDocentes();
-			this.grupos = bd.cargarGrupos();
-			this.inscritosExamenFinal = bd.cargarInscritosExamenFinal();
-			this.notasExamenFinal = bd.cargarNotasExamenFinal();
-			this.notasTareas = bd.cargarNotasTareas();
-			bd.cargarTemarioData();
+			academy.administradores = bd.cargarAdministradores();
+			academy.estudiantes = bd.cargarEstudiantes();
+			academy.docentes = bd.cargarDocentes();
+			academy.grupos = bd.cargarGrupos();
+			academy.inscritosExamenFinal = bd.cargarInscritosExamenFinal();
+			academy.notasExamenFinal = bd.cargarNotasExamenFinal();
+			academy.notasTareas = bd.cargarNotasTareas();
+			bd.cargarTemarioData(academy);
 			
 			
 			bd.disconnect();
@@ -974,12 +974,7 @@ public class Academy {
 				
 				
 				BaseDeDatos bd = new BaseDeDatos();
-				try {
-					cargarEnBaseDeDatos(bd);
-				} catch (ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				cargarEnBaseDeDatos(bd, A1);
 				
 			}
 	

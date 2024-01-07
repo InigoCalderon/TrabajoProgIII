@@ -29,7 +29,7 @@ import org.json.JSONObject;
 public class BaseDeDatos {
 	
 	protected static Connection conexion;
-	protected Academy academy;
+
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	public void connect(String base) throws ClassNotFoundException, SQLException {				// Conectar a la BD
 		
@@ -46,23 +46,10 @@ public class BaseDeDatos {
 	public void disconnect() throws  SQLException{				// Cerrar conexion de la BD
 		conexion.close();
 	}
-	/*
-	public void cargarBDalPrograma() throws SQLException {
-			
-		cargarAdministradores();																		NO sirve de nada con lo nuevo que se llama a cada carga desde Academy
-		cargarEstudiantes();
-		cargarDocentes();
-		cargarGrupos();
-		cargarInscritosExamenFinal();
-		cargarNotasExamenFinal();
-		cargarNotasTareas();
-		cargarTemarioData();
-
-	}
-	*/
+	
 	public ArrayList<Administrador> cargarAdministradores() throws SQLException {
 		ArrayList<Administrador> administradores = new ArrayList<Administrador>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Administrador");
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM administrador");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -81,27 +68,38 @@ public class BaseDeDatos {
 	
 	public ArrayList<Estudiante> cargarEstudiantes() throws SQLException {
 		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Estudiante");
-		ResultSet rs = stmt.executeQuery()) {
-		
-			while (rs.next()) {
-			String nombre = rs.getString("nombre");
-			String apellido = rs.getString("apellido");
-			String dni = rs.getString("dni");
-			String correo = rs.getString("correo");
-			int telefono = rs.getInt("telefono");
-			String usuario = rs.getString("usuario");
-			String contrasena = rs.getString("contrasena");
-			ArrayList<Idioma> idiomas = (ArrayList<Idioma>) rs.getArray("idiomas");
-			estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas));
-			}
-		}
-		return estudiantes;
+	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM estudiante");
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            String nombre = rs.getString("nombre");
+	            String apellido = rs.getString("apellido");
+	            String dni = rs.getString("dni");
+	            String correo = rs.getString("correo");
+	            int telefono = rs.getInt("telefono");
+	            String usuario = rs.getString("usuario");
+	            String contrasena = rs.getString("contrasena");
+
+	            Array idiomasArray = rs.getArray("idiomas");
+	            Object[] idiomasObjArray = (Object[]) idiomasArray.getArray();
+	            ArrayList<Idioma> idiomas = new ArrayList<>();
+
+	            for (Object idiomaObj : idiomasObjArray) {
+	                if (idiomaObj instanceof String) {
+	                    Idioma idioma = Idioma.valueOf((String) idiomaObj);
+	                    idiomas.add(idioma);
+	                }
+	            }
+
+	            estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas));
+	        }
+	        return estudiantes;
+	    }
 	}
 	
 	public ArrayList<Docente> cargarDocentes() throws SQLException {
 		ArrayList<Docente> docentes = new ArrayList<Docente>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Docente");
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM docente");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -121,7 +119,7 @@ public class BaseDeDatos {
 	
 	public ArrayList<Grupo> cargarGrupos() throws SQLException {
 		ArrayList<Grupo> grupos = new ArrayList<Grupo>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM grupo");
 	         ResultSet rs = stmt.executeQuery()) {
 
 	        while (rs.next()) {
@@ -147,9 +145,7 @@ public class BaseDeDatos {
 		HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = new HashMap<Estudiante, HashMap<Idioma,Boolean>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM inscritosExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
-		
-			academy.inscritosExamenFinal.clear();
-		
+				
 			while (rs.next()) {
 			
 				// Obtener Clob para Estudiante
@@ -159,7 +155,7 @@ public class BaseDeDatos {
 				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 				
 				HashMap<Idioma, Boolean> nuevo_mapa = new HashMap<>();
-				nuevo_mapa.put(idioma, rs.getBoolean("boolean"));
+				nuevo_mapa.put(idioma, rs.getBoolean("bool"));
 				
 				inscritosExamenFinal.put(estudiante, nuevo_mapa);
 			
@@ -172,8 +168,6 @@ public class BaseDeDatos {
 		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<Estudiante, HashMap<Grupo,HashMap<Tarea,String>>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasTareas");
 		ResultSet rs = stmt.executeQuery()) {
-		
-			academy.notasTareas.clear();
 		
 			while (rs.next()) {
 			
@@ -204,8 +198,6 @@ public class BaseDeDatos {
 		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = new HashMap<Estudiante, HashMap<Idioma,String>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
-		
-			academy.notasExamenFinal.clear();
 			
 			while (rs.next()) {
 			
@@ -225,9 +217,7 @@ public class BaseDeDatos {
 		return notasExamenFinal;
 	}
 	
-	public void cargarTemarioData() throws SQLException {
-		
-		academy.getTemarioDATA().clear();
+	public void cargarTemarioData(Academy academy) throws SQLException {
 		
 	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM temarioData");
 	         ResultSet rs = stmt.executeQuery()) {
@@ -259,7 +249,7 @@ public class BaseDeDatos {
 					academy.getTemarioDATA().get(gruposConTemario.indexOf(ultimoTemario)).getData().put(unidad, nuevaLista);
 					ultimaUnidad = unidad;
 					
-	            } else if (grupo != null && buscarGrupo(grupo)) {
+	            } else if (grupo != null && buscarGrupo(grupo, academy)) {
 					
 	            	Temario temario = new Temario(grupo, new HashMap<>());
 	                ArrayList<String> nuevaLista = new ArrayList<>();
@@ -276,7 +266,7 @@ public class BaseDeDatos {
 	    }
 	}
 
-	public Boolean buscarGrupo(Grupo grupoBuscado) {
+	public Boolean buscarGrupo(Grupo grupoBuscado, Academy academy) {
 	    for (Grupo grupo : academy.grupos) {
 	        if (grupo.getNombre().equalsIgnoreCase(grupoBuscado.getNombre())) {
 	            return true;
@@ -608,7 +598,7 @@ public class BaseDeDatos {
 	        String insertNotasTareasSQL = "INSERT INTO notasTareas (estudiante, grupo, tarea, nota) VALUES (?, ?, ?, ?)";
 	        try (PreparedStatement preparedStatement = conexion.prepareStatement(insertNotasTareasSQL)) {
 	
-	            for (Estudiante estudiante : academy.notasTareas.keySet()) {
+	            for (Estudiante estudiante : notasTareas.keySet()) {
 	                HashMap<Grupo, HashMap<Tarea, String>> ordenGrupos = notasTareas.get(estudiante);
 	
 	                for (Grupo grupo : ordenGrupos.keySet()) {
