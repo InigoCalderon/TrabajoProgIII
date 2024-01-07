@@ -970,7 +970,7 @@ public class Academy {
 				
 				Academy A1 = new Academy();
 				
-				A1.cargar_datos();
+				//A1.cargar_datos();		carga datos de ficheros
 				
 				A1.actualizar_claves();
 				

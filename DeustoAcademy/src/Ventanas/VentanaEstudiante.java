@@ -374,8 +374,10 @@ public class VentanaEstudiante extends JFrame {
 						academy.getInscritosExamenFinal().get(estudiante).remove(idioma);
 						academy.getInscritosExamenFinal().get(estudiante).put(idioma, botonInscribirse.isSelected());
 					}
-					
-					academy.actualizar_datos(Rols.ESTUDIANTE);
+					//ACTUALIZA FICHEROS
+					//academy.actualizar_datos(Rols.ESTUDIANTE);
+				
+					//ACTUALIZA BASE DE DATOS
 					academy.actuarlizarDatosEnBaseDeDatos(Rols.ESTUDIANTE);
 					
 				}

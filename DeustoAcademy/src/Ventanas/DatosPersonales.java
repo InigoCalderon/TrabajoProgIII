@@ -276,7 +276,7 @@ public class DatosPersonales {
 							academy.actuarlizarDatosEnBaseDeDatos(rol);
 							
 							// Se actualizan datos de fichero
-							academy.actualizar_datos(null);
+							//academy.actualizar_datos(null);
 							
 							academy.actualizar_claves();
 							ventana.dispose();
