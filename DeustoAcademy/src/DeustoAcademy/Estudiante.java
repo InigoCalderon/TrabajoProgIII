@@ -105,8 +105,6 @@ public class Estudiante implements Serializable, Comparable<Estudiante> {
 		this.contrasena = contrasena;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Estudiante [nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", correo="

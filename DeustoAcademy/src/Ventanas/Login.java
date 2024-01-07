@@ -57,18 +57,19 @@ public class Login extends JFrame {
 				}
 				
 				if (rol == Rols.ESTUDIANTE && autentificador(academy, rol)) {
-
+					//System.out.println("bien");
 					// ENTRAMOS EN EL MENU ESTUDIANTE
+					//System.out.println(academy.getEstudiantes());
 
 					for (Estudiante estudiante : academy.getEstudiantes()) {
 						
 						if (estudiante.getUsuario().compareTo(textoUsuario.getText().strip()) == 0) {
-							
+							//System.out.println("bien");
 							new VentanaEstudiante(academy, rol, estudiante);
 							ventana.dispose();
 							
 						}
-						
+						//System.out.println(estudiante);
 					}
 
 				}

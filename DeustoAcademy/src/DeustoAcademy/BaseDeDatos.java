@@ -640,13 +640,30 @@ public class BaseDeDatos {
         }
 
         // Tratamiento especial para el campo idiomas
-        String[] idiomasArray = (idiomasStr != null) ? idiomasStr.substring(1, idiomasStr.length() - 1).split(", ") : new String[0];
+        String[] idiomasArray = new String[0];
+
+        if (idiomasStr != null && idiomasStr.length() > 1) {
+            // Elimina espacios y corchetes al principio y al final de la cadena
+            idiomasStr = idiomasStr.trim().substring(1, idiomasStr.length() - 0);
+            idiomasArray = idiomasStr.split(", ");
+        }
+
         ArrayList<Idioma> idiomasList = new ArrayList<>();
         for (String idioma : idiomasArray) {
-            idiomasList.add(Idioma.valueOf(idioma));
+            // Ajusta las diferencias en mayúsculas/minúsculas y posibles errores tipográficos
+        	idiomasList.add(Idioma.valueOf(buscarPorNombre(idioma)));
         }
 
         return new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomasList);
+    }
+
+    public static String buscarPorNombre(String nombre) {
+        for (Idioma idioma : Idioma.values()) {
+            if (idioma.name().equalsIgnoreCase(nombre.trim())) {
+                return idioma.toString();   
+            }
+        }
+        throw new IllegalArgumentException("No enum constant " + Idioma.class + "." + nombre);
     }
     
     public static Grupo stringToGrupo(String grupoString) {
