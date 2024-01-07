@@ -103,8 +103,8 @@ public class Docente implements Serializable, Comparable<Docente> {
 
 	@Override
 	public String toString() {
-		return "Docente " + nombre + ", " + apellido + ", " + dni + ", " + correo
-				+ ", " + telefono + ", " + usuario + ", " + contrasena + ", "
+		return "Docente [nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", correo=" + correo
+				+ ", telefono=" + telefono + ", usuario=" + usuario + ", contrasena=" + contrasena + ", idioma="
 				+ idioma + "]";
 	}
 

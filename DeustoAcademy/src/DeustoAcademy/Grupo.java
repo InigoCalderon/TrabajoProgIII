@@ -115,8 +115,9 @@ public class Grupo implements Serializable, Comparable<Grupo> {
 
 	@Override
 	public String toString() {
-		return "Grupo [" + idioma + ", " + nombre + ", " + docente + ", "
-				+ estudiantes + ", " + tareas + ", " + getCapacidad_estudiantes() + "]";
+		return "Grupo [idioma=" + idioma + ", nombre=" + nombre + ", docente=" + docente + ", estudiantes="
+				+ estudiantes + ", tareas=" + tareas + ", notaTareas=" + notaTareas + ", capacidad_estudiantes="
+				+ capacidad_estudiantes + "]";
 	}
 
 	@Override

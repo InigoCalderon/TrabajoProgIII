@@ -232,8 +232,8 @@ public class BaseDeDatosTest {
 		            Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 		            String nombre = rs.getString("nombre");
 
-		            Clob docenteClob = rs.getClob("docente");
-		            Docente docente = bd.clobToDocente(docenteClob);
+		            String docenteString = rs.getString("docente");
+		            Docente docente = bd.stringToDocente(docenteString);
 
 		            Array estudiantesArray = rs.getArray("estudiantes");
 		            ArrayList<Estudiante> estudiantes = bd.arrayToListaTipoEstudiante(estudiantesArray);

@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -272,21 +273,28 @@ public class VentanaEstudiante extends JFrame {
 						
 			JMenuItem nuevo_menu1 = new JMenuItem("Temario");
 			nuevo_menu1.setIcon(new ImageIcon(image4));
-			
-			JCheckBox botonInscribirse = new JCheckBox("Inscrito para realizar el examen Final");	
-			
-			JLabel itemNotaFinal = new JLabel(String.format("      Calificación Final: %s", academy.getNotasExamenFinal().get(estudiante).get(idioma)));
-			
-			JMenuItem menuTareas = new JMenuItem("Calificaciones de Tareas");
-			
-			botonInscribirse.setSelected(academy.getInscritosExamenFinal().get(estudiante).get(idioma));
-			
 			menuIdioma.add(nuevo_menu1);
 			menuIdioma.addSeparator();
+			
+			JCheckBox botonInscribirse = new JCheckBox("Inscrito para realizar el examen Final");
 			menuIdioma.add(botonInscribirse);
-			menuIdioma.add(itemNotaFinal);
+			
+			try {
+				JLabel itemNotaFinal = new JLabel(String.format("      Calificación Final: %s", academy.getNotasExamenFinal().get(estudiante).get(idioma)));
+				menuIdioma.add(itemNotaFinal);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			JMenuItem menuTareas = new JMenuItem("Calificaciones de Tareas");
 			menuIdioma.addSeparator();
 			menuIdioma.add(menuTareas);
+			
+			try {
+				botonInscribirse.setSelected(academy.getInscritosExamenFinal().get(estudiante).get(idioma));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			
 			for (Grupo grupo :  academy.getGrupos()) {
 				
@@ -357,11 +365,18 @@ public class VentanaEstudiante extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					academy.getInscritosExamenFinal().get(estudiante).remove(idioma);
-					academy.getInscritosExamenFinal().get(estudiante).put(idioma, botonInscribirse.isSelected());
+						
+				if (academy.getInscritosExamenFinal().get(estudiante) == null) {
+						HashMap<Idioma, Boolean> nuevoMap = new HashMap<>();
+						nuevoMap.put(idioma, botonInscribirse.isSelected());
+						academy.inscritosExamenFinal.put(estudiante, nuevoMap);
+					} else {
+						academy.getInscritosExamenFinal().get(estudiante).remove(idioma);
+						academy.getInscritosExamenFinal().get(estudiante).put(idioma, botonInscribirse.isSelected());
+					}
 					
 					academy.actualizar_datos(Rols.ESTUDIANTE);
+					academy.actuarlizarDatosEnBaseDeDatos(Rols.ESTUDIANTE);
 					
 				}
 			});

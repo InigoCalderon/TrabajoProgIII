@@ -14,16 +14,17 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 
 
 public class BaseDeDatos {
@@ -79,19 +80,15 @@ public class BaseDeDatos {
 	            int telefono = rs.getInt("telefono");
 	            String usuario = rs.getString("usuario");
 	            String contrasena = rs.getString("contrasena");
-
-	            Array idiomasArray = rs.getArray("idiomas");
-	            Object[] idiomasObjArray = (Object[]) idiomasArray.getArray();
+	            String idiomasString = rs.getString("idiomas");
+	            List<String> lista = convertirCadenaALista(idiomasString);
 	            ArrayList<Idioma> idiomas = new ArrayList<>();
-
-	            for (Object idiomaObj : idiomasObjArray) {
-	                if (idiomaObj instanceof String) {
-	                    Idioma idioma = Idioma.valueOf((String) idiomaObj);
-	                    idiomas.add(idioma);
-	                }
-	            }
-
-	            estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas));
+	            
+	            for (String idioma : lista) {
+					idiomas.add(Idioma.valueOf(idioma));
+				}
+	            
+	            estudiantes.add(new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, (ArrayList<Idioma>) idiomas));
 	        }
 	        return estudiantes;
 	    }
@@ -126,8 +123,8 @@ public class BaseDeDatos {
 	            Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 	            String nombre = rs.getString("nombre");
 
-	            Clob docenteClob = rs.getClob("docente");
-	            Docente docente = clobToDocente(docenteClob);
+	            String docenteClob = rs.getString("docente");
+	            Docente docente = stringToDocente(docenteClob);
 
 	            Array estudiantesArray = rs.getArray("estudiantes");
 	            ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray);
@@ -148,9 +145,8 @@ public class BaseDeDatos {
 				
 			while (rs.next()) {
 			
-				// Obtener Clob para Estudiante
-				Clob estudianteClob = rs.getClob("estudiante");
-				Estudiante estudiante = clobToEstudiante(estudianteClob);
+				String estudianteString = rs.getString("estudiante");
+				Estudiante estudiante = stringToEstudiante(estudianteString); 
 				
 				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 				
@@ -168,17 +164,19 @@ public class BaseDeDatos {
 		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<Estudiante, HashMap<Grupo,HashMap<Tarea,String>>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasTareas");
 		ResultSet rs = stmt.executeQuery()) {
+			
+			ArrayList<Estudiante> estudiantesConInfo = new ArrayList<>();
 		
 			while (rs.next()) {
 			
-				Clob estudianteClob = rs.getClob("estudiante");
-				Estudiante estudiante = clobToEstudiante(estudianteClob);
+				String estudianteString = rs.getString("estudiante");
+				Estudiante estudiante = stringToEstudiante(estudianteString); 
 				
-				Clob grupoClob = rs.getClob("grupo");
-				Grupo grupo = clobToGrupo(grupoClob);
+				String grupoString = rs.getString("grupo");
+				Grupo grupo = stringToGrupo(grupoString);
 				
-				Clob tareaClob = rs.getClob("tarea");
-				Tarea tarea = clobToTarea(tareaClob);
+				String tareaString = rs.getString("tarea");
+				Tarea tarea = stringToTarea(tareaString);
 				
 	            String nota = rs.getString("nota");
 				
@@ -187,8 +185,13 @@ public class BaseDeDatos {
 	            
 	            ordenGrupos.put(grupo, ordenTareas);
 	            ordenTareas.put(tarea, nota);
-	            notasTareas.put(estudiante, ordenGrupos);
-			
+	            
+	            if (estudiantesConInfo.contains(estudiante)) {
+	            	notasTareas.get(estudiante).put(grupo, ordenTareas);
+				} else {
+					notasTareas.put(estudiante, ordenGrupos);
+					estudiantesConInfo.add(estudiante);
+				}
 			}
 		}
 		return notasTareas;
@@ -202,8 +205,8 @@ public class BaseDeDatos {
 			while (rs.next()) {
 			
 				// Obtener Clob para Estudiante
-				Clob estudianteClob = rs.getClob("estudiante");
-				Estudiante estudiante = clobToEstudiante(estudianteClob);
+				String estudianteString = rs.getString("estudiante");
+				Estudiante estudiante = stringToEstudiante(estudianteString);
 				
 				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 				
@@ -223,31 +226,51 @@ public class BaseDeDatos {
 	         ResultSet rs = stmt.executeQuery()) {
 	    	
 	    	ArrayList<Temario> gruposConTemario = new ArrayList<>();
-	    	String ultimaUnidad = null;
-	    	String ultimoGrupo = null;
-	    	Temario ultimoTemario = null;
+	    	ArrayList<String> unidadesAnadidas = new ArrayList<>();
+	    	ArrayList<String> gruposAnadidos = new ArrayList<>();
+	    	ArrayList<Temario> temariosAnadidos = new ArrayList<>();
 	    	
 	        while (rs.next()) {
 
-	        	Clob grupoClob = rs.getClob("grupo");
-				Grupo grupo = clobToGrupo(grupoClob);
+	        	String grupoString = rs.getString("grupo");
+				Grupo grupo = stringToGrupo(grupoString);
 				
 	            String unidad = rs.getString("unidad");
 	            
 	            String contenido = rs.getString("contenido");                
 	                  
-	            if (unidad.equalsIgnoreCase(ultimaUnidad) && grupo.getNombre().equalsIgnoreCase(ultimoGrupo)) {
+	            if (unidadesAnadidas.contains(unidad) && gruposAnadidos.contains(grupo.getNombre())) {
 	            	
-	            	gruposConTemario.get(gruposConTemario.indexOf(ultimoTemario)).getData().get(unidad).add(contenido);
-	            	academy.getTemarioDATA().get(gruposConTemario.indexOf(ultimoTemario)).getData().get(unidad).add(contenido);
+	            	Temario temarioElegido = null;
 	            	
-	            } else if (grupo.getNombre().equalsIgnoreCase(ultimoGrupo)) {
+	            	for (Temario temario : temariosAnadidos) {
+						
+	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupo.getNombre()) == 0) {
+							temarioElegido = temario;
+						}
+	            		
+					}
+	  
+	            	gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
+	            	academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
+	            	
+	            } else if (gruposAnadidos.contains(grupo.getNombre())) {
 					
 	            	ArrayList<String> nuevaLista = new ArrayList<>();
 		            nuevaLista.add(contenido);
-					gruposConTemario.get(gruposConTemario.indexOf(ultimoTemario)).getData().put(unidad, nuevaLista);
-					academy.getTemarioDATA().get(gruposConTemario.indexOf(ultimoTemario)).getData().put(unidad, nuevaLista);
-					ultimaUnidad = unidad;
+		            
+		            Temario temarioElegido = null;
+	            	
+	            	for (Temario temario : temariosAnadidos) {
+						
+	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupo.getNombre()) == 0) {
+							temarioElegido = temario;
+						}
+	            		
+					}
+		            
+					gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
+					academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
 					
 	            } else if (grupo != null && buscarGrupo(grupo, academy)) {
 					
@@ -257,9 +280,7 @@ public class BaseDeDatos {
 	                temario.getData().put(unidad, nuevaLista);
 	                academy.getTemarioDATA().add(temario);
 	                gruposConTemario.add(temario);
-	                ultimoTemario = temario;
-	                ultimaUnidad = unidad;
-	                ultimoGrupo = grupo.getNombre();
+	                temariosAnadidos.add(temario);
 					
 				}
 	        }
@@ -273,139 +294,6 @@ public class BaseDeDatos {
 	        }
 	    }
 	    return false;
-	}
-	
-	public Grupo clobToGrupo(Clob clob) throws SQLException {
-        try (Reader reader = clob.getCharacterStream();
-             StringWriter writer = new StringWriter()) {
-            char[] buffer = new char[8192];
-            int bytesRead;
-            while ((bytesRead = reader.read(buffer)) != -1) {
-                writer.write(buffer, 0, bytesRead);
-            }
-            String grupoString = writer.toString();
-
-            // Conversión de cadena JSON a objeto Grupo usando JSON-java
-
-            JSONObject jsonGrupo = new JSONObject(grupoString);
-
-            Idioma idioma = Idioma.valueOf(jsonGrupo.getString("idioma"));
-            String nombre = jsonGrupo.getString("nombre");
-
-            Clob docenteClob = ((ResultSet) jsonGrupo).getClob("docente");
-            Docente docente = clobToDocente(docenteClob);
-
-            Array estudiantesArray = (Array) jsonGrupo.getJSONArray("estudiantes");
-            ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray);
-
-            Array tareasArray = (Array) jsonGrupo.getJSONArray("tareas");
-            ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray);
-
-            Grupo grupo = new Grupo(idioma, nombre, docente, estudiantes, tareas);
-
-            return grupo;
-        } catch (IOException e) {
-        	 logger.log(Level.SEVERE, "No se ha podido cargar correctamente el Grupo");
-            e.printStackTrace();
-        }
-       
-        
-        return null;
-    }
-	
-	public Tarea clobToTarea(Clob clob) throws SQLException {
-	    try (Reader reader = clob.getCharacterStream();
-	         StringWriter writer = new StringWriter()) {
-	        char[] buffer = new char[8192];
-	        int bytesRead;
-	        while ((bytesRead = reader.read(buffer)) != -1) {
-	            writer.write(buffer, 0, bytesRead);
-	        }
-	        String tareaString = writer.toString();
-
-	        // Conversión de cadena JSON a objeto Tarea usando JSON-java
-	        JSONObject jsonTarea = new JSONObject(tareaString);
-
-	        // Extraer valores específicos del objeto JSON y construir un objeto Tarea
-	        LocalDate fechaEntrega = LocalDate.parse(jsonTarea.getString("fechaEntrega"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	        String titulo = jsonTarea.getString("titulo");
-	        String comentario = jsonTarea.getString("comentario");
-
-	        return new Tarea(fechaEntrega, titulo, comentario);
-	        
-	    } catch (IOException e) {
-	    	logger.log(Level.SEVERE, "No se ha podido cargar correctamente la Tarea");
-	        e.printStackTrace();
-	    }
-	    
-	    
-	    return null;
-	}
-	
-	public Docente clobToDocente(Clob clob) throws SQLException {
-		try (Reader reader = clob.getCharacterStream();
-		StringWriter writer = new StringWriter()) {
-			char[] buffer = new char[8192];
-			int bytesRead;
-			while ((bytesRead = reader.read(buffer)) != -1) {
-				writer.write(buffer, 0, bytesRead);
-			}
-			String docenteString = writer.toString();
-			
-			// Conversión de cadena JSON a objeto Docente sin Gson
-			JSONObject jsonDocente = new JSONObject(docenteString);
-			
-			// Ajusta la lógica para extraer valores específicos del objeto JSON y construir un objeto Docente.
-			String nombre = jsonDocente.getString("nombre");
-			String apellido = jsonDocente.getString("apellido");
-			String dni = jsonDocente.getString("dni");
-			String correo = jsonDocente.getString("correo");
-			int telefono = jsonDocente.getInt("telefono");
-			String usuario = jsonDocente.getString("usuario");
-			String contrasena = jsonDocente.getString("contrasena");
-			Idioma idioma = Idioma.valueOf(jsonDocente.getString("idioma"));
-			
-			return new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma);
-			
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "No se ha podido cargar corrctamente el DOcente");
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	public Estudiante clobToEstudiante(Clob clob) throws SQLException {
-		try (Reader reader = clob.getCharacterStream();
-		StringWriter writer = new StringWriter()) {
-			char[] buffer = new char[8192];
-			int bytesRead;
-			while ((bytesRead = reader.read(buffer)) != -1) {
-				writer.write(buffer, 0, bytesRead);
-			}
-			String estudianteString = writer.toString();
-			
-			// Conversión de cadena JSON a objeto Estudiante sin Gson
-			JSONObject jsonEstudiante = new JSONObject(estudianteString);
-			
-			// Ajusta la lógica para extraer valores específicos del objeto JSON y construir un objeto Docente.
-			String nombre = jsonEstudiante.getString("nombre");
-			String apellido = jsonEstudiante.getString("apellido");
-			String dni = jsonEstudiante.getString("dni");
-			String correo = jsonEstudiante.getString("correo");
-			int telefono = jsonEstudiante.getInt("telefono");
-			String usuario = jsonEstudiante.getString("usuario");
-			String contrasena = jsonEstudiante.getString("contrasena");
-			ArrayList<Idioma> idiomas = convertirJSONArrayALista(jsonEstudiante.getJSONArray("idiomas"));
-			
-			return new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomas);
-			
-		} catch (IOException e) {
-			logger.log(Level.SEVERE, "No se ha podido cargar corrctamente el Estudiante");
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 	
 	public ArrayList<Idioma> convertirJSONArrayALista(JSONArray jsonArray) {
@@ -473,7 +361,7 @@ public class BaseDeDatos {
 	
 	public void guardarAdministrador( Administrador administrador) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, administrador.getNombre());
                 preparedStatement.setString(2, administrador.getApellido());
@@ -491,7 +379,7 @@ public class BaseDeDatos {
 
     public void guardarEstudiante(Estudiante estudiante) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO Estudiante (nombre, apellido, dni, correo, telefono, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO estudiante (nombre, apellido, dni, correo, telefono, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, estudiante.getNombre());
                 preparedStatement.setString(2, estudiante.getApellido());
@@ -500,7 +388,7 @@ public class BaseDeDatos {
                 preparedStatement.setInt(5, estudiante.getTelefono());
                 preparedStatement.setString(6, estudiante.getUsuario());
                 preparedStatement.setString(7, estudiante.getContrasena());
-                preparedStatement.setArray(8, convertirListaAArray(estudiante.getIdiomas()));
+                preparedStatement.setString(8, convertirListaACadena(estudiante.getIdiomas()));
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -510,7 +398,7 @@ public class BaseDeDatos {
 
     public void guardarDocente(Docente docente) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO Docente (nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO docente (nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, docente.getNombre());
                 preparedStatement.setString(2, docente.getApellido());
@@ -529,11 +417,11 @@ public class BaseDeDatos {
 
     public void guardarGrupo(Grupo grupo) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO Grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, grupo.getIdioma().toString());
                 preparedStatement.setString(2, grupo.getNombre());
-                preparedStatement.setString(3, convertirObjetoAString(grupo.getDocente()));
+                preparedStatement.setString(3, grupo.getDocente().toString());
                 preparedStatement.setArray(4, convertirListaAArray(grupo.getEstudiantes()));
                 preparedStatement.setArray(5, convertirListaAArray(grupo.getTareas()));
                 preparedStatement.executeUpdate();
@@ -555,15 +443,9 @@ public class BaseDeDatos {
                     Idioma idioma = notaEntry.getKey();
                     String nota = notaEntry.getValue();
 
-                    // Convertir el objeto Estudiante a CLOB
-                    Clob estudianteClob = convertirObjetoAClob(estudiante);
-
-                    // Establecer los parámetros en el PreparedStatement
-                    pstmt.setClob(1, estudianteClob);
+                    pstmt.setString(1, estudiante.toString());
                     pstmt.setString(2, idioma.name());
                     pstmt.setString(3, nota);
-
-                    // Ejecutar la inserción
                     pstmt.executeUpdate();
                 }
             }
@@ -574,14 +456,14 @@ public class BaseDeDatos {
     
     public void guardarInscritosExamenFinal(HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO inscritosExamenFinal (estudiante, idioma, boolean) VALUES (?, ?, ?)";
+            String insertQuery = "INSERT INTO inscritosExamenFinal (estudiante, idioma, bool) VALUES (?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
-                for (Map.Entry<Estudiante, HashMap<Idioma, Boolean>> entry : inscritosExamenFinal.entrySet()) {
+            	for (HashMap.Entry<Estudiante, HashMap<Idioma, Boolean>> entry : inscritosExamenFinal.entrySet()) {
                     Estudiante estudiante = entry.getKey();
                     HashMap<Idioma, Boolean> idiomasBooleanMap = entry.getValue();
-                    for (Map.Entry<Idioma, Boolean> idiomaBooleanEntry : idiomasBooleanMap.entrySet()) {
-                        preparedStatement.setClob(1, convertirObjetoAClob(estudiante));
-                        preparedStatement.setString(2, idiomaBooleanEntry.getKey().toString());
+                    for (HashMap.Entry<Idioma, Boolean> idiomaBooleanEntry : idiomasBooleanMap.entrySet()) {
+                        preparedStatement.setString(1, estudiante.toString());
+                        preparedStatement.setString(2, idiomaBooleanEntry.getKey().name());
                         preparedStatement.setBoolean(3, idiomaBooleanEntry.getValue());
                         preparedStatement.executeUpdate();
                     }
@@ -606,19 +488,11 @@ public class BaseDeDatos {
 	
 	                    for (Tarea tarea : ordenTareas.keySet()) {
 	                        String nota = ordenTareas.get(tarea);
-	
-	                        // Convertir objetos a Clob
-	                        Clob estudianteClob = convertirObjetoAClob(estudiante);
-	                        Clob grupoClob = convertirObjetoAClob(grupo);
-	                        Clob tareaClob = convertirObjetoAClob(tarea);
-	
-	                        // Establecer valores en la declaración preparada
-	                        preparedStatement.setClob(1, estudianteClob);
-	                        preparedStatement.setClob(2, grupoClob);
-	                        preparedStatement.setClob(3, tareaClob);
+
+	                        preparedStatement.setString(1, estudiante.toString());
+	                        preparedStatement.setString(2, grupo.toString());
+	                        preparedStatement.setString(3, tarea.toString());
 	                        preparedStatement.setString(4, nota);
-	
-	                        // Ejecutar la inserción
 	                        preparedStatement.executeUpdate();
 	                    }
 	                }
@@ -635,7 +509,7 @@ public class BaseDeDatos {
             String insertDetalleSQL = "INSERT INTO temarioData (grupo, unidad, contenido) VALUES (?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertDetalleSQL)) {
         		
-            	preparedStatement.setClob(1, convertirObjetoAClob(temario.getGrupo()));
+            	preparedStatement.setString(1, temario.getGrupo().toString());
             	
             	for (String unidad : temario.getData().keySet()) {
             		
@@ -653,38 +527,228 @@ public class BaseDeDatos {
 			}
     }
     
-    private Clob convertirObjetoAClob(Object objeto) throws SQLException {
-        
-        String objetoString = objeto.toString();
-
-        try (StringReader reader = new StringReader(objetoString)) {
-            // Crear un Clob y escribir el contenido del StringReader en el Clob
-            Clob clob = conexion.createClob();
-            try (PreparedStatement pstmt = conexion.prepareStatement("SELECT ?")) {
-                pstmt.setClob(1, reader);
-                pstmt.execute();
-                return clob;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    
     private Array convertirListaAArray(List<?> lista) throws SQLException {
         return conexion.createArrayOf("VARCHAR", lista.toArray());
     }
-	
-    private String convertirObjetoAString(Object objeto) {
-        try (StringWriter writer = new StringWriter()) {
-
-            writer.write(objeto.toString());
-            return writer.toString();
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    
+    private String convertirListaACadena(List<?> lista) {
+        // Convierte la lista a una cadena de texto separada por comas
+        return lista.stream().map(Object::toString).collect(Collectors.joining(","));
     }
-	
+    
+    private List<String> convertirCadenaALista(String cadena) {
+        // Convierte la cadena a una lista
+        return Arrays.asList(cadena.split(","));
+    }
+    
+    public static Docente stringToDocente(String docenteString) {
+        
+        // Docente [nombre=Juan, apellido=Perez, dni=12345678, correo=juan@example.com, telefono=123456, usuario=juanito, contrasena=secreta, idioma=ESPAÑOL]
+        
+        String[] parts = docenteString
+                .replace("Docente [", "")
+                .replace("]", "")
+                .split(", ");
+
+        String nombre = null, apellido = null, dni = null, correo = null, usuario = null, contrasena = null, idiomaStr = null;
+        int telefono = 0;
+
+        for (String part : parts) {
+            String[] keyValue = part.split("=");
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+
+            switch (key) {
+                case "nombre":
+                    nombre = value;
+                    break;
+                case "apellido":
+                    apellido = value;
+                    break;
+                case "dni":
+                    dni = value;
+                    break;
+                case "correo":
+                    correo = value;
+                    break;
+                case "telefono":
+                    telefono = Integer.parseInt(value);
+                    break;
+                case "usuario":
+                    usuario = value;
+                    break;
+                case "contrasena":
+                    contrasena = value;
+                    break;
+                case "idioma":
+                    idiomaStr = value;
+                    break;
+
+            }
+        }
+
+        Idioma idioma = Idioma.valueOf(idiomaStr);
+
+        return new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma);
+    }
+    
+    public static Estudiante stringToEstudiante(String estudianteString) {
+
+        // Estudiante [nombre=Juan, apellido=Perez, telefono=123456, correo=juan@example.com, dni=12345678, usuario=juanito, contrasena=secreta, idiomas=[ESPAÑOL, INGLES, FRANCES]]
+
+        String[] parts = estudianteString
+                .replace("Estudiante [", "")
+                .replace("]", "")
+                .split(", ");
+
+        String nombre = null, apellido = null, dni = null, correo = null, usuario = null, contrasena = null, idiomasStr = null;
+        int telefono = 0;
+        
+        for (String part : parts) {
+            String[] keyValue = part.split("=");
+            String key = keyValue[0].trim();
+            if (keyValue.length >= 2) {
+                String value = keyValue[1].trim();
+
+	            switch (key) {
+	                case "nombre":
+	                    nombre = value;
+	                    break;
+	                case "apellido":
+	                    apellido = value;
+	                    break;
+	                case "telefono":
+	                    telefono = Integer.parseInt(value);
+	                    break;
+	                case "correo":
+	                    correo = value;
+	                    break;
+	                case "dni":
+	                    dni = value;
+	                    break;
+	                case "usuario":
+	                    usuario = value;
+	                    break;
+	                case "contrasena":
+	                    contrasena = value;
+	                    break;
+	                case "idiomas":
+	                    idiomasStr = value;
+	                    break;
+	            }
+            }
+        }
+
+        // Tratamiento especial para el campo idiomas
+        String[] idiomasArray = (idiomasStr != null) ? idiomasStr.substring(1, idiomasStr.length() - 1).split(", ") : new String[0];
+        ArrayList<Idioma> idiomasList = new ArrayList<>();
+        for (String idioma : idiomasArray) {
+            idiomasList.add(Idioma.valueOf(idioma));
+        }
+
+        return new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomasList);
+    }
+    
+    public static Grupo stringToGrupo(String grupoString) {
+
+        // Grupo [idioma=ESPAÑOL, nombre=Grupo1, docente=Docente [nombre=Profesor, apellido=Apellido, dni=12345678, correo=profesor@example.com, telefono=123456789, usuario=profesor, contrasena=secreta, idioma=ESPAÑOL], estudiantes=[], tareas=[], capacidad_estudiantes=0]
+
+        String[] parts = grupoString
+                .replace("Grupo [", "")
+                .replace("]", "")
+                .split(", ");
+
+        Idioma idioma = null;
+        String nombre = null;
+        Docente docente = null;
+        ArrayList<Estudiante> estudiantes = null;
+        ArrayList<Tarea> tareas = null;
+        int capacidadEstudiantes = 0;
+
+        for (String part : parts) {
+            String[] keyValue = part.split("=");
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+
+            switch (key) {
+                case "idioma":
+                    idioma = Idioma.valueOf(value);
+                    break;
+                case "nombre":
+                    nombre = value;
+                    break;
+                case "docente":
+                    docente = stringToDocente(value);
+                    break;
+                case "estudiantes":
+                    // Tratamiento especial para el campo estudiantes
+                    estudiantes = new ArrayList<>();
+                    if (!value.equals("[]")) {
+                        String[] estudiantesArray = value.substring(1, value.length() - 1).split(", ");
+                        for (String estudiante : estudiantesArray) {
+                            estudiantes.add(stringToEstudiante(estudiante));
+                        }
+                    }
+                    break;
+                case "tareas":
+                    // Tratamiento especial para el campo tareas
+                    tareas = new ArrayList<>();
+                    if (!value.equals("[]")) {
+                        String[] tareasArray = value.substring(1, value.length() - 1).split(", ");
+                        for (String tarea : tareasArray) {
+                            tareas.add(stringToTarea(tarea));
+                        }
+                    }
+                    break;
+                case "capacidad_estudiantes":
+                    capacidadEstudiantes = Integer.parseInt(value);
+                    break;
+
+            }
+        }
+
+        Grupo grupo = new Grupo(idioma, nombre, docente, estudiantes, tareas);
+        grupo.setCapacidad_estudiantes(capacidadEstudiantes);
+        return grupo;
+    }
+    
+    public static Tarea stringToTarea(String tareaString) {
+    	
+        // Tarea [fecha_creacion=2023-01-01, fecha_entrega=2023-01-15, titulo=Tarea1, comentario=Descripción de la tarea]
+
+        String[] parts = tareaString
+                .replace("Tarea [", "")
+                .replace("]", "")
+                .split(", ");
+
+        LocalDate fechaCreacion = null;
+        LocalDate fechaEntrega = null;
+        String titulo = null;
+        String comentario = null;
+
+        for (String part : parts) {
+            String[] keyValue = part.split("=");
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+
+            switch (key) {
+                case "fecha_creacion":
+                    fechaCreacion = LocalDate.parse(value);
+                    break;
+                case "fecha_entrega":
+                    fechaEntrega = LocalDate.parse(value);
+                    break;
+                case "titulo":
+                    titulo = value;
+                    break;
+                case "comentario":
+                    comentario = value;
+                    break;
+
+            }
+        }
+
+        return new Tarea(fechaEntrega, titulo, comentario);
+    }
+    
 }

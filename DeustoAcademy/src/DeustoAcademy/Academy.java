@@ -866,7 +866,7 @@ public class Academy {
 		
 		
 		try {
-			bd.connect("jdbc:sqlite:res.db.academy.db");
+			bd.connect("jdbc:sqlite:res/db/academy.db");
 			
 			academy.administradores = bd.cargarAdministradores();
 			academy.estudiantes = bd.cargarEstudiantes();
@@ -889,7 +889,7 @@ public class Academy {
 	public void actuarlizarDatosEnBaseDeDatos(Rols rol) {		// Basado en "actualizarDatos" 
 		BaseDeDatos bd = new BaseDeDatos();
 		try {
-			bd.connect("jdbc:sqlite:res.db.academy.db");
+			bd.connect("jdbc:sqlite:res/db/academy.db");
 			
 			if (rol == Rols.ESTUDIANTE) {
 				for (Estudiante estudiante : this.estudiantes) {
@@ -897,8 +897,9 @@ public class Academy {
 				}
 				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
-				bd.guardarNotasTareas(this.notasTareas);																			for (Grupo grupo :this.grupos) {
-				bd.guardarGrupo(grupo);
+				bd.guardarNotasTareas(this.notasTareas);										
+				for (Grupo grupo :this.grupos) {
+					bd.guardarGrupo(grupo);
 				}
 			}else if (rol == Rols.DOCENTE) {
 				for (Docente docente : this.docentes) {
@@ -906,6 +907,9 @@ public class Academy {
 				}
 				for (Grupo grupo :this.grupos) {
 					bd.guardarGrupo(grupo);
+				}
+				for (Temario temario : temarioDATA) {
+					bd.guardarTemarioDATA(temario);
 				}
 			}else if (rol == Rols.ADMINISTRADOR) {
 				for (Administrador administrador : this.administradores) {

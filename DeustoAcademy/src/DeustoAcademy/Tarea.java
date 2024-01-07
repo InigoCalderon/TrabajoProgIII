@@ -69,8 +69,8 @@ public class Tarea implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Tarea [" + fecha_creacion + ", " + fecha_entrega + ", " + titulo
-				+ ", " + comentario + "]";
+		return "Tarea [fecha_creacion=" + fecha_creacion + ", fecha_entrega=" + fecha_entrega + ", titulo=" + titulo
+				+ ", comentario=" + comentario + "]";
 	}
 
 }

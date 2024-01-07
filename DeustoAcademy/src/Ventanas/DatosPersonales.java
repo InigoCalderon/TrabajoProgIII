@@ -273,14 +273,19 @@ public class DatosPersonales {
 							}
 
 							// AQUÍ HABRÁ QUE ACTUALIZAR LA BASE DE DATOS CON LOS NUEVOS DATOS INSERTADOS
+							academy.actuarlizarDatosEnBaseDeDatos(rol);
 							
+							// Se actualizan datos de fichero
 							academy.actualizar_datos(null);
+							
 							academy.actualizar_claves();
 							ventana.dispose();
 							new Login(academy, rol);
 
 						} catch (Exception e2) {
 
+							e2.printStackTrace();
+							
 							JOptionPane.showMessageDialog(null,
 									"Debes rellenar todas las casillas y recordar que en la casilla de Teléfono debes escribir solo números.",
 									"Error", JOptionPane.ERROR_MESSAGE);

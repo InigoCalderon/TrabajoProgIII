@@ -44,7 +44,7 @@ public class Temario {
 
 	@Override
 	public String toString() {
-		return "Temario [" + grupo + ", " + data + "]";
+		return "Temario [grupo=" + grupo + ", data=" + data + "]";
 	}
 	
 }
