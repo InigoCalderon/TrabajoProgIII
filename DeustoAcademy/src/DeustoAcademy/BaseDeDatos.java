@@ -122,45 +122,75 @@ public class BaseDeDatos {
 	        while (rs.next()) {
 	            Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 	            String nombre = rs.getString("nombre");
+	            
+	            Docente docenteObtenido = null;
+	            
+	            for (Docente docente : academy.getDocentes()) {
+					if (docente.getUsuario().compareToIgnoreCase(rs.getString("docente")) == 0) {
+						docenteObtenido = docente;
+					}
+				}
+	            
+	            List<String> listEstduiantesString = Arrays.asList(rs.getString("estudiantes").split(","));
+	            ArrayList<Estudiante> estudiantes = new ArrayList<>();
+	            
+	            for (Estudiante estudiante : academy.getEstudiantes()) {
+	            	
+	            	for (String string : listEstduiantesString) {
+	            		if (estudiante.getUsuario().compareToIgnoreCase(string) == 0) {
+	            			estudiantes.add(estudiante);
+						}
+					}
+					
+				}
+	            
+	            List<String> listTareasString = Arrays.asList(rs.getString("tareas").split(","));
+	            ArrayList<Tarea> tareas = new ArrayList<>();
+	            
+	            for (Tarea tarea : academy.getTareas()) {
+	            	
+	            	for (String string : listTareasString) {
+	            		if (tarea.getId().compareToIgnoreCase(string) == 0) {
+	            			tareas.add(tarea);
+						}
+					}
+					
+				}
 
-	            String docentestr = rs.getString("docente");
-	            Docente docente = stringToDocente(docentestr);
-
-	            Array estudiantesArray = rs.getArray("estudiantes");
-	            ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray);
-
-	            Array tareasArray = rs.getArray("tareas");
-	            ArrayList<Tarea> tareas = arrayToListaTipoTarea(tareasArray);
-
-	            grupos.add(new Grupo(idioma, nombre, docente, estudiantes, tareas));
+	            grupos.add(new Grupo(idioma, nombre, docenteObtenido, estudiantes, tareas));
 	        }
 	    }
 		return grupos;
 	}
 	
-	public HashMap<Estudiante, HashMap<Idioma, Boolean>>  cargarInscritosExamenFinal() throws SQLException {
+	public HashMap<Estudiante, HashMap<Idioma, Boolean>>  cargarInscritosExamenFinal(Academy academy) throws SQLException {
 		HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = new HashMap<Estudiante, HashMap<Idioma,Boolean>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM inscritosExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 				
 			while (rs.next()) {
 			
-				String estudianteString = rs.getString("estudiante");
-				Estudiante estudiante = stringToEstudiante(estudianteString); 
+				Estudiante estudianteObtenido = null;
+	            
+	            for (Estudiante estudiante : academy.getEstudiantes()) {
+					if (estudiante.getUsuario().compareToIgnoreCase(rs.getString("estudiante")) == 0) {
+						estudianteObtenido = estudiante;
+					}
+				}
 				
 				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 				
 				HashMap<Idioma, Boolean> nuevo_mapa = new HashMap<>();
 				nuevo_mapa.put(idioma, rs.getBoolean("bool"));
 				
-				inscritosExamenFinal.put(estudiante, nuevo_mapa);
+				inscritosExamenFinal.put(estudianteObtenido, nuevo_mapa);
 			
 			}
 		}
 		return inscritosExamenFinal;
 	}
 	
-	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> cargarNotasTareas() throws SQLException {
+	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> cargarNotasTareas(Academy academy) throws SQLException {
 		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = new HashMap<Estudiante, HashMap<Grupo,HashMap<Tarea,String>>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasTareas");
 		ResultSet rs = stmt.executeQuery()) {
@@ -169,51 +199,70 @@ public class BaseDeDatos {
 		
 			while (rs.next()) {
 			
-				String estudianteString = rs.getString("estudiante");
-				Estudiante estudiante = stringToEstudiante(estudianteString); 
+				Estudiante estudianteObtenido = null;
+	            
+	            for (Estudiante estudiante : academy.getEstudiantes()) {
+					if (estudiante.getUsuario().compareToIgnoreCase(rs.getString("estudiante")) == 0) {
+						estudianteObtenido = estudiante;
+					}
+				}
+
+				Grupo grupoObtenido = null;
+	            
+	            for (Grupo grupo : academy.getGrupos()) {
+					if (grupo.getNombre().compareToIgnoreCase(rs.getString("grupo")) == 0) {
+						grupoObtenido = grupo;
+					}
+				}
 				
-				String grupoString = rs.getString("grupo");
-				Grupo grupo = stringToGrupo(grupoString);
-				
-				String tareaString = rs.getString("tarea");
-				Tarea tarea = stringToTarea(tareaString);
+				Tarea tareaObtenido = null;
+	            
+	            for (Tarea tarea : academy.getTareas()) {
+					if (tarea.getId().compareToIgnoreCase(rs.getString("tarea")) == 0) {
+						tareaObtenido = tarea;
+					}
+				}
 				
 	            String nota = rs.getString("nota");
 				
 	            HashMap<Grupo, HashMap<Tarea, String>> ordenGrupos = new HashMap<>();
 	            HashMap<Tarea, String> ordenTareas = new HashMap<>();
 	            
-	            ordenGrupos.put(grupo, ordenTareas);
-	            ordenTareas.put(tarea, nota);
+	            ordenGrupos.put(grupoObtenido, ordenTareas);
+	            ordenTareas.put(tareaObtenido, nota);
 	            
-	            if (estudiantesConInfo.contains(estudiante)) {
-	            	notasTareas.get(estudiante).put(grupo, ordenTareas);
+	            if (estudiantesConInfo.contains(estudianteObtenido)) {
+	            	notasTareas.get(estudianteObtenido).put(grupoObtenido, ordenTareas);
 				} else {
-					notasTareas.put(estudiante, ordenGrupos);
-					estudiantesConInfo.add(estudiante);
+					notasTareas.put(estudianteObtenido, ordenGrupos);
+					estudiantesConInfo.add(estudianteObtenido);
 				}
 			}
 		}
 		return notasTareas;
 	}
 	
-	public HashMap<Estudiante, HashMap<Idioma, String>>  cargarNotasExamenFinal() throws SQLException {
+	public HashMap<Estudiante, HashMap<Idioma, String>>  cargarNotasExamenFinal(Academy academy) throws SQLException {
 		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = new HashMap<Estudiante, HashMap<Idioma,String>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 			
 			while (rs.next()) {
 			
-				// Obtener Clob para Estudiante
-				String estudianteString = rs.getString("estudiante");
-				Estudiante estudiante = stringToEstudiante(estudianteString);
+				Estudiante estudianteObtenido = null;
+	            
+	            for (Estudiante estudiante : academy.getEstudiantes()) {
+					if (estudiante.getUsuario().compareToIgnoreCase(rs.getString("estudiante")) == 0) {
+						estudianteObtenido = estudiante;
+					}
+				}
 				
 				Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 				
 				HashMap<Idioma, String> nuevo_mapa = new HashMap<>();
 				nuevo_mapa.put(idioma, rs.getString("nota"));
 				
-				notasExamenFinal.put(estudiante, nuevo_mapa);
+				notasExamenFinal.put(estudianteObtenido, nuevo_mapa);
 			
 			}
 		}
@@ -239,7 +288,6 @@ public class BaseDeDatos {
 		            
 		        }
 		  }
-		
 		return lista;
     }
 	
@@ -255,20 +303,25 @@ public class BaseDeDatos {
 	    	
 	        while (rs.next()) {
 
-	        	String grupoString = rs.getString("grupo");
-				Grupo grupo = stringToGrupo(grupoString);
+	        	Grupo grupoObtenido = null;
+	            
+	            for (Grupo grupo : academy.getGrupos()) {
+					if (grupo.getNombre().compareToIgnoreCase(rs.getString("grupo")) == 0) {
+						grupoObtenido = grupo;
+					}
+				}
 				
 	            String unidad = rs.getString("unidad");
 	            
 	            String contenido = rs.getString("contenido");                
 	                  
-	            if (unidadesAnadidas.contains(unidad) && gruposAnadidos.contains(grupo.getNombre())) {
+	            if (unidadesAnadidas.contains(unidad) && gruposAnadidos.contains(grupoObtenido.getNombre())) {
 	            	
 	            	Temario temarioElegido = null;
 	            	
 	            	for (Temario temario : temariosAnadidos) {
 						
-	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupo.getNombre()) == 0) {
+	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupoObtenido.getNombre()) == 0) {
 							temarioElegido = temario;
 						}
 	            		
@@ -277,7 +330,7 @@ public class BaseDeDatos {
 	            	gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
 	            	academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
 	            	
-	            } else if (gruposAnadidos.contains(grupo.getNombre())) {
+	            } else if (gruposAnadidos.contains(grupoObtenido.getNombre())) {
 					
 	            	ArrayList<String> nuevaLista = new ArrayList<>();
 		            nuevaLista.add(contenido);
@@ -286,7 +339,7 @@ public class BaseDeDatos {
 	            	
 	            	for (Temario temario : temariosAnadidos) {
 						
-	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupo.getNombre()) == 0) {
+	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupoObtenido.getNombre()) == 0) {
 							temarioElegido = temario;
 						}
 	            		
@@ -295,9 +348,9 @@ public class BaseDeDatos {
 					gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
 					academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
 					
-	            } else if (grupo != null && buscarGrupo(grupo, academy)) {
+	            } else if (grupoObtenido != null && buscarGrupo(grupoObtenido, academy)) {
 					
-	            	Temario temario = new Temario(grupo, new HashMap<>());
+	            	Temario temario = new Temario(grupoObtenido, new HashMap<>());
 	                ArrayList<String> nuevaLista = new ArrayList<>();
 	                nuevaLista.add(contenido);
 	                temario.getData().put(unidad, nuevaLista);
@@ -319,21 +372,6 @@ public class BaseDeDatos {
 	    return false;
 	}
 	
-	public ArrayList<Idioma> convertirJSONArrayALista(JSONArray jsonArray) {
-		ArrayList<Idioma> listaIdiomas = new ArrayList<>();
-		
-		for (int i = 0; i < jsonArray.length(); i++) {            
-			try {
-				String idiomaStr = jsonArray.getString(i);
-				Idioma idioma = Idioma.valueOf(idiomaStr);
-				listaIdiomas.add(idioma);
-			} catch (Exception e) {
-			// TODO: handle exception
-			}
-		}
-		
-		return listaIdiomas;
-	}
 	
 	// Método para convertir Array a Lista de Tipo Estudiante
 	public ArrayList<Estudiante> arrayToListaTipoEstudiante(Array array) throws SQLException {
@@ -582,233 +620,6 @@ public class BaseDeDatos {
     private List<String> convertirCadenaALista(String cadena) {
         // Convierte la cadena a una lista
         return Arrays.asList(cadena.split(","));
-    }
-    
-    public static Docente stringToDocente(String docenteString) {
-        
-        // Docente [nombre=Juan, apellido=Perez, dni=12345678, correo=juan@example.com, telefono=123456, usuario=juanito, contrasena=secreta, idioma=ESPAÑOL]
-        
-        String[] parts = docenteString
-                .replace("Docente [", "")
-                .replace("]", "")
-                .split(", ");
-
-        String nombre = null, apellido = null, dni = null, correo = null, usuario = null, contrasena = null, idiomaStr = null;
-        int telefono = 0;
-
-        for (String part : parts) {
-            String[] keyValue = part.split("=");
-            String key = keyValue[0].trim();
-            String value = keyValue[1].trim();
-
-            switch (key) {
-                case "nombre":
-                    nombre = value;
-                    break;
-                case "apellido":
-                    apellido = value;
-                    break;
-                case "dni":
-                    dni = value;
-                    break;
-                case "correo":
-                    correo = value;
-                    break;
-                case "telefono":
-                    telefono = Integer.parseInt(value);
-                    break;
-                case "usuario":
-                    usuario = value;
-                    break;
-                case "contrasena":
-                    contrasena = value;
-                    break;
-                case "idioma":
-                    idiomaStr = value;
-                    break;
-
-            }
-        }
-
-        Idioma idioma = Idioma.valueOf(idiomaStr);
-
-        return new Docente(nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma);
-    }
-    
-    public static Estudiante stringToEstudiante(String estudianteString) {
-
-        // Estudiante [nombre=Juan, apellido=Perez, telefono=123456, correo=juan@example.com, dni=12345678, usuario=juanito, contrasena=secreta, idiomas=[ESPAÑOL, INGLES, FRANCES]]
-
-        String[] parts = estudianteString
-                .replace("Estudiante [", "")
-                .replace("]", "")
-                .split(", ");
-
-        String nombre = null, apellido = null, dni = null, correo = null, usuario = null, contrasena = null, idiomasStr = null;
-        int telefono = 0;
-        
-        for (String part : parts) {
-            String[] keyValue = part.split("=");
-            String key = keyValue[0].trim();
-            if (keyValue.length >= 2) {
-                String value = keyValue[1].trim();
-
-	            switch (key) {
-	                case "nombre":
-	                    nombre = value;
-	                    break;
-	                case "apellido":
-	                    apellido = value;
-	                    break;
-	                case "telefono":
-	                    telefono = Integer.parseInt(value);
-	                    break;
-	                case "correo":
-	                    correo = value;
-	                    break;
-	                case "dni":
-	                    dni = value;
-	                    break;
-	                case "usuario":
-	                    usuario = value;
-	                    break;
-	                case "contrasena":
-	                    contrasena = value;
-	                    break;
-	                case "idiomas":
-	                    idiomasStr = value;
-	                    break;
-	            }
-            }
-        }
-
-        // Tratamiento especial para el campo idiomas
-        String[] idiomasArray = new String[0];
-
-        if (idiomasStr != null && idiomasStr.length() > 1) {
-            // Elimina espacios y corchetes al principio y al final de la cadena
-            idiomasStr = idiomasStr.trim().substring(1, idiomasStr.length() - 0);
-            idiomasArray = idiomasStr.split(", ");
-        }
-
-        ArrayList<Idioma> idiomasList = new ArrayList<>();
-        for (String idioma : idiomasArray) {
-            // Ajusta las diferencias en mayúsculas/minúsculas y posibles errores tipográficos
-        	idiomasList.add(Idioma.valueOf(buscarPorNombre(idioma)));
-        }
-
-        return new Estudiante(nombre, apellido, telefono, correo, dni, usuario, contrasena, idiomasList);
-    }
-
-    public static String buscarPorNombre(String nombre) {
-        for (Idioma idioma : Idioma.values()) {
-            if (idioma.name().equalsIgnoreCase(nombre.trim())) {
-                return idioma.toString();   
-            }
-        }
-        throw new IllegalArgumentException("No enum constant " + Idioma.class + "." + nombre);
-    }
-    
-    public static Grupo stringToGrupo(String grupoString) {
-
-        // Grupo [idioma=ESPAÑOL, nombre=Grupo1, docente=Docente [nombre=Profesor, apellido=Apellido, dni=12345678, correo=profesor@example.com, telefono=123456789, usuario=profesor, contrasena=secreta, idioma=ESPAÑOL], estudiantes=[], tareas=[], capacidad_estudiantes=0]
-
-        String[] parts = grupoString
-                .replace("Grupo [", "")
-                .replace("]", "")
-                .split(", ");
-
-        Idioma idioma = null;
-        String nombre = null;
-        Docente docente = null;
-        ArrayList<Estudiante> estudiantes = null;
-        ArrayList<Tarea> tareas = null;
-        int capacidadEstudiantes = 0;
-
-        for (String part : parts) {
-            String[] keyValue = part.split("=");
-            String key = keyValue[0].trim();
-            String value = keyValue[1].trim();
-
-            switch (key) {
-                case "idioma":
-                    idioma = Idioma.valueOf(value);
-                    break;
-                case "nombre":
-                    nombre = value;
-                    break;
-                case "docente":
-                    docente = stringToDocente(value);
-                    break;
-                case "estudiantes":
-                    // Tratamiento especial para el campo estudiantes
-                    estudiantes = new ArrayList<>();
-                    if (!value.equals("[]")) {
-                        String[] estudiantesArray = value.substring(1, value.length() - 1).split(", ");
-                        for (String estudiante : estudiantesArray) {
-                            estudiantes.add(stringToEstudiante(estudiante));
-                        }
-                    }
-                    break;
-                case "tareas":
-                    // Tratamiento especial para el campo tareas
-                    tareas = new ArrayList<>();
-                    if (!value.equals("[]")) {
-                        String[] tareasArray = value.substring(1, value.length() - 1).split(", ");
-                        for (String tarea : tareasArray) {
-                            tareas.add(stringToTarea(tarea));
-                        }
-                    }
-                    break;
-                case "capacidad_estudiantes":
-                    capacidadEstudiantes = Integer.parseInt(value);
-                    break;
-
-            }
-        }
-
-        Grupo grupo = new Grupo(idioma, nombre, docente, estudiantes, tareas);
-        grupo.setCapacidad_estudiantes(capacidadEstudiantes);
-        return grupo;
-    }
-    
-    public static Tarea stringToTarea(String tareaString) {
-    	
-        // Tarea [fecha_creacion=2023-01-01, fecha_entrega=2023-01-15, titulo=Tarea1, comentario=Descripción de la tarea]
-
-        String[] parts = tareaString
-                .replace("Tarea [", "")
-                .replace("]", "")
-                .split(", ");
-
-        LocalDate fechaCreacion = null;
-        LocalDate fechaEntrega = null;
-        String titulo = null;
-        String comentario = null;
-
-        for (String part : parts) {
-            String[] keyValue = part.split("=");
-            String key = keyValue[0].trim();
-            String value = keyValue[1].trim();
-
-            switch (key) {
-                case "fecha_creacion":
-                    fechaCreacion = LocalDate.parse(value);
-                    break;
-                case "fecha_entrega":
-                    fechaEntrega = LocalDate.parse(value);
-                    break;
-                case "titulo":
-                    titulo = value;
-                    break;
-                case "comentario":
-                    comentario = value;
-                    break;
-
-            }
-        }
-
-        return new Tarea(fechaEntrega, titulo, comentario);
     }
     
 }

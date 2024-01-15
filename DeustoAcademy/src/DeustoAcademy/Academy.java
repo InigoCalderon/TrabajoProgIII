@@ -872,9 +872,9 @@ public class Academy {
 			academy.docentes = bd.cargarDocentes();
 			academy.grupos = bd.cargarGrupos(academy);
 			academy.tareas = bd.cargarTarea();
-			academy.inscritosExamenFinal = bd.cargarInscritosExamenFinal();
-			academy.notasExamenFinal = bd.cargarNotasExamenFinal();
-			academy.notasTareas = bd.cargarNotasTareas();
+			academy.inscritosExamenFinal = bd.cargarInscritosExamenFinal(academy);
+			academy.notasExamenFinal = bd.cargarNotasExamenFinal(academy);
+			academy.notasTareas = bd.cargarNotasTareas(academy);
 			bd.cargarTemarioData(academy);
 			bd.disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -907,6 +907,9 @@ public class Academy {
 				}
 				for (Temario temario : temarioDATA) {
 					bd.guardarTemarioDATA(temario);
+				}
+				for (Tarea tarea : this.tareas) {
+					bd.guardarTarea(tarea);
 				}
 			}else if (rol == Rols.ADMINISTRADOR) {
 				for (Administrador administrador : this.administradores) {
@@ -954,27 +957,26 @@ public class Academy {
 	
 			@Override
 			public void run() {
-	
+				
 				try (FileInputStream fis = new FileInputStream("res/logger.properties")) {
 				LogManager.getLogManager().readConfiguration(fis);
 				} catch (IOException e) {
 				logger.log(Level.SEVERE, "No se pudo leer el fichero de configuración del logger");
 				}
 				
-				logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
-				
 				Academy A1 = new Academy();
 				
 				//A1.cargar_datos();		carga datos de ficheros
-				
-				A1.actualizar_claves();
-				
-				new SelectRol(A1);
 				
 				try {
 					bd.connect("jdbc:sqlite:res/db/academy.db");
 					cargarEnBaseDeDatos(bd, A1);
 					bd.disconnect();
+					A1.actualizar_claves();
+					new SelectRol(A1);
+					
+					logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
+					
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -982,6 +984,8 @@ public class Academy {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				
 				
 			}
 	
