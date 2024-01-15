@@ -372,52 +372,6 @@ public class BaseDeDatos {
 	    return false;
 	}
 	
-	
-	// Método para convertir Array a Lista de Tipo Estudiante
-	public ArrayList<Estudiante> arrayToListaTipoEstudiante(Array array) throws SQLException {
-		ArrayList<Estudiante> listafinal = new ArrayList<>();
-		try (ResultSet rs = array.getResultSet()) {
-			while (rs.next()) {
-				// Aquí necesitas crear instancias de la clase Estudiante
-				Estudiante estudiante = new Estudiante();
-				estudiante.setNombre(rs.getString("nombre"));
-				estudiante.setApellido(rs.getString("apellido"));
-				estudiante.setTelefono(rs.getInt("telefono"));
-				estudiante.setCorreo(rs.getString("correo"));
-				estudiante.setDni(rs.getString("dni"));
-				estudiante.setUsuario(rs.getString("usuario"));
-				estudiante.setContrasena(rs.getString("contraseña"));
-				Array idiomasArray = rs.getArray("idiomas");
-				List<Idioma> lista = new ArrayList<Idioma>();
-				if (idiomasArray != null) {
-					Object[] idiomasObjArray = (Object[]) idiomasArray.getArray();
-					for (Object idiomaObj : idiomasObjArray) {
-						lista.add(Idioma.valueOf((String) idiomaObj));
-					}
-				}
-				estudiante.setIdiomas((ArrayList<Idioma>) lista);
-				listafinal.add(estudiante);
-			}
-		}
-		return listafinal;
-	}
-	
-	// Método para convertir Array a Lista de Tipo Tarea
-	public ArrayList<Tarea> arrayToListaTipoTarea(Array array) throws SQLException {
-		ArrayList<Tarea> listafinal = new ArrayList<>();
-		try (ResultSet rs = array.getResultSet()) {
-			while (rs.next()) {
-				// Aquí necesitas crear instancias de la clase Tarea
-				Tarea tarea = new Tarea();
-				tarea.setFecha_entrega(LocalDate.parse(rs.getString("fechaEntrega"), DateTimeFormatter.ofPattern("yyyy-MM-dd")));  //LocalDate.of(2024, 1, 27)  --> en string 2024-01-27
-				tarea.setTitulo(rs.getString("titulo"));
-				tarea.setComentario(rs.getString("comentario"));
-				listafinal.add(tarea);
-			}
-		}
-		return listafinal;
-	}
-	
 	/// GUARDADO
 	
 	public void guardarTarea(Tarea tarea) throws SQLException {
