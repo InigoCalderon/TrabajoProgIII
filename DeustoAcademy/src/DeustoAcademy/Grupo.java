@@ -10,6 +10,7 @@ public class Grupo implements Serializable, Comparable<Grupo> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	protected Idioma idioma;
 	protected String nombre;
 	protected Docente docente;

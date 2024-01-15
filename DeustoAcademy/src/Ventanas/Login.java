@@ -191,10 +191,6 @@ public class Login extends JFrame {
 
 	}
 
-	public Login(Docente docente, Rols rol, Academy academy) {
-		// TODO Auto-generated constructor stub
-	}
-
 	boolean autentificador(Academy academy, Rols rol) {
 
 		if (!(textoUsuario.getText().strip().equalsIgnoreCase("") || textoContraseña.getText().strip().equalsIgnoreCase(""))) {

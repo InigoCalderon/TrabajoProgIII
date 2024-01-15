@@ -114,7 +114,7 @@ public class BaseDeDatos {
 		return docentes;
 	}
 	
-	public ArrayList<Grupo> cargarGrupos() throws SQLException {
+	public ArrayList<Grupo> cargarGrupos(Academy academy) throws SQLException {
 		ArrayList<Grupo> grupos = new ArrayList<Grupo>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM grupo");
 	         ResultSet rs = stmt.executeQuery()) {
@@ -123,8 +123,8 @@ public class BaseDeDatos {
 	            Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 	            String nombre = rs.getString("nombre");
 
-	            String docenteClob = rs.getString("docente");
-	            Docente docente = stringToDocente(docenteClob);
+	            String docentestr = rs.getString("docente");
+	            Docente docente = stringToDocente(docentestr);
 
 	            Array estudiantesArray = rs.getArray("estudiantes");
 	            ArrayList<Estudiante> estudiantes = arrayToListaTipoEstudiante(estudiantesArray);
@@ -219,6 +219,29 @@ public class BaseDeDatos {
 		}
 		return notasExamenFinal;
 	}
+	
+	public ArrayList<Tarea> cargarTarea() throws SQLException {
+		
+		ArrayList<Tarea> lista = new ArrayList<>();
+		
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM tareas");
+				ResultSet rs = stmt.executeQuery()) {
+		    	
+		        while (rs.next()) {
+
+		        	Tarea nuevaTarea = new Tarea();
+		        	nuevaTarea.setId(rs.getString("id"));
+		        	nuevaTarea.setFecha_creacion(LocalDate.parse(rs.getString("fecha_entrega"), DateTimeFormatter.ofPattern("dd-MM-yy")));
+		        	nuevaTarea.setFecha_entrega(LocalDate.parse(rs.getString("fecha_entrega"), DateTimeFormatter.ofPattern("dd-MM-yy")));
+		        	nuevaTarea.setTitulo(rs.getString("titulo"));
+		        	nuevaTarea.setComentario(rs.getString("comentario"));
+		            lista.add(nuevaTarea);
+		            
+		        }
+		  }
+		
+		return lista;
+    }
 	
 	public void cargarTemarioData(Academy academy) throws SQLException {
 		
@@ -359,6 +382,22 @@ public class BaseDeDatos {
 	
 	/// GUARDADO
 	
+	public void guardarTarea(Tarea tarea) throws SQLException {
+        try {
+            String insertQuery = "INSERT INTO tareas (id, fecha_creacion, fecha_entrega, titulo, comentario) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, tarea.getId());
+                preparedStatement.setString(2, tarea.getFecha_creacion().toString());
+                preparedStatement.setString(3, tarea.getFecha_entrega().toString());
+                preparedStatement.setString(4, tarea.getTitulo());
+                preparedStatement.setString(5, tarea.getComentario());
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+	
 	public void guardarAdministrador( Administrador administrador) throws SQLException {
         try {
             String insertQuery = "INSERT INTO administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -415,15 +454,23 @@ public class BaseDeDatos {
         }
     }
 
-    public void guardarGrupo(Grupo grupo) throws SQLException {
+    public void guardarGrupo(Grupo grupo, Academy academy) throws SQLException {
         try {
             String insertQuery = "INSERT INTO grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, grupo.getIdioma().toString());
                 preparedStatement.setString(2, grupo.getNombre());
                 preparedStatement.setString(3, grupo.getDocente().toString());
-                preparedStatement.setArray(4, convertirListaAArray(grupo.getEstudiantes()));
-                preparedStatement.setArray(5, convertirListaAArray(grupo.getTareas()));
+                ArrayList<String> arrayListEstudiantesUsusarios = new ArrayList<>();
+                ArrayList<String> arrayListTareasIds = new ArrayList<>();
+                for (Estudiante estudiante : academy.getEstudiantes()) {
+                	arrayListEstudiantesUsusarios.add(estudiante.getUsuario());
+				}
+                for (Tarea tarea : academy.getTareas()) {
+                	arrayListTareasIds.add(tarea.getId());
+				}
+                preparedStatement.setString(4, String.join(",", arrayListEstudiantesUsusarios));
+                preparedStatement.setString(5, String.join(",", arrayListTareasIds));
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -525,10 +572,6 @@ public class BaseDeDatos {
             } catch (SQLException e) {
             	e.printStackTrace();
 			}
-    }
-    
-    private Array convertirListaAArray(List<?> lista) throws SQLException {
-        return conexion.createArrayOf("VARCHAR", lista.toArray());
     }
     
     private String convertirListaACadena(List<?> lista) {

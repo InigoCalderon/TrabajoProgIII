@@ -273,7 +273,7 @@ public class DatosPersonales {
 							}
 
 							// AQUÍ HABRÁ QUE ACTUALIZAR LA BASE DE DATOS CON LOS NUEVOS DATOS INSERTADOS
-							academy.actuarlizarDatosEnBaseDeDatos(rol);
+							academy.actuarlizarDatosEnBaseDeDatos(rol, Academy.bd, academy);
 							
 							// Se actualizan datos de fichero
 							//academy.actualizar_datos(null);

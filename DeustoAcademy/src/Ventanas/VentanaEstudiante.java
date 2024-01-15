@@ -378,7 +378,7 @@ public class VentanaEstudiante extends JFrame {
 					//academy.actualizar_datos(Rols.ESTUDIANTE);
 				
 					//ACTUALIZA BASE DE DATOS
-					academy.actuarlizarDatosEnBaseDeDatos(Rols.ESTUDIANTE);
+					academy.actuarlizarDatosEnBaseDeDatos(Rols.ESTUDIANTE, Academy.bd);
 					
 				}
 			});

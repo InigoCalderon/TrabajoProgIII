@@ -44,6 +44,7 @@ import Ventanas.*;
 public class Academy {
 
 	// VARIABLES DE LA CALSE CONSTRUCTOR
+	protected ArrayList<Tarea> tareas = new ArrayList<>();
 	protected ArrayList<Administrador> administradores = new ArrayList<>();
 	protected ArrayList<Estudiante> estudiantes = new ArrayList<>();
 	protected ArrayList<Docente> docentes = new ArrayList<>();
@@ -55,7 +56,7 @@ public class Academy {
 	
 	// VARIABLES DE USO PARA MÉTODOS Y EL RESTO DEL PROGRAMA
 	protected HashMap<Rols, HashMap<String, String>> claves = new HashMap<>();
-	
+	public static BaseDeDatos bd = new BaseDeDatos();
 
 	public Academy(ArrayList<Administrador> administradores, ArrayList<Estudiante> estudiantes,
 			ArrayList<Docente> docentes, ArrayList<Grupo> grupos, ArrayList<Temario> temarioDATA) {
@@ -114,6 +115,14 @@ public class Academy {
 		for (Temario temario : temarioDATA) {
 			this.temarioDATA.add(temario);
 		}
+	}
+	
+	public ArrayList<Tarea> getTareas() {
+		return tareas;
+	}
+
+	public void setTareas(ArrayList<Tarea> tareas) {
+		this.tareas = tareas;
 	}
 
 	public HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> getNotasTareas() {
@@ -189,7 +198,7 @@ public class Academy {
 		return "Academy [" + administradores + ", " + estudiantes + ", " + docentes
 				+ ", " + grupos + ", " + inscritosExamenFinal + ", "
 				+ notasExamenFinal + ", " + claves + ", " + notasTareas + ", "
-				+ temarioDATA + "]";
+				+ temarioDATA + ", " + tareas + "]";
 	}
 
 	public HashMap<Rols, HashMap<String, String>> getClaves() {
@@ -359,15 +368,6 @@ public class Academy {
 	public void actualizar_datos(Rols rol) {
 
 		// AQUÍ SE SUBIRÁN A LA BD, pero mientras tanto usamos ficheros
-		
-		BaseDeDatos bd = new BaseDeDatos();
-		try {
-			bd.connect("jdbc:sqlite:res.db.academy.db");
-			
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		if (rol == Rols.ESTUDIANTE) {
 			
@@ -867,17 +867,15 @@ public class Academy {
 		
 		try {
 			bd.connect("jdbc:sqlite:res/db/academy.db");
-			
 			academy.administradores = bd.cargarAdministradores();
 			academy.estudiantes = bd.cargarEstudiantes();
 			academy.docentes = bd.cargarDocentes();
-			academy.grupos = bd.cargarGrupos();
+			academy.grupos = bd.cargarGrupos(academy);
+			academy.tareas = bd.cargarTarea();
 			academy.inscritosExamenFinal = bd.cargarInscritosExamenFinal();
 			academy.notasExamenFinal = bd.cargarNotasExamenFinal();
 			academy.notasTareas = bd.cargarNotasTareas();
 			bd.cargarTemarioData(academy);
-			
-			
 			bd.disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -886,8 +884,7 @@ public class Academy {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
-	public void actuarlizarDatosEnBaseDeDatos(Rols rol) {		// Basado en "actualizarDatos" 
-		BaseDeDatos bd = new BaseDeDatos();
+	public void actuarlizarDatosEnBaseDeDatos(Rols rol, BaseDeDatos bd, Academy academy) {		// Basado en "actualizarDatos" 
 		try {
 			bd.connect("jdbc:sqlite:res/db/academy.db");
 			
@@ -899,14 +896,14 @@ public class Academy {
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
 				bd.guardarNotasTareas(this.notasTareas);										
 				for (Grupo grupo :this.grupos) {
-					bd.guardarGrupo(grupo);
+					bd.guardarGrupo(grupo, academy);
 				}
 			}else if (rol == Rols.DOCENTE) {
 				for (Docente docente : this.docentes) {
 					bd.guardarDocente(docente);
 				}
 				for (Grupo grupo :this.grupos) {
-					bd.guardarGrupo(grupo);
+					bd.guardarGrupo(grupo, academy);
 				}
 				for (Temario temario : temarioDATA) {
 					bd.guardarTemarioDATA(temario);
@@ -929,10 +926,13 @@ public class Academy {
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
 				bd.guardarNotasTareas(this.notasTareas);																
 				for (Grupo grupo :this.grupos) {
-					bd.guardarGrupo(grupo);
+					bd.guardarGrupo(grupo, academy);
 				}
 				for (Temario temario : temarioDATA) {
 					bd.guardarTemarioDATA(temario);
+				}
+				for (Tarea tarea : this.tareas) {
+					bd.guardarTarea(tarea);
 				}
 				
 			}
@@ -945,11 +945,6 @@ public class Academy {
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	
-	
-	
 	
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	
@@ -976,9 +971,17 @@ public class Academy {
 				
 				new SelectRol(A1);
 				
-				
-				BaseDeDatos bd = new BaseDeDatos();
-				cargarEnBaseDeDatos(bd, A1);
+				try {
+					bd.connect("jdbc:sqlite:res/db/academy.db");
+					cargarEnBaseDeDatos(bd, A1);
+					bd.disconnect();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 	

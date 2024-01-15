@@ -6,25 +6,32 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Tarea implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	protected static int contador = 0;
 	
+	protected String id;
 	protected LocalDate fecha_creacion = LocalDate.now();
 	protected LocalDate fecha_entrega; // 17/02/22
 	protected String titulo;
-	protected String comentario;
+	protected String comentario; // Máximo 100 carácteres, el resto de strings tienen máximo de 30 en la Base de datos
 
 	public Tarea(LocalDate fecha_entrega, String titulo, String comentario) {
 		super();
 		this.fecha_entrega = fecha_entrega;
 		this.titulo = titulo;
 		this.comentario = comentario;
+		this.id = String.format("%d", contador);
+		contador++;
 	}
 
 	public Tarea() {
 		super();
+		this.id = String.format("%d", contador);
+		contador++;
 	}
 
 	public Tarea(Tarea t) {
@@ -33,6 +40,8 @@ public class Tarea implements Serializable {
 		this.fecha_entrega = t.fecha_entrega;
 		this.titulo = t.titulo;
 		this.comentario = t.comentario;
+		this.id = String.format("%d", contador);
+		contador++;
 	}
 
 	public LocalDate getFecha_creacion() {
@@ -67,10 +76,18 @@ public class Tarea implements Serializable {
 		this.comentario = comentario;
 	}
 
-	@Override
-	public String toString() {
-		return "Tarea [fecha_creacion=" + fecha_creacion + ", fecha_entrega=" + fecha_entrega + ", titulo=" + titulo
-				+ ", comentario=" + comentario + "]";
+	public String getId() {
+		return id;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Tarea [id=" + id + ", fecha_creacion=" + fecha_creacion + ", fecha_entrega=" + fecha_entrega
+				+ ", titulo=" + titulo + ", comentario=" + comentario + "]";
+	}
+	
 }
