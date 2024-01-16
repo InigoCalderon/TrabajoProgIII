@@ -1,42 +1,22 @@
 package main;
 
-import java.awt.BorderLayout;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.sql.Array;
-import java.sql.Clob;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 
 import db.BaseDeDatos;
@@ -995,7 +975,8 @@ public class Academy {
 				//A1.cargar_datos();		carga datos de ficheros
 				
 				try {
-					bd.connect("jdbc:sqlite:res/db/academy.db");
+					// bd.connect("jdbc:sqlite:res/db/academy.db");
+					bd.connect("jdbc:sqlite:res.db.academyPruebas.db");
 					cargarEnBaseDeDatos(bd, A1);
 					bd.disconnect();
 					A1.actualizar_claves();

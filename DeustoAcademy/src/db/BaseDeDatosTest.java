@@ -149,7 +149,7 @@ public class BaseDeDatosTest {
 		Administrador admin = new Administrador("Unai", "Egusquiza", "16092526A", "unai@opendeusto.es", 634444233, "user", "pass");
 		bd.guardarAdministrador(admin);
 		
-		try (PreparedStatement stmt = bd.conexion.prepareStatement("SELECT * FROM Administrador WHERE DNI = "+admin.getDni());
+		try (PreparedStatement stmt = BaseDeDatos.conexion.prepareStatement("SELECT * FROM Administrador WHERE DNI = "+admin.getDni());
 				ResultSet rs = stmt.executeQuery()) {
 					while (rs.next()) {
 						String nombre = rs.getString("nombre");
