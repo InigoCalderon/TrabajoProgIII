@@ -319,7 +319,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
     
     
     
-    // RENDER DE LA LISTA
+    // RENDER DE LA LISTA -- > Para realizar este código se ha usado ejemplos del "render" en el git de la asignatura de Programación lll
     
     
     

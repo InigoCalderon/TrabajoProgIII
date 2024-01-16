@@ -232,7 +232,7 @@ public class VentanaAdministradorAccesoAdministradores {
 	    	admin.setContrasena(textoContraseña.getText());
 	    }
 
-	    public void actualizarCombos(Academy datos) {
+	    public void actualizarCombos(Academy datos) { // Actualiza la lista
 	        modeloLista.clear();
 	        try {
 	            datos.getAdministradores().sort(null);
@@ -258,6 +258,7 @@ public class VentanaAdministradorAccesoAdministradores {
 	                && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank()
 	                && !textoCorreo.getText().isBlank();
 	    }
+	    // RENDER -- > Para realizar este código se ha usado ejemplos del "render" en el git de la asignatura de Programación lll
 	    class MyCellRenderer extends JLabel implements ListCellRenderer<Administrador> {
 	   	 private JTextField textoBusqueda; 
 

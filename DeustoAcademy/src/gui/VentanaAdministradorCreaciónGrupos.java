@@ -205,7 +205,7 @@ public class VentanaAdministradorCreaciónGrupos {
 	public void actualizarCombos(Academy datos) {
 		
 		
-		modeloLista.clear();
+		modeloLista.clear();			// Actualiza la lista
 		try {
 			datos.getGrupos().sort(null);
 		} catch (ClassCastException e) {}  // Ignora error de ordenación
@@ -213,7 +213,7 @@ public class VentanaAdministradorCreaciónGrupos {
 			modeloLista.addElement(grupo);	
 		}
 	}
-		
+	// RENDER - -- > Para realizar este código se ha usado ejemplos del "render" en el git de la asignatura de Programación lll	
 	 class MyCellRenderer extends JLabel implements ListCellRenderer<Grupo> {
     	 
 		

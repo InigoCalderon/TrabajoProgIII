@@ -299,7 +299,7 @@ public class VentanaAdministradorAccesoDocente {
         }
     }
 
-    public void actualizarCombos(Academy datos) {
+    public void actualizarCombos(Academy datos) { // Actualiza la lista 
         modeloLista.clear();
         try {
             datos.getDocentes().sort(null);
@@ -329,6 +329,7 @@ public class VentanaAdministradorAccesoDocente {
                 && !textoTelefono.getText().isBlank() && !textoUsuario.getText().isBlank()
                 && !textoCorreo.getText().isBlank();
     }
+    // render -- > Para realizar este código se ha usado ejemplos del "render" en el git de la asignatura de Programación lll
     class MyCellRenderer extends JLabel implements ListCellRenderer<Docente> {
    	 private JTextField textoBusqueda; 
 

@@ -80,7 +80,7 @@ public class VentanaAdministradorAccesoCuentas {
 					// TODO Auto-generated method stub
 					Estudiante estudiante = listaEstudiante.getSelectedValue();
 	                if (estudiante != null) {
-	        //        	textoCuentas.setText("");   Esto hace que el texto no salga repetido, pero elimina el historial anterior ...
+	        //        	textoCuentas.setText("");   Esto hace que el texto no salga repetido, pero elimina el historial anterior ... por ello preferimos que salga repetido y mantenga el histroail, que es la gracia del componente
 	                	if (datos.mapaTarifaEstudiante(datos).containsKey(estudiante)) {
 							
 	                		textoCuentas.append("Estudiante " + estudiante.getNombre() + " , Dni: "+ estudiante.getDni()+ " , Tarifa mensual: " + datos.mapaTarifaEstudiante(datos).get(estudiante) + " €"+"\n");
@@ -157,7 +157,7 @@ public class VentanaAdministradorAccesoCuentas {
 	        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    }
 	    
-	    public void actualizarCombos(Academy datos) {
+	    public void actualizarCombos(Academy datos) { // Actualiza la segunda lista
 	        modeloLista2.clear();
 	        try {
 	            datos.getDocentes().sort(null);
@@ -167,7 +167,7 @@ public class VentanaAdministradorAccesoCuentas {
 	        }
 	    }
 	    
-	    public void actualizarLista(Academy datos) {
+	    public void actualizarLista(Academy datos) { // Actualiza la primera lista 
 	        modeloLista1.clear();
 	        try {
 	            datos.getEstudiantes().sort(null);
@@ -201,7 +201,7 @@ public class VentanaAdministradorAccesoCuentas {
 			}
 			
 	    }
-	    
+	    // RENDER -- > Para realizar este código se ha usado ejemplos del "render" en el git de la asignatura de Programación lll
 	    class MyCellRenderer2 extends JLabel implements ListCellRenderer<Docente> {
 	    	private Academy datos;
 			public MyCellRenderer2(Academy datos) {
