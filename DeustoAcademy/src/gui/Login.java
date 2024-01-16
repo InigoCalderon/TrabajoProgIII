@@ -72,6 +72,7 @@ public class Login extends JFrame {
 							//System.out.println("bien");
 							new VentanaEstudiante(academy, rol, estudiante);
 							ventana.dispose();
+							break;
 							
 						}
 						//System.out.println(estudiante);
@@ -89,6 +90,7 @@ public class Login extends JFrame {
 							
 							new VentanaDocente(academy, rol, doce);
 							ventana.dispose();
+							break;
 							
 						}
 						

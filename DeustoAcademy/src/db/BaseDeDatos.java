@@ -373,7 +373,7 @@ public class BaseDeDatos {
 	}
 
 	public Boolean buscarGrupo(Grupo grupoBuscado, Academy academy) {
-	    for (Grupo grupo : academy.grupos) {
+	    for (Grupo grupo : academy.getGrupos()) {
 	        if (grupo.getNombre().equalsIgnoreCase(grupoBuscado.getNombre())) {
 	            return true;
 	        }
@@ -395,7 +395,7 @@ public class BaseDeDatos {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            
         }
     }
 	
@@ -413,7 +413,7 @@ public class BaseDeDatos {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            
         }
     }
 
@@ -432,7 +432,7 @@ public class BaseDeDatos {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            
         }
     }
 
@@ -451,7 +451,7 @@ public class BaseDeDatos {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            
         }
     }
 
@@ -461,7 +461,11 @@ public class BaseDeDatos {
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, grupo.getIdioma().toString());
                 preparedStatement.setString(2, grupo.getNombre());
-                preparedStatement.setString(3, grupo.getDocente().toString());
+                try {
+                	 preparedStatement.setString(3, grupo.getDocente().toString());
+				} catch (Exception e) {
+					 preparedStatement.setString(3, "");
+				}
                 ArrayList<String> arrayListEstudiantesUsusarios = new ArrayList<>();
                 ArrayList<String> arrayListTareasIds = new ArrayList<>();
                 for (Estudiante estudiante : academy.getEstudiantes()) {
@@ -475,7 +479,7 @@ public class BaseDeDatos {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           
         }
     }
 
@@ -491,6 +495,10 @@ public class BaseDeDatos {
                     Idioma idioma = notaEntry.getKey();
                     String nota = notaEntry.getValue();
 
+                    if (estudiante == null) {
+						break;
+					}
+                    
                     pstmt.setString(1, estudiante.toString());
                     pstmt.setString(2, idioma.name());
                     pstmt.setString(3, nota);
@@ -498,7 +506,7 @@ public class BaseDeDatos {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	
         }
     }
     
@@ -510,15 +518,21 @@ public class BaseDeDatos {
                     Estudiante estudiante = entry.getKey();
                     HashMap<Idioma, Boolean> idiomasBooleanMap = entry.getValue();
                     for (HashMap.Entry<Idioma, Boolean> idiomaBooleanEntry : idiomasBooleanMap.entrySet()) {
-                        preparedStatement.setString(1, estudiante.toString());
+                        
+                    	if (estudiante == null) {
+							break;
+						}
+                    	preparedStatement.setString(1, estudiante.toString());
                         preparedStatement.setString(2, idiomaBooleanEntry.getKey().name());
                         preparedStatement.setBoolean(3, idiomaBooleanEntry.getValue());
                         preparedStatement.executeUpdate();
+						
+                    	
                     }
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            
         }
     }
     
@@ -537,6 +551,10 @@ public class BaseDeDatos {
 	                    for (Tarea tarea : ordenTareas.keySet()) {
 	                        String nota = ordenTareas.get(tarea);
 
+	                        if (estudiante == null) {
+								break;
+							}
+	                        
 	                        preparedStatement.setString(1, estudiante.toString());
 	                        preparedStatement.setString(2, grupo.toString());
 	                        preparedStatement.setString(3, tarea.toString());
@@ -547,7 +565,7 @@ public class BaseDeDatos {
 	            }
          	}
         } catch (SQLException e) {
-        	e.printStackTrace();
+        	
         }
     }
     

@@ -836,6 +836,20 @@ public class Academy {
 		
 	}
 	
+	public void actualizaGrupos() {
+		
+		ArrayList<Grupo> listaGrupos = new ArrayList<>();
+		
+		for (Grupo grupo : this.getGrupos()) {
+			if (grupo.getDocente() == null && grupo.getCapacidad_estudiantes() == 0) {
+				
+			} else {
+				listaGrupos.add(grupo);
+			}
+		}
+		
+		this.setGrupos(listaGrupos);
+	}
 	
 	// MÉTODO PARA ACTUALIZAR LAS NOTAS DE LAS TAREAS -- PARA ÍÑIGO
 	// HE PUESTO RETURN PARA QUE SE MUESTRE ALGO PERO DEBERÁ SER ESTE MÉTODO VOID Y NO DEVOLVER NADA
@@ -984,6 +998,7 @@ public class Academy {
 					bd.disconnect();
 					A1.actualizar_claves();
 					new SelectRol(A1);
+					A1.actualizaGrupos();
 					
 					for (Grupo grupo : A1.getGrupos()) {
 						System.out.println(grupo);
@@ -998,8 +1013,6 @@ public class Academy {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
 				
 			}
 	
