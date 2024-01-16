@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package domain;
 
 public enum Rols {
 

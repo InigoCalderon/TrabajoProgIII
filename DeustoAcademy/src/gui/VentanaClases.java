@@ -1,9 +1,9 @@
-package Ventanas;
+package gui;
 
 import javax.swing.*;
 
-import DeustoAcademy.Academy;
-import DeustoAcademy.Grupo;
+import domain.Grupo;
+import main.Academy;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

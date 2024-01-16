@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;

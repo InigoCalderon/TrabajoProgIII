@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,7 +12,11 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import DeustoAcademy.*;
+
+import domain.Docente;
+import domain.Estudiante;
+import domain.Rols;
+import main.Academy;
 
 public class Login extends JFrame {
 

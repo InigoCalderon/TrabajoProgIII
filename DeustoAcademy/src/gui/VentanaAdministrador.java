@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,7 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DeustoAcademy.*;
+
+import domain.Rols;
+import main.Academy;
 
 public class VentanaAdministrador extends JFrame {
     /**

@@ -1,7 +1,8 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,16 +20,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import DeustoAcademy.Academy;
-import DeustoAcademy.Docente;
-import DeustoAcademy.Estudiante;
-import DeustoAcademy.Grupo;
-import DeustoAcademy.Idioma;
-import DeustoAcademy.Tarea;
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Tarea;
+import gui.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
+import main.Academy;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -153,6 +157,8 @@ public class VentanaAdministradorCreaciónGrupos {
 		JPanel panelModificarDatos = new JPanel();
 		JPanel panelIzquierda = new JPanel();
 
+		listaGrupo.setCellRenderer(new MyCellRenderer());							// Render de la lista
+		
 		panelBotones.add(botonEliminar);
 		panelBotones.add(botonModificar);
 		panelBotones.add(botonAñadir);
@@ -208,5 +214,17 @@ public class VentanaAdministradorCreaciónGrupos {
 		}
 	}
 		
-	
+	 class MyCellRenderer extends JLabel implements ListCellRenderer<Grupo> {
+    	 
+		
+		@Override
+		public Component getListCellRendererComponent(JList<? extends Grupo> list, Grupo value, int index,
+				boolean isSelected, boolean cellHasFocus) {
+			// TODO Auto-generated method stub
+			Grupo grupo = value;
+			 setText("Grupo: " +grupo.getNombre()+ " / Idioma: "+grupo.getIdioma()+ " / Docente: "+ grupo.getDocente()+ " /Estudiantes: " + grupo.getEstudiantes());
+				return this;
+		}
+		
+    }
 }

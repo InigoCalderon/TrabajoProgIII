@@ -1,7 +1,7 @@
-package Ventanas;
+package gui;
 
-import DeustoAcademy.Grupo;
-import DeustoAcademy.Temario;
+import domain.Grupo;
+import domain.Temario;
 
 import javax.swing.*;
 import java.awt.*;

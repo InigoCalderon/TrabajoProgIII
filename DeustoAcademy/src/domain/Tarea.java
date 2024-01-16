@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;

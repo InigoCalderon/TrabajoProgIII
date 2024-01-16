@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 //import java.time.ZonedDateTime;
 //import java.time.format.DateTimeFormatter;
@@ -22,7 +22,13 @@ import java.util.HashMap;
 import java.util.List;
 
 
-import DeustoAcademy.*;
+
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Rols;
+import domain.Tarea;
+import main.Academy;
 
 
 public class VentanaEstudiante extends JFrame {

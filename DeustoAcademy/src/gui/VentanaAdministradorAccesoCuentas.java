@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,10 +25,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DeustoAcademy.Academy;
-import DeustoAcademy.Docente;
-import DeustoAcademy.Estudiante;
-import Ventanas.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
+
+import domain.Docente;
+import domain.Estudiante;
+import gui.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
+import main.Academy;
 
 
 

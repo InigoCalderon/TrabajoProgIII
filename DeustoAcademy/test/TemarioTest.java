@@ -5,7 +5,11 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import DeustoAcademy.*;
+
+import domain.Docente;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Temario;
 
 public class TemarioTest {
 

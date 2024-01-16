@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package main;
 
 import java.awt.BorderLayout;
 import java.io.FileInputStream;
@@ -38,7 +38,17 @@ import javax.swing.SwingUtilities;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Ventanas.*;
+
+import db.BaseDeDatos;
+import domain.Administrador;
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Rols;
+import domain.Tarea;
+import domain.Temario;
+import gui.SelectRol;
 
 
 public class Academy {

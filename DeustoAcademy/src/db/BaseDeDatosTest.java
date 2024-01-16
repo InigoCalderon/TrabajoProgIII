@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package db;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,6 +15,13 @@ import java.util.HashMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import domain.Administrador;
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Tarea;
 
 public class BaseDeDatosTest {
 	protected BaseDeDatos bd;

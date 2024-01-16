@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -29,7 +29,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DeustoAcademy.*;
+
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import main.Academy;
 
 
 
@@ -299,8 +304,12 @@ import DeustoAcademy.*;
 
 		public void actualizarCombos(Academy datos) {
 			comboGrupos1.removeAllItems();
+			
 			for(Grupo grupo: datos.getGrupos()) {
-				comboGrupos1.addItem(grupo);
+				if (!datos.getDocentes().contains(grupo.getDocente())) {	// De esta manera evitamos que salgan grupos con docentes
+					comboGrupos1.addItem(grupo);
+				}
+				
 			}
 			comboGrupos2.removeAllItems();
 			for (Grupo grupo: datos.getGrupos()) {

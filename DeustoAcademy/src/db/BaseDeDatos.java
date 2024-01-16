@@ -1,4 +1,4 @@
-package DeustoAcademy;
+package db;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -25,6 +25,15 @@ import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import domain.Administrador;
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Tarea;
+import domain.Temario;
+import main.Academy;
 
 
 public class BaseDeDatos {

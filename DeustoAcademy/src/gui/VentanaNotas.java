@@ -1,11 +1,11 @@
-package Ventanas;
+package gui;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import DeustoAcademy.Academy;
-import DeustoAcademy.Estudiante;
-import DeustoAcademy.Grupo;
+import domain.Estudiante;
+import domain.Grupo;
+import main.Academy;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

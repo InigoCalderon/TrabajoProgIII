@@ -2,7 +2,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import DeustoAcademy.Docente;
+import domain.Docente;
 
 public class DocenteTest {
 	

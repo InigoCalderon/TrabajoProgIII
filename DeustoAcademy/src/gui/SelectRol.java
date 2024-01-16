@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +9,9 @@ import javax.swing.*;
 
 import org.junit.validator.PublicClassValidator;
 
-import DeustoAcademy.*;
+
+import domain.Rols;
+import main.Academy;
 
 public class SelectRol extends JFrame {
 

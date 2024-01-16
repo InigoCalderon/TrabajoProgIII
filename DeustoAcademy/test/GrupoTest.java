@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import DeustoAcademy.*;
+
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Tarea;
 
 
 public class GrupoTest {

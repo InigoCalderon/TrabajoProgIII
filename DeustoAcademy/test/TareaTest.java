@@ -4,7 +4,8 @@ import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
-import DeustoAcademy.*;
+
+import domain.Tarea;
 
 public class TareaTest {
 

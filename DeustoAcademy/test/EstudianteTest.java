@@ -8,8 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import DeustoAcademy.Estudiante;
-import DeustoAcademy.Idioma;
+import domain.Estudiante;
+import domain.Idioma;
 
 
 public class EstudianteTest {

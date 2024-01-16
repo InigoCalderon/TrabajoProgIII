@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,10 +25,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import domain.Administrador;
+import main.Academy;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DeustoAcademy.Academy;
-import DeustoAcademy.Administrador;
 
 
 

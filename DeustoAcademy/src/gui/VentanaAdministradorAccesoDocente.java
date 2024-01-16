@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,8 +32,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import DeustoAcademy.*;
-import Ventanas.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
+
+import domain.Docente;
+import domain.Idioma;
+import gui.VentanaAdiministradorAccesoEstudiantes.MyCellRenderer;
+import main.Academy;
 
 public class VentanaAdministradorAccesoDocente {
 	private static Logger logger = Logger.getLogger(Academy.class.getName());

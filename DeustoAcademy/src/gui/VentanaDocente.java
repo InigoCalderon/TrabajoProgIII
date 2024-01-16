@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,7 +14,10 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import DeustoAcademy.*;
+
+import domain.Docente;
+import domain.Rols;
+import main.Academy;
 
 public class VentanaDocente extends JFrame {
     /**

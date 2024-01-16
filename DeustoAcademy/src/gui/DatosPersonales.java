@@ -1,4 +1,4 @@
-package Ventanas;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,7 +21,15 @@ import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerModel;
 import javax.swing.SwingUtilities;
 
-import DeustoAcademy.*;
+
+import domain.Administrador;
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Rols;
+import domain.Tarea;
+import main.Academy;
 
 public class DatosPersonales {
 

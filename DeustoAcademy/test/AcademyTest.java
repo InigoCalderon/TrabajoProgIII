@@ -9,12 +9,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import DeustoAcademy.Academy;
-import DeustoAcademy.Docente;
-import DeustoAcademy.Estudiante;
-import DeustoAcademy.Grupo;
-import DeustoAcademy.Idioma;
-import DeustoAcademy.Tarea;
+import domain.Docente;
+import domain.Estudiante;
+import domain.Grupo;
+import domain.Idioma;
+import domain.Tarea;
+import main.Academy;
 
 public class AcademyTest {
 	
