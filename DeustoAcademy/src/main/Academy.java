@@ -985,6 +985,10 @@ public class Academy {
 					A1.actualizar_claves();
 					new SelectRol(A1);
 					
+					for (Grupo grupo : A1.getGrupos()) {
+						System.out.println(grupo);
+					}
+					
 					logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
 					
 				} catch (ClassNotFoundException e) {
