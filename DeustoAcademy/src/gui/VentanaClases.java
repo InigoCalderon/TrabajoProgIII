@@ -20,15 +20,24 @@ public class VentanaClases extends JFrame {
     
     public VentanaClases(Academy datos) {
     	
+    	JFrame ventana = new JFrame("VentanaClases");
+    	
     	comboGrupos = new JComboBox<Grupo>();
     	botonEntrar = new JButton("Entrar");
     	actualizarCombo(datos);
+    	
+    	ventana.add(comboGrupos);
+    	ventana.add(botonEntrar);
+		ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
+		ventana.setVisible(true);
+		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		ventana.setLocationRelativeTo(null);
     	
     	botonEntrar.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Grupo grupo = (Grupo) comboGrupos.getSelectedItem();
+				//Grupo grupo = (Grupo) comboGrupos.getSelectedItem();
 				String seleccion = (String) comboGrupos.getSelectedItem();
 				
 				if (!((String) seleccion).isEmpty()) {
@@ -47,8 +56,6 @@ public class VentanaClases extends JFrame {
     	}
     }
 
-	public static void createAndShowGUI() {
-		// TODO Auto-generated method stub
-		
-	}
+    
+    
 }
