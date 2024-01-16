@@ -126,7 +126,6 @@ public class VentanaDocente extends JFrame {
         botonClases.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                VentanaClases ventanaClases = new VentanaClases(academy);
                 VentanaClases.createAndShowGUI();
                 ventana.dispose();
             }
