@@ -24,6 +24,7 @@ public class Login extends JFrame {
 	 * 
 	 */
 	
+    private static Logger logger = Logger.getLogger(Academy.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	protected JButton botonIngresar;

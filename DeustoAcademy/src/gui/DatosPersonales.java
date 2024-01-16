@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,6 +35,7 @@ import domain.Tarea;
 import main.Academy;
 
 public class DatosPersonales {
+    private static Logger logger = Logger.getLogger(Academy.class.getName());
 
 	protected JButton botonGuardar = new JButton("Guardar");
 	protected JButton botonCancelar = new JButton("Cancelar");
@@ -208,8 +212,11 @@ public class DatosPersonales {
 											grupo.getEstudiantes().add(nuevo_estudiante);
 											grupo.setCapacidad_estudiantes(grupo.getCapacidad_estudiantes() + 1);
 											idiomas_asignados.add(idioma);
-											System.out.println("Se ha asignado a un grupo el alumno.");
-											break;
+											String mensaje = String.format("Se ha asignado a un grupo el alumno %s %s (DNI: %s) al grupo %s.",
+													nuevo_estudiante.getNombre(), nuevo_estudiante.getApellido(),
+	                                                nuevo_estudiante.getDni());
+	                                        logger.log(Level.INFO, mensaje);
+	                                        break;
 											
 										}
 										
@@ -228,8 +235,11 @@ public class DatosPersonales {
 									for (Idioma idioma : idiomas_demandados) {
 										Grupo nuevo_grupo = new Grupo(idioma, String.format("GRUPO[%s]-(Docente Sin Asignar)", idioma), null, lista, new ArrayList<Tarea>());
 										academy.getGrupos().add(nuevo_grupo);
-										System.out.println("Se ha creado un grupo y se le ha asignado a él, dicho alumno.");
-									}
+										String mensaje = String.format(
+                                                "Se ha creado un grupo y se le ha asignado a él, dicho alumno %s %s (DNI: %s).",
+                                                nuevo_estudiante.getNombre(), nuevo_estudiante.getApellido(),
+                                                nuevo_estudiante.getDni());
+                                        logger.log(Level.INFO, mensaje);									}
 								}
 								
 								academy.getEstudiantes().add(nuevo_estudiante);

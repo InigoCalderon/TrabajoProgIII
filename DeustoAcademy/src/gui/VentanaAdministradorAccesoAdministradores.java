@@ -54,6 +54,7 @@ public class VentanaAdministradorAccesoAdministradores {
 	    protected JButton botonAñadir;
 
 	    public VentanaAdministradorAccesoAdministradores(Academy datos) {
+	        Logger logger = Logger.getLogger(Academy.class.getName());
 
 	    	listaAdministrador = new JList<Administrador>(modeloLista);
 	        JScrollPane scrollPlantilla = new JScrollPane(listaAdministrador);
