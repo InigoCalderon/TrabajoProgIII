@@ -26,7 +26,7 @@ public class VentanaNotas extends JFrame {
 
     public VentanaNotas(Academy datos) {
         // Configuración de la ventana
-        setTitle("Registro de Notas");
+        JFrame ventana = new JFrame("Registro de Notas");
         setSize(700, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -97,18 +97,14 @@ public class VentanaNotas extends JFrame {
 
         // Agregar el panel de botones al contenedor
         container.add(panelBotones, BorderLayout.SOUTH);
+        
+        ventana.setSize(960, 560); // tamaño grande, 960*560 y tamaño pequeño 720*480
+		ventana.setVisible(true);
+		ventana.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		ventana.setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args) {
-        // Crear y mostrar la ventana
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                VentanaNotas ventanaNotas = new VentanaNotas(null);
-				ventanaNotas.setVisible(true);
-            }
-        });
-    }
+
     public void actualizarCombos(Academy datos) {
 		comboEstudiantes.removeAllItems();
 		for (Estudiante estudiante : datos.getEstudiantes()) {
