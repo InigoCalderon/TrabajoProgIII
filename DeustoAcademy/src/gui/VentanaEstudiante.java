@@ -211,7 +211,7 @@ public class VentanaEstudiante extends JFrame {
 			}
 
 	    }
-		
+	
 		// ME INVENTO TAREAS
 		/*/
 		System.out.println();
