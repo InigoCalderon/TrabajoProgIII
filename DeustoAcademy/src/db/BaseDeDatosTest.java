@@ -29,14 +29,14 @@ import main.Academy;
 
 public class BaseDeDatosTest {
 	protected BaseDeDatos bd;
-	protected Academy academy;
+	protected Academy academy = new Academy();
 	
 	
 	@Before
 	public void setUp() throws Exception {
 		bd = new BaseDeDatos();
 		try {
-			bd.connect("jdbc:sqlite:res.db.prueba.db");			// Se usa una BD de pruebas para esto
+			bd.connect("jdbc:sqlite:res.db.academyPruebas.db");			// Se usa una BD de pruebas para esto
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
