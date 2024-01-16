@@ -710,7 +710,7 @@ public class Academy {
 	public TreeMap<Estudiante, Float> mapaTarifaEstudiante(Academy datos){
 		TreeMap<Estudiante, Float> mapa = new TreeMap<Estudiante, Float>();
 		
-		for (Estudiante estudiante : datos.getEstudiantes()) {
+		for (Estudiante estudiante : datos.estudiantes) {
 			Float tarifaMensual = 0f;
 			if (estudiante.getIdiomas().contains(Idioma.Castellano)) {
 				tarifaMensual += 125f;
@@ -734,7 +734,7 @@ public class Academy {
 	public TreeMap<Docente, Float> mapaSueldoDocente(Academy datos){
 		TreeMap<Docente, Float> mapa = new TreeMap<Docente, Float>();
 		
-		for (Docente docente : datos.getDocentes()) {
+		for (Docente docente : datos.docentes) {
 			Float sueldoMensual = 0f;
 			if (docente.getIdioma().equals(Idioma.Castellano)) {
 				sueldoMensual += 150f;
@@ -746,9 +746,9 @@ public class Academy {
 				sueldoMensual += 155f;
 			}
 			
-			for (Grupo grupo : datos.getGrupos()) {
+			for (Grupo grupo : datos.grupos) {
 			
-				if(grupo.getDocente().equals(docente)) {
+				if(grupo.getDocente()== docente) {
 					sueldoMensual += 900f;
 				}
 			}
