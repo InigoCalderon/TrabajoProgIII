@@ -459,24 +459,27 @@ public class BaseDeDatos {
         try {
             String insertQuery = "INSERT INTO grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
-                preparedStatement.setString(1, grupo.getIdioma().toString());
-                preparedStatement.setString(2, grupo.getNombre());
-                try {
-                	 preparedStatement.setString(3, grupo.getDocente().toString());
+                
+            	try {
+            		preparedStatement.setString(1, grupo.getIdioma().toString());
+                    preparedStatement.setString(2, grupo.getNombre());
+                    
+                    preparedStatement.setString(3, grupo.getDocente().toString());
+                    				
+                    ArrayList<String> arrayListEstudiantesUsusarios = new ArrayList<>();
+                    ArrayList<String> arrayListTareasIds = new ArrayList<>();
+                    for (Estudiante estudiante : academy.getEstudiantes()) {
+                    	arrayListEstudiantesUsusarios.add(estudiante.getUsuario());
+    				}
+                    for (Tarea tarea : academy.getTareas()) {
+                    	arrayListTareasIds.add(tarea.getId());
+    				}
+                    preparedStatement.setString(4, String.join(",", arrayListEstudiantesUsusarios));
+                    preparedStatement.setString(5, String.join(",", arrayListTareasIds));
+                    preparedStatement.executeUpdate();
 				} catch (Exception e) {
-					 preparedStatement.setString(3, "");
+					// TODO: handle exception
 				}
-                ArrayList<String> arrayListEstudiantesUsusarios = new ArrayList<>();
-                ArrayList<String> arrayListTareasIds = new ArrayList<>();
-                for (Estudiante estudiante : academy.getEstudiantes()) {
-                	arrayListEstudiantesUsusarios.add(estudiante.getUsuario());
-				}
-                for (Tarea tarea : academy.getTareas()) {
-                	arrayListTareasIds.add(tarea.getId());
-				}
-                preparedStatement.setString(4, String.join(",", arrayListEstudiantesUsusarios));
-                preparedStatement.setString(5, String.join(",", arrayListTareasIds));
-                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
            

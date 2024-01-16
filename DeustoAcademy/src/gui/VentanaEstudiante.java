@@ -383,10 +383,10 @@ public class VentanaEstudiante extends JFrame {
 						academy.getInscritosExamenFinal().get(estudiante).put(idioma, botonInscribirse.isSelected());
 					}
 					//ACTUALIZA FICHEROS
-					//academy.actualizar_datos(Rols.ESTUDIANTE);
+					academy.actualizar_datos(Rols.ESTUDIANTE);
 				
 					//ACTUALIZA BASE DE DATOS
-					academy.actuarlizarDatosEnBaseDeDatos(Rols.ESTUDIANTE, Academy.bd, academy);
+					academy.actuarlizarDatosEnBaseDeDatos(null, Academy.bd, academy);
 					
 				}
 			});

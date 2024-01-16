@@ -212,7 +212,7 @@ public class DatosPersonales {
 											grupo.getEstudiantes().add(nuevo_estudiante);
 											grupo.setCapacidad_estudiantes(grupo.getCapacidad_estudiantes() + 1);
 											idiomas_asignados.add(idioma);
-											String mensaje = String.format("Se ha asignado a un grupo el alumno %s %s (DNI: %s) al grupo %s.",
+											String mensaje = String.format("Se ha asignado a un grupo el alumno %s %s (DNI: %s) al grupo.",
 													nuevo_estudiante.getNombre(), nuevo_estudiante.getApellido(),
 	                                                nuevo_estudiante.getDni());
 	                                        logger.log(Level.INFO, mensaje);

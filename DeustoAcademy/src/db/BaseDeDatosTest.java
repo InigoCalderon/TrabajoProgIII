@@ -10,7 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,9 +25,11 @@ import domain.Estudiante;
 import domain.Grupo;
 import domain.Idioma;
 import domain.Tarea;
+import main.Academy;
 
 public class BaseDeDatosTest {
 	protected BaseDeDatos bd;
+	protected Academy academy;
 	
 	
 	@Before
@@ -102,7 +107,7 @@ public class BaseDeDatosTest {
 	}
 	@Test
 	public void TestcargarGrupos() throws SQLException {
-		ArrayList<Grupo> grupos = bd.cargarGrupos();
+		ArrayList<Grupo> grupos = bd.cargarGrupos(academy);
 		assertTrue("cargarGrupos da una lista vacía",grupos.size() > 0);
 		assertNotNull("cargarGrupos es null",grupos);
 		
@@ -117,20 +122,20 @@ public class BaseDeDatosTest {
 	}
 	@Test
 	public void TestcargarInscritosExamenFinal() throws SQLException {
-		HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = bd.cargarInscritosExamenFinal();
+		HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = bd.cargarInscritosExamenFinal(academy);
 		assertTrue("cargarInscritosExamenFinal da una lista vacía",inscritosExamenFinal.size() > 0);
 		assertNotNull("cargarInscritosExamenFinal es null",inscritosExamenFinal);
 	}
 	
 	@Test
 	public void TestcargarNotasTareas() throws SQLException {
-		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = bd.cargarNotasTareas();
+		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = bd.cargarNotasTareas(academy);
 		assertTrue("cargarNotasTareas da una lista vacía",notasTareas.size() > 0);
 		assertNotNull("cargarNotasTareas es null",notasTareas);
 	}
 	@Test
 	public void TestcargarNotasExamenFinal() throws SQLException {
-		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = bd.cargarNotasExamenFinal();
+		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = bd.cargarNotasExamenFinal(academy);
 		assertTrue("cargarNotasExamenFinal da una lista vacía",notasExamenFinal.size() > 0);
 		assertNotNull("cargarNotasExamenFinal es null",notasExamenFinal);
 	}
@@ -226,29 +231,54 @@ public class BaseDeDatosTest {
 		
 	}
 	@Test
-	public void TestguardarGrupo() throws SQLException {
+	public void TestcargarGrupo() throws SQLException {
 		Docente doce = new Docente("Unai", "Egus", "16092526A", "unai@opendeusto.es", 634444233, "user", "pass", Idioma.Castellano);
 		Grupo gru = new Grupo(Idioma.Castellano, "A", doce, new ArrayList<Estudiante>(), new ArrayList<Tarea>());
-		bd.guardarGrupo(gru);
+		bd.guardarGrupo(gru, academy);
 		
 		
 		try (PreparedStatement stmt = bd.conexion.prepareStatement("SELECT * FROM Grupo WHERE nombre = "+ gru.getNombre());
 		         ResultSet rs = stmt.executeQuery()) {
 
 		        while (rs.next()) {
-		            Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
+		        	Idioma idioma = Idioma.valueOf(rs.getString("idioma"));
 		            String nombre = rs.getString("nombre");
+		            
+		            Docente docenteObtenido = null;
+		            
+		            for (Docente docente : academy.getDocentes()) {
+						if (docente.getUsuario().compareToIgnoreCase(rs.getString("docente")) == 0) {
+							docenteObtenido = docente;
+						}
+					}
+		            
+		            List<String> listEstduiantesString = Arrays.asList(rs.getString("estudiantes").split(","));
+		            ArrayList<Estudiante> estudiantes = new ArrayList<>();
+		            
+		            for (Estudiante estudiante : academy.getEstudiantes()) {
+		            	
+		            	for (String string : listEstduiantesString) {
+		            		if (estudiante.getUsuario().compareToIgnoreCase(string) == 0) {
+		            			estudiantes.add(estudiante);
+							}
+						}
+						
+					}
+		            
+		            List<String> listTareasString = Arrays.asList(rs.getString("tareas").split(","));
+		            ArrayList<Tarea> tareas = new ArrayList<>();
+		            
+		            for (Tarea tarea : academy.getTareas()) {
+		            	
+		            	for (String string : listTareasString) {
+		            		if (tarea.getId().compareToIgnoreCase(string) == 0) {
+		            			tareas.add(tarea);
+							}
+						}
+						
+					}
 
-		            String docenteString = rs.getString("docente");
-		            Docente docente = bd.stringToDocente(docenteString);
-
-		            Array estudiantesArray = rs.getArray("estudiantes");
-		            ArrayList<Estudiante> estudiantes = bd.arrayToListaTipoEstudiante(estudiantesArray);
-
-		            Array tareasArray = rs.getArray("tareas");
-		            ArrayList<Tarea> tareas = bd.arrayToListaTipoTarea(tareasArray);
-
-		            Grupo grupo = new Grupo(idioma, nombre, docente, estudiantes, tareas);
+		            Grupo grupo = new Grupo(idioma, nombre, docenteObtenido, estudiantes, tareas);
 		            assertEquals("No coinciden los nombres de grupos",gru.getNombre(), grupo.getNombre());
 					assertEquals("No coinciden los idiomas de grupos",gru.getIdioma().toString(), grupo.getIdioma().toString());
 					assertEquals("No coinciden los docentes de grupos",gru.getDocente().toString(), grupo.getDocente().toString());

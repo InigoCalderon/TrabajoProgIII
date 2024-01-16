@@ -949,12 +949,14 @@ public class Academy {
 				for (Estudiante estudiante : this.estudiantes) {
 					bd.guardarEstudiante(estudiante);
 				}
-				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
-				bd.guardarNotasExamenFinal(this.notasExamenFinal);
-				bd.guardarNotasTareas(this.notasTareas);																
 				for (Grupo grupo :this.grupos) {
 					bd.guardarGrupo(grupo, academy);
 				}
+				
+				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
+				bd.guardarNotasExamenFinal(this.notasExamenFinal);
+				bd.guardarNotasTareas(this.notasTareas);																
+				
 				for (Temario temario : temarioDATA) {
 					bd.guardarTemarioDATA(temario);
 				}
