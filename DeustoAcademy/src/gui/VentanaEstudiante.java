@@ -20,8 +20,8 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import domain.Estudiante;
 import domain.Grupo;
@@ -41,6 +41,8 @@ public class VentanaEstudiante extends JFrame {
 	 */
 	
 	private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger(VentanaEstudiante.class.getName());
+
 	
 	//protected JButton botonModificar;
 	
@@ -67,8 +69,7 @@ public class VentanaEstudiante extends JFrame {
 		JPanel panelInterno = new JPanel();
 		
 		for (Grupo grupo : academy.getGrupos()) {
-			
-			System.out.println(grupo);
+			logger.log(Level.INFO, grupo.toString());
 			if (grupo.getEstudiantes().contains(estudiante)) {
 				
 				gruposAlumno.add(grupo);
@@ -312,15 +313,18 @@ public class VentanaEstudiante extends JFrame {
 						
 						for (Tarea tarea : grupo.getTareas()) {
 							
-							menuGrupo.add(new JLabel(String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea))));
-							
+							String mensaje = String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea));
+			                menuGrupo.add(new JLabel(mensaje));
+			                logger.log(Level.INFO, mensaje);
+			            							
 						}
 						
 						menuTareas.add(menuGrupo);
 						
 					} catch (Exception e) {
-						System.out.println("Hay algún parámetro que es nulo sobre una tarea.");
-					}
+						String mensajeError = "Error al procesar una tarea. Detalles: " + e.getMessage();
+			            logger.log(Level.SEVERE, mensajeError, e);
+			        }				
 					
 				}
 				
@@ -355,10 +359,11 @@ public class VentanaEstudiante extends JFrame {
 
 							if (academy.getTemarioDATA().size() == 0) {
 								JOptionPane.showMessageDialog(VentanaEstudiante.this, "No hay temario disponible.", "Información", JOptionPane.INFORMATION_MESSAGE);
+			                    logger.log(Level.INFO, "No hay temario disponible para el grupo {0}.", grupo);
 							} else {
 								new TemarioVentana(grupo, academy.getTemarioDATA());
-								System.out.println("ENTRARIAMOS AL TEMARIO");
-							}
+			                    logger.log(Level.INFO, "Se abrió la ventana del temario para el grupo {0}.", grupo);							
+			                }
 							
 						}
 						
