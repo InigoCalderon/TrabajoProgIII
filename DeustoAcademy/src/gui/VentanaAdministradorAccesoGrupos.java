@@ -291,6 +291,7 @@ import main.Academy;
 		}
 
 		public void actualizarCombos(Academy datos) {
+			datos.actuarlizarDatosEnBaseDeDatos(null, datos.bd, datos);
 			comboGrupos1.removeAllItems();
 			
 			for(Grupo grupo: datos.getGrupos()) {

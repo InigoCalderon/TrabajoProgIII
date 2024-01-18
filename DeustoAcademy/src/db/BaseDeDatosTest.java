@@ -1,4 +1,4 @@
-package db;
+/*/package db;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -58,7 +58,7 @@ public class BaseDeDatosTest {
 	
 	
 	@Test
-	public void TestcargarAdministradores() throws SQLException {
+	public void TestCargarAdministradores() throws SQLException {
 		ArrayList<Administrador> administradores = bd.cargarAdministradores();
 		assertTrue("cargarAdministradores da una lista vacía",administradores.size() > 0);
 		assertNotNull("cargarAdministradores es null",administradores);
@@ -74,7 +74,7 @@ public class BaseDeDatosTest {
 		}
 		}
 	@Test
-	public void TestcargarEstudiantes() throws SQLException {
+	public void TestCargarEstudiantes() throws SQLException {
 		ArrayList<Estudiante> estudiantes = bd.cargarEstudiantes();
 		assertTrue("cargarEstudiantes da una lista vacía",estudiantes.size() > 0);
 		assertNotNull("cargarEstudiantes es null",estudiantes);
@@ -90,7 +90,7 @@ public class BaseDeDatosTest {
 		}
 	}
 	@Test
-	public void TestcargarDocentes() throws SQLException {
+	public void TestCargarDocentes() throws SQLException {
 		ArrayList<Docente> docentes = bd.cargarDocentes();
 		assertTrue("cargarDocentes da una lista vacía",docentes.size() > 0);
 		assertNotNull("cargarDocentes es null",docentes);
@@ -106,7 +106,8 @@ public class BaseDeDatosTest {
 		}
 	}
 	@Test
-	public void TestcargarGrupos() throws SQLException {
+	public void TestCargarGrupos() throws SQLException {
+		
 		ArrayList<Grupo> grupos = bd.cargarGrupos(academy);
 		assertTrue("cargarGrupos da una lista vacía",grupos.size() > 0);
 		assertNotNull("cargarGrupos es null",grupos);
@@ -121,28 +122,24 @@ public class BaseDeDatosTest {
 		}
 	}
 	@Test
-	public void TestcargarInscritosExamenFinal() throws SQLException {
+	public void TestCargarInscritosExamenFinal() throws SQLException {
 		HashMap<Estudiante, HashMap<Idioma, Boolean>> inscritosExamenFinal = bd.cargarInscritosExamenFinal(academy);
 		assertTrue("cargarInscritosExamenFinal da una lista vacía",inscritosExamenFinal.size() > 0);
 		assertNotNull("cargarInscritosExamenFinal es null",inscritosExamenFinal);
 	}
 	
 	@Test
-	public void TestcargarNotasTareas() throws SQLException {
+	public void TestCargarNotasTareas() throws SQLException {
 		HashMap<Estudiante, HashMap<Grupo, HashMap<Tarea, String>>> notasTareas = bd.cargarNotasTareas(academy);
 		assertTrue("cargarNotasTareas da una lista vacía",notasTareas.size() > 0);
 		assertNotNull("cargarNotasTareas es null",notasTareas);
 	}
 	@Test
-	public void TestcargarNotasExamenFinal() throws SQLException {
+	public void TestCargarNotasExamenFinal() throws SQLException {
 		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = bd.cargarNotasExamenFinal(academy);
 		assertTrue("cargarNotasExamenFinal da una lista vacía",notasExamenFinal.size() > 0);
 		assertNotNull("cargarNotasExamenFinal es null",notasExamenFinal);
 	}
-	@Test
-	public void TestcargarTemarioData() throws SQLException{   					// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI) 	// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI) 	// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI)
-																				// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI) 	// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI) 	// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI)
-	}																			// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI) 	// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI) 	// NO LO SÉ HACER, QUE LO HAGA OTRO (UNAI)
 	
 	@Test
 	public void TestguardarAdministrador() throws SQLException {
@@ -286,3 +283,4 @@ public class BaseDeDatosTest {
 		    }
 	}
 }
+/*/

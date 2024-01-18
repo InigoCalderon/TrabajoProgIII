@@ -1,11 +1,5 @@
 package db;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.sql.Array;
-import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,9 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import domain.Administrador;
 import domain.Docente;
 import domain.Estudiante;
@@ -38,7 +29,7 @@ import main.Academy;
 
 public class BaseDeDatos {
 	
-	protected static Connection conexion;
+	public static Connection conexion;
 
 	private static Logger logger = Logger.getLogger(Academy.class.getName());
 	public void connect(String base) throws ClassNotFoundException, SQLException {				// Conectar a la BD
@@ -59,7 +50,7 @@ public class BaseDeDatos {
 	
 	public ArrayList<Administrador> cargarAdministradores() throws SQLException {
 		ArrayList<Administrador> administradores = new ArrayList<Administrador>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM administrador");
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Administrador");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -78,7 +69,7 @@ public class BaseDeDatos {
 	
 	public ArrayList<Estudiante> cargarEstudiantes() throws SQLException {
 		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
-	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM estudiante");
+	    try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Estudiante");
 	         ResultSet rs = stmt.executeQuery()) {
 
 	        while (rs.next()) {
@@ -105,7 +96,7 @@ public class BaseDeDatos {
 	
 	public ArrayList<Docente> cargarDocentes() throws SQLException {
 		ArrayList<Docente> docentes = new ArrayList<Docente>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM docente");
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Docente");
 		ResultSet rs = stmt.executeQuery()) {
 		
 			while (rs.next()) {
@@ -125,7 +116,7 @@ public class BaseDeDatos {
 	
 	public ArrayList<Grupo> cargarGrupos(Academy academy) throws SQLException {
 		ArrayList<Grupo> grupos = new ArrayList<Grupo>();
-		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM grupo");
+		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM Grupo");
 	         ResultSet rs = stmt.executeQuery()) {
 
 	        while (rs.next()) {
@@ -251,8 +242,8 @@ public class BaseDeDatos {
 		return notasTareas;
 	}
 	
-	public HashMap<Estudiante, HashMap<Idioma, String>>  cargarNotasExamenFinal(Academy academy) throws SQLException {
-		HashMap<Estudiante, HashMap<Idioma, String>>   notasExamenFinal = new HashMap<Estudiante, HashMap<Idioma,String>>();
+	public HashMap<Estudiante, HashMap<Idioma, String>> cargarNotasExamenFinal(Academy academy) throws SQLException {
+		HashMap<Estudiante, HashMap<Idioma, String>> notasExamenFinal = new HashMap<Estudiante, HashMap<Idioma,String>>();
 		try (PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM notasExamenFinal");
 		ResultSet rs = stmt.executeQuery()) {
 			
@@ -336,6 +327,8 @@ public class BaseDeDatos {
 		            		
 						}
 		  
+		            	// Añadir contenido nuevo
+		            	
 		            	gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
 		            	academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
 		            	
@@ -354,6 +347,8 @@ public class BaseDeDatos {
 		            		
 						}
 			            
+		            	// creasa un nuevo espacio donde añadir contenido, creas unidades 
+		            	
 						gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
 						academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
 						
@@ -367,6 +362,8 @@ public class BaseDeDatos {
 		                gruposConTemario.add(temario);
 		                temariosAnadidos.add(temario);
 						
+		                // meter contenido por primera vez en un temario
+		                
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -405,7 +402,8 @@ public class BaseDeDatos {
 	
 	public void guardarAdministrador( Administrador administrador) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        	
+            String insertQuery = "INSERT INTO Administrador (nombre, apellido, dni, correo, telefono, usuario, contrasena) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, administrador.getNombre());
                 preparedStatement.setString(2, administrador.getApellido());
@@ -423,7 +421,7 @@ public class BaseDeDatos {
 
     public void guardarEstudiante(Estudiante estudiante) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO estudiante (nombre, apellido, dni, correo, telefono, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO Estudiante (nombre, apellido, dni, correo, telefono, usuario, contrasena, idiomas) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, estudiante.getNombre());
                 preparedStatement.setString(2, estudiante.getApellido());
@@ -442,7 +440,7 @@ public class BaseDeDatos {
 
     public void guardarDocente(Docente docente) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO docente (nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO Docente (nombre, apellido, dni, correo, telefono, usuario, contrasena, idioma) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, docente.getNombre());
                 preparedStatement.setString(2, docente.getApellido());
@@ -461,7 +459,7 @@ public class BaseDeDatos {
 
     public void guardarGrupo(Grupo grupo, Academy academy) throws SQLException {
         try {
-            String insertQuery = "INSERT INTO grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO Grupo (idioma, nombre, docente, estudiantes, tareas) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = conexion.prepareStatement(insertQuery)) {
                 
             	try {

@@ -128,7 +128,7 @@ public class VentanaDocente extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
             	ventana.dispose();
-            	new VentanaClases(academy);
+            	new VentanaClases(null);
                 
             }
         });

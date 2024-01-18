@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -816,21 +817,6 @@ public class Academy {
 		
 	}
 	
-	public void actualizaGrupos() {
-		
-		ArrayList<Grupo> listaGrupos = new ArrayList<>();
-		
-		for (Grupo grupo : this.getGrupos()) {
-			if (grupo.getDocente() == null && grupo.getCapacidad_estudiantes() == 0) {
-				
-			} else {
-				listaGrupos.add(grupo);
-			}
-		}
-		
-		this.setGrupos(listaGrupos);
-	}
-	
 	// MÉTODO PARA ACTUALIZAR LAS NOTAS DE LAS TAREAS -- PARA ÍÑIGO
 	// HE PUESTO RETURN PARA QUE SE MUESTRE ALGO PERO DEBERÁ SER ESTE MÉTODO VOID Y NO DEVOLVER NADA
 	// SIMPLEMENTE MODIFICAR LAS NOTAS
@@ -893,52 +879,147 @@ public class Academy {
 			bd.connect("jdbc:sqlite:res/db/academy.db");
 			
 			if (rol == Rols.ESTUDIANTE) {
+
+	            try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM estudiante")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				for (Estudiante estudiante : this.estudiantes) {
 					bd.guardarEstudiante(estudiante);
 				}
+				 try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM inscritosExamenFinal")){
+		            	preparedStatement.executeUpdate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
+				 try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM notasExamenFinal")){
+		            	preparedStatement.executeUpdate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
-				bd.guardarNotasTareas(this.notasTareas);										
+				 try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM notasTareas")){
+		            	preparedStatement.executeUpdate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+				bd.guardarNotasTareas(this.notasTareas);		
+				 try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM grupo")){
+		            	preparedStatement.executeUpdate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				for (Grupo grupo :this.grupos) {
 					bd.guardarGrupo(grupo, academy);
 				}
 			}else if (rol == Rols.DOCENTE) {
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM docente")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				for (Docente docente : this.docentes) {
 					bd.guardarDocente(docente);
 				}
+				 try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM grupo")){
+		            	preparedStatement.executeUpdate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				for (Grupo grupo :this.grupos) {
 					bd.guardarGrupo(grupo, academy);
 				}
+				 try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM temarioData")){
+		            	preparedStatement.executeUpdate();
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				for (Temario temario : temarioDATA) {
 					bd.guardarTemarioDATA(temario);
+				}
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM tareas")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
 				for (Tarea tarea : this.tareas) {
 					bd.guardarTarea(tarea);
 				}
+				
 			}else if (rol == Rols.ADMINISTRADOR) {
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM administrador")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				for (Administrador administrador : this.administradores) {
 					bd.guardarAdministrador(administrador);
 				}
 			}else {
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM administrador")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				for (Administrador administrador : this.administradores) {
 					bd.guardarAdministrador(administrador);
+				}
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM docente")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
 				for (Docente docente : this.docentes) {
 					bd.guardarDocente(docente);
 				}
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM estudiante")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				for (Estudiante estudiante : this.estudiantes) {
 					bd.guardarEstudiante(estudiante);
+				}
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM grupo")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
 				for (Grupo grupo :this.grupos) {
 					bd.guardarGrupo(grupo, academy);
 				}
-				
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM inscritosExamenFinal")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				bd.guardarInscritosExamenFinal(this.inscritosExamenFinal);
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM notasExamenFinal")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				bd.guardarNotasExamenFinal(this.notasExamenFinal);
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM notasTareas")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				bd.guardarNotasTareas(this.notasTareas);																
-				
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM temarioData")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				for (Temario temario : temarioDATA) {
 					bd.guardarTemarioDATA(temario);
+				}
+				try (PreparedStatement preparedStatement = bd.conexion.prepareStatement("DELETE FROM tareas")){
+	            	preparedStatement.executeUpdate();
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
 				for (Tarea tarea : this.tareas) {
 					bd.guardarTarea(tarea);
@@ -974,33 +1055,15 @@ public class Academy {
 				
 				//A1.cargar_datos();		carga datos de ficheros
 				
-				try {
-					// bd.connect("jdbc:sqlite:res/db/academy.db");
-					bd.connect("jdbc:sqlite:res.db.academy.db");
-					cargarEnBaseDeDatos(bd, A1);
-					bd.disconnect();
-					A1.actualizar_claves();
-					new SelectRol(A1);
-					A1.actualizaGrupos();
-					
-					for (Grupo grupo : A1.getGrupos()) {
-						System.out.println(grupo);
-					}
-					
-					logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
-					
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// bd.connect("jdbc:sqlite:res/db/academy.db");
+				cargarEnBaseDeDatos(bd, A1);
+				A1.actualizar_claves();
 				
+				new SelectRol(A1);
+				
+				logger.log(Level.FINE, "INICIA EL PROGRAMA"); // NO LA CARGA EN EL DOCUMENTO
 			}
 	
 		});
-	
 	}
-
 }

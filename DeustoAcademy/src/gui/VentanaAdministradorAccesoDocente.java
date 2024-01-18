@@ -300,6 +300,7 @@ public class VentanaAdministradorAccesoDocente {
     }
 
     public void actualizarCombos(Academy datos) { // Actualiza la lista 
+    	datos.actuarlizarDatosEnBaseDeDatos(null, datos.bd, datos);
         modeloLista.clear();
         try {
             datos.getDocentes().sort(null);

@@ -302,8 +302,7 @@ public class DatosPersonales {
 
 						} catch (Exception e2) {
 
-							e2.printStackTrace();
-							
+												
 							JOptionPane.showMessageDialog(null,
 									"Debes rellenar todas las casillas y recordar que en la casilla de Teléfono debes escribir solo números.",
 									"Error", JOptionPane.ERROR_MESSAGE);

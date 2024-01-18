@@ -25,12 +25,16 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import db.BaseDeDatos;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 import domain.Estudiante;
 import domain.Idioma;
+import domain.Rols;
 import main.Academy;
 
 
@@ -261,6 +265,7 @@ public class VentanaAdiministradorAccesoEstudiantes extends JFrame {
     }
     
     public void actualizarLista(Academy datos) {
+    	datos.actuarlizarDatosEnBaseDeDatos(null, datos.bd, datos);
         modeloLista.clear();
         try {
             datos.getEstudiantes().sort(null);

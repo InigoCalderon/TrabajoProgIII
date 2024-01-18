@@ -204,7 +204,7 @@ public class VentanaAdministradorCreaciónGrupos {
 	
 	public void actualizarCombos(Academy datos) {
 		
-		
+		datos.actuarlizarDatosEnBaseDeDatos(null, datos.bd, datos);
 		modeloLista.clear();			// Actualiza la lista
 		try {
 			datos.getGrupos().sort(null);
