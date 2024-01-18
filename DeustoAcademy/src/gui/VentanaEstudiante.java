@@ -25,6 +25,7 @@ import domain.Grupo;
 import domain.Idioma;
 import domain.Rols;
 import domain.Tarea;
+import domain.Temario;
 import main.Academy;
 
 
@@ -210,7 +211,7 @@ public class VentanaEstudiante extends JFrame {
 	    }
 	
 		// ME INVENTO TAREAS
-		/*/
+		
 		System.out.println();
 		for (Grupo grupo : academy.getGrupos()) {
 			if (grupo.getEstudiantes().contains(estudiante)){
@@ -241,7 +242,7 @@ public class VentanaEstudiante extends JFrame {
 				);
 			}
 		}
-		/*/
+		
 		
 		JMenuBar menuBar = new JMenuBar();
         ventana.setJMenuBar(menuBar);  
@@ -309,10 +310,14 @@ public class VentanaEstudiante extends JFrame {
 					try {
 						
 						for (Tarea tarea : grupo.getTareas()) {
+							try {
+								String mensaje = String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea));
+				                menuGrupo.add(new JLabel(mensaje));
+				                logger.log(Level.INFO, mensaje);
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
 							
-							String mensaje = String.format("Tarea: %s tiene una calificación: %s", tarea.getTitulo(), academy.getNotasTareas().get(estudiante).get(grupo).get(tarea));
-			                menuGrupo.add(new JLabel(mensaje));
-			                logger.log(Level.INFO, mensaje);
 			            							
 						}
 						
@@ -332,7 +337,7 @@ public class VentanaEstudiante extends JFrame {
 			menuIdioma.setBackground(new Color(0, 247, 255));
 			
 			// CREO TEMARIO DE PRUEBA
-			/*/
+			
 			for (Grupo grupo2 : academy.getGrupos()) {
 				HashMap<String, ArrayList<String>> mapa = new HashMap<>();
 				ArrayList<String> lista = new ArrayList<>();
@@ -343,7 +348,7 @@ public class VentanaEstudiante extends JFrame {
 				
 				academy.getTemarioDATA().add(new Temario(grupo2, mapa));
 			}
-			/*/
+			
 			
 			nuevo_menu1.addActionListener(new ActionListener() {
 					

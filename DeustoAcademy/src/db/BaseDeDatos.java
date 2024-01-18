@@ -311,63 +311,67 @@ public class BaseDeDatos {
 	    	ArrayList<Temario> temariosAnadidos = new ArrayList<>();
 	    	
 	        while (rs.next()) {
-
-	        	Grupo grupoObtenido = null;
-	            
-	            for (Grupo grupo : academy.getGrupos()) {
-					if (grupo.getNombre().compareToIgnoreCase(rs.getString("grupo")) == 0) {
-						grupoObtenido = grupo;
-					}
-				}
-				
-	            String unidad = rs.getString("unidad");
-	            
-	            String contenido = rs.getString("contenido");                
-	                  
-	            if (unidadesAnadidas.contains(unidad) && gruposAnadidos.contains(grupoObtenido.getNombre())) {
-	            	
-	            	Temario temarioElegido = null;
-	            	
-	            	for (Temario temario : temariosAnadidos) {
-						
-	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupoObtenido.getNombre()) == 0) {
-							temarioElegido = temario;
-						}
-	            		
-					}
-	  
-	            	gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
-	            	academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
-	            	
-	            } else if (gruposAnadidos.contains(grupoObtenido.getNombre())) {
-					
-	            	ArrayList<String> nuevaLista = new ArrayList<>();
-		            nuevaLista.add(contenido);
+	        	try {
+	        		Grupo grupoObtenido = null;
 		            
-		            Temario temarioElegido = null;
-	            	
-	            	for (Temario temario : temariosAnadidos) {
-						
-	            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupoObtenido.getNombre()) == 0) {
-							temarioElegido = temario;
+		            for (Grupo grupo : academy.getGrupos()) {
+						if (grupo.getNombre().compareToIgnoreCase(rs.getString("grupo")) == 0) {
+							grupoObtenido = grupo;
 						}
-	            		
 					}
+					
+		            String unidad = rs.getString("unidad");
 		            
-					gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
-					academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
-					
-	            } else if (grupoObtenido != null && buscarGrupo(grupoObtenido, academy)) {
-					
-	            	Temario temario = new Temario(grupoObtenido, new HashMap<>());
-	                ArrayList<String> nuevaLista = new ArrayList<>();
-	                nuevaLista.add(contenido);
-	                temario.getData().put(unidad, nuevaLista);
-	                academy.getTemarioDATA().add(temario);
-	                gruposConTemario.add(temario);
-	                temariosAnadidos.add(temario);
-					
+		            String contenido = rs.getString("contenido");                
+		                  
+		            if (unidadesAnadidas.contains(unidad) && gruposAnadidos.contains(grupoObtenido.getNombre())) {
+		            	
+		            	Temario temarioElegido = null;
+		            	
+		            	for (Temario temario : temariosAnadidos) {
+							
+		            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupoObtenido.getNombre()) == 0) {
+								temarioElegido = temario;
+							}
+		            		
+						}
+		  
+		            	gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
+		            	academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().get(unidad).add(contenido);
+		            	
+		            } else if (gruposAnadidos.contains(grupoObtenido.getNombre())) {
+						
+		            	ArrayList<String> nuevaLista = new ArrayList<>();
+			            nuevaLista.add(contenido);
+			            
+			            Temario temarioElegido = null;
+		            	
+		            	for (Temario temario : temariosAnadidos) {
+							
+		            		if (temario.getGrupo().getNombre().compareToIgnoreCase(grupoObtenido.getNombre()) == 0) {
+								temarioElegido = temario;
+							}
+		            		
+						}
+			            
+						gruposConTemario.get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
+						academy.getTemarioDATA().get(gruposConTemario.indexOf(temarioElegido)).getData().put(unidad, nuevaLista);
+						
+		            } else if (grupoObtenido != null && buscarGrupo(grupoObtenido, academy)) {
+						
+		            	Temario temario = new Temario(grupoObtenido, new HashMap<>());
+		                ArrayList<String> nuevaLista = new ArrayList<>();
+		                nuevaLista.add(contenido);
+		                temario.getData().put(unidad, nuevaLista);
+		                academy.getTemarioDATA().add(temario);
+		                gruposConTemario.add(temario);
+		                temariosAnadidos.add(temario);
+						
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
+	        	
 	        }
 	    }
 	}

@@ -976,7 +976,7 @@ public class Academy {
 				
 				try {
 					// bd.connect("jdbc:sqlite:res/db/academy.db");
-					bd.connect("jdbc:sqlite:res.db.academyPruebas.db");
+					bd.connect("jdbc:sqlite:res.db.academy.db");
 					cargarEnBaseDeDatos(bd, A1);
 					bd.disconnect();
 					A1.actualizar_claves();
